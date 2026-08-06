@@ -33,7 +33,7 @@
 		<link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap.min.css') }}">
 
 		<!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="{{ asset('backend/assets/plugins/fontawesome/css/fontawesome.min.css"') }}>
+		<link rel="stylesheet" href="{{ asset('backend/assets/plugins/fontawesome/css/fontawesome.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('backend/assets/plugins/fontawesome/css/all.min.css') }}">
 
 		<!-- Iconsax CSS-->

@@ -4,7 +4,7 @@
 
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Patient Register - Doccure</title>
+		<title>Doctor Register - Doccure</title>
 
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="{{ asset('backend/assets/img/favicon.png') }}" type="image/x-icon">
@@ -35,17 +35,17 @@
 			<div class="login-content-info">
 				<div class="container">
 
-					<!-- Patient Register -->
+					<!-- Doctor Register -->
 					<div class="row justify-content-center">
 						<div class="col-lg-4 col-md-6">
 							<div class="account-content">
 								<div class="account-info">
 									<div class="login-title">
-										<h3>Patient Register</h3>
-										<p>Create your account to start booking appointments.</p>
+										<h3>Doctor Register</h3>
+										<p>Create your doctor account to start accepting appointments.</p>
 									</div>
 
-									<form method="POST" action="{{ route('register') }}">
+									<form method="POST" action="{{ route('doctor.register') }}">
 										@csrf
 
 										<div class="mb-3">
@@ -70,6 +70,13 @@
 											@enderror
 										</div>
 										<div class="mb-3">
+											<label class="form-label">Phone</label>
+											<input class="form-control" name="phone" type="text" value="{{ old('phone') }}" required>
+											@error('phone')
+												<span class="text-danger">{{ $message }}</span>
+											@enderror
+										</div>
+										<div class="mb-3">
 											<div class="form-group-flex">
 												<label class="form-label">Create Password</label>
 											</div>
@@ -78,18 +85,6 @@
 												<span class="feather-eye-off toggle-password"></span>
 											</div>
 											@error('password')
-												<span class="text-danger">{{ $message }}</span>
-											@enderror
-										</div>
-										<div class="mb-3">
-											<div class="form-group-flex">
-												<label class="form-label">Confirm Password</label>
-											</div>
-											<div class="pass-group">
-												<input type="password" name="password_confirmation" class="form-control pass-input" required autocomplete="new-password">
-												<span class="feather-eye-off toggle-password"></span>
-											</div>
-											@error('password_confirmation')
 												<span class="text-danger">{{ $message }}</span>
 											@enderror
 										</div>
@@ -104,7 +99,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- /Patient Register -->
+					<!-- /Doctor Register -->
 
 				</div>
 			</div>

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,14 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 #[Fillable([
-    'role', 'first_name', 'last_name', 'email', 'phone', 'password', 'profile_photo',
-    'date_of_birth', 'gender', 'blood_group', 'address', 'city', 'state', 'country', 'pincode',
-    'display_name', 'designation', 'known_languages', 'availability_status',
+    'first_name', 'last_name', 'email', 'password', 'profile_photo',
+    'mobile', 'date_of_birth', 'address', 'city', 'state', 'zip_code', 'country', 'about',
 ])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -29,10 +25,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'date_of_birth' => 'date',
-            'known_languages' => 'array',
         ];
     }
 }

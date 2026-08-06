@@ -121,7 +121,10 @@
                 </div>
                 <a class="dropdown-item" href="profile.html">My Profile</a>
                 <a class="dropdown-item" href="settings.html">Settings</a>
-                <a class="dropdown-item" href="login.html">Logout</a>
+                <a class="dropdown-item" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">Logout</a>
+                <form id="admin-logout-form" method="POST" action="{{ route('admin.logout') }}" class="d-none">
+                    @csrf
+                </form>
             </div>
         </li>
         <!-- /User Menu -->

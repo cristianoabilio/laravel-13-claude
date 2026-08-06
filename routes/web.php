@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -12,7 +13,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('patient.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:patient'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -21,8 +22,17 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/patient.logout', [PatientController::class, 'logout'])->name('patient.logout');
-    Route::get('/doctor/dashboard', [DoctorController::class, 'index'])->name('doctor.dashboard');
+    Route::get('/doctor/dashboard', [DoctorController::class, 'index'])->middleware('role:doctor')->name('doctor.dashboard');
+});
+
+Route::middleware('guest:admin')->group(function () {
+    Route::get('/admin/login', [AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
+    Route::post('/admin/login', [AdminAuthenticatedSessionController::class, 'store']);
+});
+
+Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/admin/logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
 });
 
 require __DIR__.'/auth.php';

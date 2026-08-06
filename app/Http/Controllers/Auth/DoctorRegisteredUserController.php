@@ -13,18 +13,18 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
-class RegisteredUserController extends Controller
+class DoctorRegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Display the doctor registration view.
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.doctor-register');
     }
 
     /**
-     * Handle an incoming registration request.
+     * Handle an incoming doctor registration request.
      *
      * @throws ValidationException
      */
@@ -34,14 +34,16 @@ class RegisteredUserController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'string', 'max:30'],
+            'password' => ['required', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'role' => 'patient',
+            'role' => 'doctor',
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -49,6 +51,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('doctor.dashboard', absolute: false));
     }
 }

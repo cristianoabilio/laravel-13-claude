@@ -516,9 +516,12 @@
                                     <p class="text-muted mb-0">Doctor</p>
                                 </div>
                             </div>
-                            <a class="dropdown-item" href="doctor-dashboard.html">Dashboard</a>
+                            <a class="dropdown-item" href="{{ route('doctor.dashboard') }}">Dashboard</a>
                             <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
-                            <a class="dropdown-item" href="login.html">Logout</a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('doctor-logout-form').submit();">Logout</a>
+                            <form id="doctor-logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                     <!-- /User Menu -->
