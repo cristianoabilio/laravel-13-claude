@@ -12,7 +12,7 @@
                     <a href="appointment-list.html"><i class="fe fe-layout"></i> <span>Appointments</span></a>
                 </li>
                 <li>
-                    <a href="specialities.html"><i class="fe fe-users"></i> <span>Specialities</span></a>
+                    <a href="{{ route('admin.specialities.index') }}"><i class="fe fe-users"></i> <span>Specialities</span></a>
                 </li>
                 <li>
                     <a href="doctor-list.html"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
