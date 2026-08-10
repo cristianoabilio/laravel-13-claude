@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<title>Doccure</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
 		<meta name="keywords" content="practo clone, doccure, doctor appointment, Practo clone html template, doctor booking template">
 		<meta name="author" content="Practo Clone HTML Template - Doctor Booking Template">
@@ -44,6 +45,9 @@
 
 		<!-- Feathericon CSS -->
     	<link rel="stylesheet" href="{{ asset('backend/assets/css/feather.css') }}">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{{ asset('backend/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
 
 		<!-- Main CSS -->
 		<link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}">
@@ -110,6 +114,13 @@
 		<!-- Apexchart JS -->
 		<script src="{{ asset('backend/assets/plugins/apex/apexcharts.min.js') }}"></script>
 		<script src="{{ asset('backend/assets/plugins/apex/chart-data.js') }}"></script>
+
+
+		<!-- Bootstrap Tagsinput JS -->
+		<script src="{{ asset('backend/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js') }}"></script>
+
+		<!-- Profile Settings JS -->
+		<script src="{{ asset('backend/assets/js/profile-settings.js') }}"></script>
 
 		<!-- Circle Progress JS -->
 		<script src="{{ asset('backend/assets/js/circle-progress.min.js') }}"></script>

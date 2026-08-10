@@ -94,7 +94,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="doctor-profile-settings.html">
+                    <a href="{{ route('doctor.profile') }}">
                         <i class="isax isax-setting-2"></i>
                         <span>Profile Settings</span>
                     </a>

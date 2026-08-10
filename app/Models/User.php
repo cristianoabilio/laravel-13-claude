@@ -6,9 +6,14 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'role', 'first_name', 'last_name', 'email', 'phone', 'password', 'profile_photo',
@@ -19,7 +24,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -30,9 +35,33 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'deleted_at' => 'datetime',
             'password' => 'hashed',
             'date_of_birth' => 'date',
             'known_languages' => 'array',
         ];
+    }
+
+    /**
+     * @return HasMany<Membership, $this>
+     */
+    public function memberships(): HasMany
+    {
+        return $this->hasMany(Membership::class, 'doctor_id');
+    }
+
+    /**
+     * The publicly resolvable URL for the profile photo, whether it's a
+     * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
+     */
+    protected function profilePhotoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => match (true) {
+                blank($this->profile_photo) => null,
+                Str::startsWith($this->profile_photo, ['http://', 'https://', 'backend/']) => asset($this->profile_photo),
+                default => Storage::disk('s3')->url($this->profile_photo),
+            },
+        );
     }
 }

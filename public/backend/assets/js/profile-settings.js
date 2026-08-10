@@ -6,7 +6,65 @@ Version      : 1.0
 
 (function($) {
     "use strict";
-	
+
+	// Profile Photo Preview
+
+	$(document).on('change', '.change-avatar .upload', function (e) {
+		var file = e.target.files && e.target.files[0];
+
+		if (!file) {
+			return;
+		}
+
+		var reader = new FileReader();
+
+		reader.onload = function (event) {
+			var $wrap = $('.change-avatar .profile-img');
+			var $img = $wrap.find('img');
+
+			if ($img.length === 0) {
+				$img = $('<img>').attr('alt', 'Profile Preview');
+				$wrap.empty().append($img);
+			}
+
+			$img.attr('src', event.target.result);
+		};
+
+		reader.readAsDataURL(file);
+	});
+
+	// Known Languages Save (independent of the full profile form)
+
+	$(document).on('click', '.known-languages-save', function (e) {
+		e.preventDefault();
+
+		var $btn = $(this);
+		var $input = $btn.closest('.input-block').find('.input-tags');
+		var $feedback = $btn.closest('.form-wrap').find('.known-languages-feedback');
+		var token = $('meta[name="csrf-token"]').attr('content');
+
+		$feedback.removeClass('text-danger text-success').text('Saving...');
+
+		$.ajax({
+			url: $btn.data('url'),
+			method: 'PATCH',
+			headers: {
+				'X-CSRF-TOKEN': token,
+				'Accept': 'application/json'
+			},
+			data: {
+				known_languages: $input.val()
+			},
+			success: function (response) {
+				$feedback.addClass('text-success').text(response.message);
+			},
+			error: function (xhr) {
+				var message = (xhr.responseJSON && xhr.responseJSON.message) || 'Unable to save known languages.';
+				$feedback.addClass('text-danger').text(message);
+			}
+		});
+	});
+
 	// Pricing Options Show
 	
 	$('#pricing_select input[name="rating_option"]').on('click', function() {
@@ -515,28 +573,31 @@ Version      : 1.0
 
     $(".add-membership-info").on('click', function () {
 
+        var index = parseInt($(this).attr('data-next-index'), 10) || 0;
+
         var membershipcontent = '<div class="row membership-content">' +
 			'<div class="col-lg-3 col-md-6">' +
 											'<div class="form-wrap">' +
 												'<label class="col-form-label">Title <span class="text-danger">*</span></label>' +
-												'<input type="text" class="form-control" placeholder="Add Title">' +
+												'<input type="text" name="memberships[' + index + '][title]" class="form-control" placeholder="Add Title">' +
 											'</div>' +
 										'</div>' +
 										'<div class="col-lg-9 col-md-6">' +
 											'<div class="d-flex align-items-center">' +
 												'<div class="form-wrap w-100">' +
 													'<label class="col-form-label">About Membership</label>' +
-													'<input type="text" class="form-control">' +
-												'</div>' +										
+													'<input type="text" name="memberships[' + index + '][description]" class="form-control">' +
+												'</div>' +
 												'<div class="form-wrap ms-2">' +
 													'<label class="col-form-label d-block">&nbsp;</label>' +
 													'<a href="javascript:void(0);" class="trash-icon trash">Delete</a>' +
-												'</div>' +												
-											'</div>' +			
+												'</div>' +
+											'</div>' +
 										'</div>' +
 									'</div>';
-		
+
         $(".membership-infos").append(membershipcontent);
+        $(this).attr('data-next-index', index + 1);
         return false;
     });
 

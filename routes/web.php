@@ -23,7 +23,23 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/patient.logout', [PatientController::class, 'logout'])->name('patient.logout');
-    Route::get('/doctor/dashboard', [DoctorController::class, 'index'])->middleware('role:doctor')->name('doctor.dashboard');
+});
+
+Route::middleware(['auth', 'role:doctor'])->group(function () {
+    Route::get('/doctor/logout', [DoctorController::class, 'logout'])->name('doctor.logout');
+    Route::get('/doctor/dashboard', [DoctorController::class, 'index'])->name('doctor.dashboard');
+    Route::get('/doctor/profile', [DoctorController::class, 'profile'])->name('doctor.profile');
+    Route::put('/doctor/profile', [DoctorController::class, 'updateProfile'])->name('doctor.profile.update');
+    Route::delete('/doctor/profile/photo', [DoctorController::class, 'removeProfilePhoto'])->name('doctor.profile.photo.destroy');
+    // Under /api/ so it qualifies for the JSON exception rendering configured in
+    // bootstrap/app.php (shouldRenderJsonWhen is scoped to "api/*"), even though
+    // this is a session-authenticated web route, not the stateless API.
+    Route::patch('/api/doctor/profile/languages', [DoctorController::class, 'updateLanguages'])->name('doctor.profile.languages.update');
+    Route::get('/doctor/experience', [DoctorController::class, 'experience'])->name('doctor.experience');
+    Route::get('/doctor/education', [DoctorController::class, 'education'])->name('doctor.education');
+    Route::get('/doctor/clinics', [DoctorController::class, 'clinics'])->name('doctor.clinics');
+    Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');
+
 });
 
 Route::middleware('guest:admin')->group(function () {
