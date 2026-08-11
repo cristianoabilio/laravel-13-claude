@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Membership;
 use App\Models\User;
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
         Membership::factory()->count(2)->create(['doctor_id' => $doctor->id]);
         Experience::factory()->count(2)->create(['doctor_id' => $doctor->id]);
         Experience::factory()->current()->create(['doctor_id' => $doctor->id]);
+        Education::factory()->count(2)->create(['doctor_id' => $doctor->id]);
 
         $this->call([
             AdminSeeder::class,

@@ -611,11 +611,11 @@ Version      : 1.0
         return false;
     });
 
-    // Add Experience
+    // Repeatable accordion sections (Experience, Education, ...): delete/reset/logo removal
 
     // Delete (persisted rows only): open the row's confirmation modal instead of
     // toggling the accordion collapse it's nested inside.
-    $(".experience-infos").on('click', '.delete-trigger', function (e) {
+    $(document).on('click', '.delete-trigger', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -629,7 +629,7 @@ Version      : 1.0
 
     // Reset (unsaved rows only): clear the row's fields in place rather than
     // submitting/removing it.
-    $(".experience-infos").on('click', '.reset', function (e) {
+    $(document).on('click', '.reset', function (e) {
         e.preventDefault();
 
         var $row = $(this).closest('.content-collapse');
@@ -644,7 +644,7 @@ Version      : 1.0
         return false;
     });
 
-    // Hospital logo "Remove" for rows with nothing persisted yet: just clear the
+    // Logo/image "Remove" for rows with nothing persisted yet: just clear the
     // local file selection and preview, no server request.
     $(document).on('click', '.logo-remove-local', function (e) {
         e.preventDefault();
@@ -802,96 +802,96 @@ Version      : 1.0
         return false;
     });
 
-	// Add Experience
-	
-    $(".education-infos").on('click','.trash', function () {
-		$(this).closest('.education-content').remove();
-		return false;
-    });
+	// Add Education
 
     $(".add-educations").on('click', function () {
 
-        var membershipcontent = '<div class="education-content">' +
-			'<div class="user-accordion-item">' +
-				'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#education">Education<span class="trash">Delete</span></a>' +
-				'<div class="accordion-collapse collapse show" id="education" data-bs-parent="#list-accord">' +
-					'<div class="content-collapse">' +
-						'<div class="add-service-info">' +
-							'<div class="add-info">' +
-								'<div class="row align-items-center">' +
-									'<div class="col-md-12">' +
-										'<div class="form-wrap mb-2">' +
-											'<div class="change-avatar img-upload">' +
-												'<div class="profile-img">' +
-													'<i class="fa-solid fa-file-image"></i>' +
-												'</div>' +
-												'<div class="upload-img">' +
-													'<h5> Logo</h5>' +
-													'<div class="imgs-load d-flex align-items-center">' +
-														'<div class="change-photo">' +
-															'Upload New' + 
-															'<input type="file" class="upload">' +
-														'</div>' +
-														'<a href="#" class="upload-remove">Remove</a>' +
+        var index = parseInt($(this).attr('data-next-index'), 10) || 0;
+        var accordionId = 'education-new-' + index;
+
+        var educationContent = '<div class="user-accordion-item education-content">' +
+			'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#' + accordionId + '">Education</a>' +
+			'<div class="accordion-collapse collapse show" id="' + accordionId + '" data-bs-parent="#list-accord">' +
+				'<div class="content-collapse">' +
+					'<div class="add-service-info">' +
+						'<div class="add-info">' +
+							'<div class="row align-items-center">' +
+								'<div class="col-md-12">' +
+									'<div class="form-wrap mb-2">' +
+										'<div class="change-avatar img-upload">' +
+											'<div class="profile-img">' +
+												'<i class="fa-solid fa-file-image"></i>' +
+											'</div>' +
+											'<div class="upload-img">' +
+												'<h5>Logo</h5>' +
+												'<div class="imgs-load d-flex align-items-center">' +
+													'<div class="change-photo">' +
+														'Upload New' +
+														'<input type="file" name="educations[' + index + '][logo]" class="upload" accept="image/*">' +
 													'</div>' +
-													'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>' +
+													'<a href="#" class="upload-remove logo-remove-local">Remove</a>' +
 												'</div>' +
+												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp.</p>' +
 											'</div>' +
-										'</div>' +	
+										'</div>' +
 									'</div>' +
-									'<div class="col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Name of the institution</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Name of the institution</label>' +
+										'<input type="text" name="educations[' + index + '][institution]" class="form-control">' +
 									'</div>' +
-									'<div class="col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Course</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Course</label>' +
+										'<input type="text" name="educations[' + index + '][course]" class="form-control">' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Start Date <span class="text-danger">*</span></label>' +
-											'<div class="form-icon">' +
-												'<input type="text" class="form-control datetimepicker">' +
-												'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
-											'</div>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Start Date <span class="text-danger">*</span></label>' +
+										'<div class="form-icon">' +
+											'<input type="text" name="educations[' + index + '][start_date]" class="form-control datetimepicker" autocomplete="off">' +
+											'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
+										'</div>' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">End Date <span class="text-danger">*</span></label>' +
-											'<div class="form-icon">' +
-												'<input type="text" class="form-control datetimepicker">' +
-												'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
-											'</div>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">End Date <span class="text-danger">*</span></label>' +
+										'<div class="form-icon">' +
+											'<input type="text" name="educations[' + index + '][end_date]" class="form-control datetimepicker" autocomplete="off">' +
+											'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
+										'</div>' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">No of Years <span class="text-danger">*</span></label>' +
-											'<input type="text" class="form-control">' +
-										'</div>' +													
-									'</div>' +	
-									'<div class="col-lg-12">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Job Description <span class="text-danger">*</span></label>' +
-											'<textarea class="form-control" rows="3"></textarea>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">No of Years <span class="text-danger">*</span></label>' +
+										'<input type="text" inputmode="numeric" name="educations[' + index + '][no_of_years]" class="form-control years-mask">' +
+									'</div>' +
+								'</div>' +
+								'<div class="col-lg-12">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Description <span class="text-danger">*</span></label>' +
+										'<textarea class="form-control" rows="3" name="educations[' + index + '][description]"></textarea>' +
 									'</div>' +
 								'</div>' +
 							'</div>' +
-							'<div class="text-end">' +
-								'<a href="#" class="reset more-item">Reset</a>' +
-							'</div>' +
+						'</div>' +
+						'<div class="text-end">' +
+							'<a href="#" class="reset more-item">Reset</a>' +
 						'</div>' +
 					'</div>' +
 				'</div>' +
-			'</div>';
-		
-        $(".education-infos").append(membershipcontent);
+			'</div>' +
+		'</div>';
+
+        $(".education-infos").append(educationContent);
+        $(this).attr('data-next-index', index + 1);
+        applyYearsMask();
+
 		if ($('.datetimepicker').length > 0) {
 			$('.datetimepicker').datetimepicker({
 				format: 'DD/MM/YYYY',

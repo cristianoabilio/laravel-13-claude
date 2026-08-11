@@ -74,9 +74,11 @@ class DoctorController extends Controller
         ]);
     }
 
-    public function education()
+    public function education(): View
     {
-        return view('doctor.dashboard.profile.doctor_education');
+        return view('doctor.dashboard.profile.doctor_education', [
+            'doctor' => Auth::user()->load('educations'),
+        ]);
     }
 
     public function clinics()

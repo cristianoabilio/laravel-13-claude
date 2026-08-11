@@ -58,6 +58,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Education, $this>
+     */
+    public function educations(): HasMany
+    {
+        return $this->hasMany(Education::class, 'doctor_id')->orderByDesc('start_date');
+    }
+
+    /**
      * The publicly resolvable URL for the profile photo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */

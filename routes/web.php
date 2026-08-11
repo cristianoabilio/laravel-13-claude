@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SpecialitiesController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 use App\Http\Controllers\Doctor\DoctorController;
+use App\Http\Controllers\Doctor\DoctorEducationController;
 use App\Http\Controllers\Doctor\DoctorExperienceController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -41,6 +42,9 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::delete('/doctor/experiences/{experience}', [DoctorExperienceController::class, 'destroy'])->name('doctor.experiences.destroy');
     Route::delete('/doctor/experiences/{experience}/logo', [DoctorExperienceController::class, 'destroyLogo'])->name('doctor.experiences.logo.destroy');
     Route::get('/doctor/education', [DoctorController::class, 'education'])->name('doctor.education');
+    Route::put('/doctor/educations', [DoctorEducationController::class, 'update'])->name('doctor.educations.update');
+    Route::delete('/doctor/educations/{education}', [DoctorEducationController::class, 'destroy'])->name('doctor.educations.destroy');
+    Route::delete('/doctor/educations/{education}/logo', [DoctorEducationController::class, 'destroyLogo'])->name('doctor.educations.logo.destroy');
     Route::get('/doctor/clinics', [DoctorController::class, 'clinics'])->name('doctor.clinics');
     Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');
 
