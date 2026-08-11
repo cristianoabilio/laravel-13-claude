@@ -33,13 +33,13 @@
                 <div class="imgs-load d-flex align-items-center">
                     <div class="change-photo">
                         Upload New
-                        <input type="file" name="profile_photo" class="upload" accept="image/*">
+                        <input type="file" name="profile_photo" class="upload" accept="image/jpeg,image/png">
                     </div>
                     @if ($doctor->profile_photo)
                         <a href="#" class="upload-remove" data-bs-toggle="modal" data-bs-target="#removePhotoModal">Remove</a>
                     @endif
                 </div>
-                <p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp. It will be resized to 360x360px.</p>
+                <p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png. It will be resized to 360x360px.</p>
                 @error('profile_photo')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

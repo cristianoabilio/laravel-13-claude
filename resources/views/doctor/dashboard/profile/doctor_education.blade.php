@@ -54,7 +54,7 @@
                                                     <div class="imgs-load d-flex align-items-center">
                                                         <div class="change-photo">
                                                             Upload New
-                                                            <input type="file" name="educations[{{ $index }}][logo]" class="upload" accept="image/*">
+                                                            <input type="file" name="educations[{{ $index }}][logo]" class="upload" accept="image/jpeg,image/png">
                                                         </div>
                                                         @if ($education->logo)
                                                             <a href="#" class="upload-remove" data-bs-toggle="modal" data-bs-target="#removeLogoModal{{ $education->id }}">Remove</a>
@@ -62,7 +62,7 @@
                                                             <a href="#" class="upload-remove logo-remove-local">Remove</a>
                                                         @endif
                                                     </div>
-                                                    <p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp.</p>
+                                                    <p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png.</p>
                                                     @error('educations.'.$index.'.logo')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
@@ -157,11 +157,11 @@
                                                     <div class="imgs-load d-flex align-items-center">
                                                         <div class="change-photo">
                                                             Upload New
-                                                            <input type="file" name="educations[0][logo]" class="upload" accept="image/*">
+                                                            <input type="file" name="educations[0][logo]" class="upload" accept="image/jpeg,image/png">
                                                         </div>
                                                         <a href="#" class="upload-remove logo-remove-local">Remove</a>
                                                     </div>
-                                                    <p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp.</p>
+                                                    <p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png.</p>
                                                 </div>
                                             </div>
                                         </div>

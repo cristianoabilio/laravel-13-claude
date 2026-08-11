@@ -62,7 +62,7 @@ class UpdateExperiencesRequest extends FormRequest
                 'nullable',
                 Rule::exists(Experience::class, 'id')->where('doctor_id', $this->user()->id),
             ],
-            'experiences.*.hospital_logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
+            'experiences.*.hospital_logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:4096'],
             'experiences.*.title' => ['nullable', 'string', 'max:255'],
             'experiences.*.hospital' => ['required', 'string', 'max:255'],
             'experiences.*.years_of_experience' => ['required', 'digits_between:1,2'],

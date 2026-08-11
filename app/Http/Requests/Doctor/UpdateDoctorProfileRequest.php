@@ -39,7 +39,7 @@ class UpdateDoctorProfileRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$this->user()->id],
             'known_languages' => ['nullable', 'array'],
             'known_languages.*' => ['string', 'max:255'],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
+            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:4096'],
 
             'memberships' => ['nullable', 'array'],
             'memberships.*.title' => ['required_with:memberships.*.description', 'nullable', 'string', 'max:255'],

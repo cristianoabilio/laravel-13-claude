@@ -61,7 +61,7 @@ class UpdateEducationsRequest extends FormRequest
                 'nullable',
                 Rule::exists(Education::class, 'id')->where('doctor_id', $this->user()->id),
             ],
-            'educations.*.logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
+            'educations.*.logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:4096'],
             'educations.*.institution' => ['nullable', 'string', 'max:255'],
             'educations.*.course' => ['nullable', 'string', 'max:255'],
             'educations.*.start_date' => ['required', 'date_format:d/m/Y'],

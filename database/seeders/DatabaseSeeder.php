@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Clinic;
+use App\Models\ClinicImage;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Membership;
@@ -36,6 +38,9 @@ class DatabaseSeeder extends Seeder
         Experience::factory()->count(2)->create(['doctor_id' => $doctor->id]);
         Experience::factory()->current()->create(['doctor_id' => $doctor->id]);
         Education::factory()->count(2)->create(['doctor_id' => $doctor->id]);
+
+        $clinic = Clinic::factory()->create(['doctor_id' => $doctor->id]);
+        ClinicImage::factory()->count(2)->create(['clinic_id' => $clinic->id]);
 
         $this->call([
             AdminSeeder::class,

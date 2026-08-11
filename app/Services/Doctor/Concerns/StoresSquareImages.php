@@ -16,10 +16,24 @@ trait StoresSquareImages
      */
     protected function storeSquareImage(UploadedFile $image, string $directory, int $size = 360, int $quality = 90): string
     {
-        $extension = $image->extension() ?: 'jpg';
+        return $this->storeSquareImageFromBinary(
+            file_get_contents($image->getRealPath()),
+            $image->extension() ?: 'jpg',
+            $directory,
+            $size,
+            $quality,
+        );
+    }
 
+    /**
+     * Same as {@see self::storeSquareImage()}, but decoding from raw bytes instead of an
+     * uploaded file on local disk - for processing that happens outside the request that
+     * received the upload (e.g. a queued job, where the original tmp upload is long gone).
+     */
+    protected function storeSquareImageFromBinary(string $binary, string $extension, string $directory, int $size = 360, int $quality = 90): string
+    {
         $encoded = ImageManager::usingDriver(GdDriver::class)
-            ->decodePath($image->getRealPath())
+            ->decodeBinary($binary)
             ->cover($size, $size)
             ->encodeUsingFileExtension($extension, quality: $quality);
 

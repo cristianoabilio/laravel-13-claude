@@ -66,6 +66,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Clinic, $this>
+     */
+    public function clinics(): HasMany
+    {
+        return $this->hasMany(Clinic::class, 'doctor_id');
+    }
+
+    /**
      * The publicly resolvable URL for the profile photo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */

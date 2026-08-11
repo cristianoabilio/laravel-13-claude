@@ -81,9 +81,11 @@ class DoctorController extends Controller
         ]);
     }
 
-    public function clinics()
+    public function clinics(): View
     {
-        return view('doctor.dashboard.profile.doctor_clinics');
+        return view('doctor.dashboard.profile.doctor_clinics', [
+            'doctor' => Auth::user()->load('clinics.images'),
+        ]);
     }
 
     public function business()

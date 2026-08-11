@@ -640,6 +640,7 @@ Version      : 1.0
         $row.find('select.select').val('').trigger('change');
         $row.find('.datetimepicker.end-date').prop('disabled', false);
         $row.find('.profile-img').html('<i class="fa-solid fa-file-image"></i>');
+        $row.find('.view-img.pending').remove();
 
         return false;
     });
@@ -690,11 +691,11 @@ Version      : 1.0
 												'<div class="imgs-load d-flex align-items-center">' +
 													'<div class="change-photo">' +
 														'Upload New' +
-														'<input type="file" name="experiences[' + index + '][hospital_logo]" class="upload" accept="image/*">' +
+														'<input type="file" name="experiences[' + index + '][hospital_logo]" class="upload" accept="image/jpeg,image/png">' +
 													'</div>' +
 													'<a href="#" class="upload-remove logo-remove-local">Remove</a>' +
 												'</div>' +
-												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp.</p>' +
+												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png.</p>' +
 											'</div>' +
 										'</div>' +
 									'</div>' +
@@ -827,11 +828,11 @@ Version      : 1.0
 												'<div class="imgs-load d-flex align-items-center">' +
 													'<div class="change-photo">' +
 														'Upload New' +
-														'<input type="file" name="educations[' + index + '][logo]" class="upload" accept="image/*">' +
+														'<input type="file" name="educations[' + index + '][logo]" class="upload" accept="image/jpeg,image/png">' +
 													'</div>' +
 													'<a href="#" class="upload-remove logo-remove-local">Remove</a>' +
 												'</div>' +
-												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp.</p>' +
+												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png.</p>' +
 											'</div>' +
 										'</div>' +
 									'</div>' +
@@ -1029,90 +1030,138 @@ Version      : 1.0
     });
 
     // Add Clinic
-	
-    $(".clinic-infos").on('click','.trash', function () {
-		$(this).closest('.clinic-content').remove();
-		return false;
-    });
 
     $(".add-clinics").on('click', function () {
 
-        var membershipcontent = '<div class="clinic-content">' +
-			'<div class="user-accordion-item">' +
-				'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#clinic">Clinic<span class="trash">Delete</span></a>' +
-				'<div class="accordion-collapse collapse show" id="clinic" data-bs-parent="#list-accord">' +
-					'<div class="content-collapse">' +
-						'<div class="add-service-info">' +
-							'<div class="add-info">' +
-								'<div class="row align-items-center">' +
-									'<div class="col-md-12">' +
-										'<div class="form-wrap mb-2">' +
-											'<div class="change-avatar img-upload">' +
-												'<div class="profile-img">' +
-													'<i class="fa-solid fa-file-image"></i>' +
-												'</div>' +
-												'<div class="upload-img">' +
-													'<h5>Logo</h5>' +
-													'<div class="imgs-load d-flex align-items-center">' +
-														'<div class="change-photo">' +
-															'Upload New' + 
-															'<input type="file" class="upload">' +
-														'</div>' +
-														'<a href="#" class="upload-remove">Remove</a>' +
+        var index = parseInt($(this).attr('data-next-index'), 10) || 0;
+        var accordionId = 'clinic-new-' + index;
+
+        var clinicContent = '<div class="user-accordion-item clinic-content">' +
+			'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#' + accordionId + '">Clinic</a>' +
+			'<div class="accordion-collapse collapse show" id="' + accordionId + '" data-bs-parent="#list-accord">' +
+				'<div class="content-collapse">' +
+					'<div class="add-service-info">' +
+						'<div class="add-info">' +
+							'<div class="row align-items-center">' +
+								'<div class="col-md-12">' +
+									'<div class="form-wrap mb-2">' +
+										'<div class="change-avatar img-upload">' +
+											'<div class="profile-img">' +
+												'<i class="fa-solid fa-file-image"></i>' +
+											'</div>' +
+											'<div class="upload-img">' +
+												'<h5>Logo</h5>' +
+												'<div class="imgs-load d-flex align-items-center">' +
+													'<div class="change-photo">' +
+														'Upload New' +
+														'<input type="file" name="clinics[' + index + '][logo]" class="upload" accept="image/jpeg,image/png">' +
 													'</div>' +
-													'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>' +
+													'<a href="#" class="upload-remove logo-remove-local">Remove</a>' +
 												'</div>' +
+												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png.</p>' +
 											'</div>' +
-										'</div>' +	
-									'</div>' +	
-									'<div class="col-md-12">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Clinic Name</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+										'</div>' +
 									'</div>' +
-									'<div class="col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Location</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-md-12">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Clinic Name <span class="text-danger">*</span></label>' +
+										'<input type="text" name="clinics[' + index + '][name]" class="form-control">' +
 									'</div>' +
-									'<div class="col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Addrerss</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Location <span class="text-danger">*</span></label>' +
+										'<input type="text" name="clinics[' + index + '][location]" class="form-control">' +
 									'</div>' +
-									'<div class="col-md-12">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Gallery</label>' +
-											'<div class="drop-file">' +
-												'<p>Drop files or Click to upload</p>' +
-												'<input type="file">' +
-											'</div>' +
-											'<div class="view-imgs">' +
-												'<div class="view-img">' +
-													'<img src="assets/img/doctors-dashboard/clinic-02.jpg" alt="img">' +
-													'<a href="javascript:void(0);">Remove</a>' +
-												'</div>' +
-												'<div class="view-img">' +
-													'<img src="assets/img/doctors-dashboard/clinic-01.jpg" alt="img">' +
-													'<a href="javascript:void(0);">Remove</a>' +
-												'</div>' +
-											'</div>' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Address <span class="text-danger">*</span></label>' +
+										'<input type="text" name="clinics[' + index + '][address]" class="form-control">' +
+									'</div>' +
+								'</div>' +
+								'<div class="col-md-12">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Gallery</label>' +
+										'<div class="drop-file">' +
+											'<p>Drop files or Click to upload</p>' +
+											'<input type="file" name="clinics[' + index + '][gallery][]" class="gallery-input" accept="image/jpeg,image/png" multiple>' +
+										'</div>' +
+										'<div class="view-imgs"></div>' +
+										'<p class="form-text">Images will be resized to 300x300 and processed in the background - they may take a moment to appear.</p>' +
 									'</div>' +
 								'</div>' +
 							'</div>' +
-							'<div class="text-end">' +
-								'<a href="#" class="reset more-item">Reset</a>' +
-							'</div>' +
+						'</div>' +
+						'<div class="text-end">' +
+							'<a href="#" class="reset more-item">Reset</a>' +
 						'</div>' +
 					'</div>' +
 				'</div>' +
-			'</div>';
-		
-        $(".clinic-infos").append(membershipcontent);
+			'</div>' +
+		'</div>';
+
+        $(".clinic-infos").append(clinicContent);
+        $(this).attr('data-next-index', index + 1);
+
+        return false;
+    });
+
+    // Clinic Gallery: local preview + removable-before-submit selection
+
+    $(document).on('change', '.gallery-input', function () {
+        var $input = $(this);
+        var $viewImgs = $input.closest('.form-wrap').find('.view-imgs');
+
+        $viewImgs.find('.view-img.pending').remove();
+
+        Array.prototype.forEach.call(this.files, function (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+                var $preview = $('<div class="view-img pending"><img alt="Preview"><a href="#" class="gallery-remove-local">Remove</a></div>');
+                $preview.find('img').attr('src', event.target.result);
+                $preview.data('file', file);
+                $viewImgs.append($preview);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    $(document).on('click', '.gallery-remove-local', function (e) {
+        e.preventDefault();
+
+        var $preview = $(this).closest('.view-img');
+        var $viewImgs = $preview.closest('.view-imgs');
+        var $input = $viewImgs.closest('.form-wrap').find('.gallery-input');
+
+        $preview.remove();
+
+        var dt = new DataTransfer();
+        $viewImgs.find('.view-img.pending').each(function () {
+            var file = $(this).data('file');
+            if (file) {
+                dt.items.add(file);
+            }
+        });
+        $input[0].files = dt.files;
+
+        return false;
+    });
+
+    // Clinic Gallery: removing an already-uploaded image goes through the shared modal
+
+    $(document).on('click', '.gallery-remove-persisted', function (e) {
+        e.preventDefault();
+
+        $('#removeGalleryImageForm').attr('action', $(this).data('url'));
+
+        var modalEl = document.getElementById('removeGalleryImageModal');
+        if (modalEl) {
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        }
 
         return false;
     });
