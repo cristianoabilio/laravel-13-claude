@@ -49,6 +49,9 @@
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="{{ asset('backend/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}">
 
+		<!-- Date Time Picker CSS -->
+		<link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap-datetimepicker.min.css') }}">
+
 		<!-- Main CSS -->
 		<link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}">
 
@@ -118,6 +121,13 @@
 
 		<!-- Bootstrap Tagsinput JS -->
 		<script src="{{ asset('backend/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js') }}"></script>
+
+		<!-- Date Time Picker JS -->
+		<script src="{{ asset('backend/assets/js/moment.min.js') }}"></script>
+		<script src="{{ asset('backend/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+		<!-- Masked Input JS -->
+		<script src="{{ asset('backend/assets/js/jquery.maskedinput.min.js') }}"></script>
 
 		<!-- Profile Settings JS -->
 		<script src="{{ asset('backend/assets/js/profile-settings.js') }}"></script>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SpecialitiesController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 use App\Http\Controllers\Doctor\DoctorController;
+use App\Http\Controllers\Doctor\DoctorExperienceController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,9 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     // this is a session-authenticated web route, not the stateless API.
     Route::patch('/api/doctor/profile/languages', [DoctorController::class, 'updateLanguages'])->name('doctor.profile.languages.update');
     Route::get('/doctor/experience', [DoctorController::class, 'experience'])->name('doctor.experience');
+    Route::put('/doctor/experiences', [DoctorExperienceController::class, 'update'])->name('doctor.experiences.update');
+    Route::delete('/doctor/experiences/{experience}', [DoctorExperienceController::class, 'destroy'])->name('doctor.experiences.destroy');
+    Route::delete('/doctor/experiences/{experience}/logo', [DoctorExperienceController::class, 'destroyLogo'])->name('doctor.experiences.logo.destroy');
     Route::get('/doctor/education', [DoctorController::class, 'education'])->name('doctor.education');
     Route::get('/doctor/clinics', [DoctorController::class, 'clinics'])->name('doctor.clinics');
     Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');

@@ -3,15 +3,13 @@
 namespace App\Services\Doctor;
 
 use App\Models\User;
+use App\Services\Doctor\Concerns\StoresSquareImages;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Intervention\Image\Drivers\Gd\Driver as GdDriver;
-use Intervention\Image\ImageManager;
-use RuntimeException;
 
 class DoctorProfileService
 {
+    use StoresSquareImages;
+
     /**
      * Side length, in pixels, of the square profile photo thumbnail.
      */
@@ -82,34 +80,13 @@ class DoctorProfileService
             ]));
     }
 
-    /**
-     * Resize the upload to a {@see self::PHOTO_SIZE} square, preserving aspect ratio via a
-     * center crop (no stretching), and store it on S3/MinIO.
-     */
     protected function storePhoto(UploadedFile $photo): string
     {
-        $extension = $photo->extension() ?: 'jpg';
-
-        $encoded = ImageManager::usingDriver(GdDriver::class)
-            ->decodePath($photo->getRealPath())
-            ->cover(self::PHOTO_SIZE, self::PHOTO_SIZE)
-            ->encodeUsingFileExtension($extension, quality: 90);
-
-        $path = 'doctors/'.Str::uuid().'.'.$extension;
-
-        $stored = Storage::disk('s3')->put($path, (string) $encoded, 'public');
-
-        if (! $stored) {
-            throw new RuntimeException('Unable to upload the profile photo to storage. Check the MinIO/S3 connection settings.');
-        }
-
-        return $path;
+        return $this->storeSquareImage($photo, 'doctors', self::PHOTO_SIZE);
     }
 
     protected function deletePhoto(User $doctor): void
     {
-        if ($doctor->profile_photo && ! str_starts_with($doctor->profile_photo, 'backend/')) {
-            Storage::disk('s3')->delete($doctor->profile_photo);
-        }
+        $this->deleteStoredImage($doctor->profile_photo);
     }
 }

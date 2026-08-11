@@ -7,6 +7,16 @@ Version      : 1.0
 (function($) {
     "use strict";
 
+	// Year of Experience Mask (2 digits, e.g. "5", "12")
+
+	function applyYearsMask() {
+		if ($.fn.mask) {
+			$('.years-mask').mask('99');
+		}
+	}
+
+	applyYearsMask();
+
 	// Profile Photo Preview
 
 	$(document).on('change', '.change-avatar .upload', function (e) {
@@ -602,121 +612,176 @@ Version      : 1.0
     });
 
     // Add Experience
-	
-    $(".experience-infos").on('click','.trash', function () {
-		$(this).closest('.experience-content').remove();
-		return false;
+
+    // Delete (persisted rows only): open the row's confirmation modal instead of
+    // toggling the accordion collapse it's nested inside.
+    $(".experience-infos").on('click', '.delete-trigger', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var modalEl = document.getElementById($(this).data('target'));
+        if (modalEl) {
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        }
+
+        return false;
+    });
+
+    // Reset (unsaved rows only): clear the row's fields in place rather than
+    // submitting/removing it.
+    $(".experience-infos").on('click', '.reset', function (e) {
+        e.preventDefault();
+
+        var $row = $(this).closest('.content-collapse');
+
+        $row.find('input[type="text"], textarea').val('');
+        $row.find('input[type="checkbox"]').prop('checked', false);
+        $row.find('input[type="file"]').val('');
+        $row.find('select.select').val('').trigger('change');
+        $row.find('.datetimepicker.end-date').prop('disabled', false);
+        $row.find('.profile-img').html('<i class="fa-solid fa-file-image"></i>');
+
+        return false;
+    });
+
+    // Hospital logo "Remove" for rows with nothing persisted yet: just clear the
+    // local file selection and preview, no server request.
+    $(document).on('click', '.logo-remove-local', function (e) {
+        e.preventDefault();
+
+        var $wrap = $(this).closest('.change-avatar');
+        $wrap.find('input[type="file"]').val('');
+        $wrap.find('.profile-img').html('<i class="fa-solid fa-file-image"></i>');
+
+        return false;
+    });
+
+    // "I Currently Working Here" disables and clears the End Date field.
+    $(document).on('change', '.currently-working', function () {
+        var $endDate = $(this).closest('.content-collapse').find('.end-date');
+
+        if ($(this).is(':checked')) {
+            $endDate.val('').prop('disabled', true);
+        } else {
+            $endDate.prop('disabled', false);
+        }
     });
 
     $(".add-experiences").on('click', function () {
 
-        var membershipcontent = '<div class="experience-content">' +
-			'<div class="user-accordion-item">' +
-				'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#experience">Experience<span class="trash">Delete</span></a>' +
-				'<div class="accordion-collapse collapse show" id="experience" data-bs-parent="#list-accord">' +
-					'<div class="content-collapse">' +
-						'<div class="add-service-info">' +
-							'<div class="add-info">' +
-								'<div class="row align-items-center">' +
-									'<div class="col-md-12">' +
-										'<div class="form-wrap mb-2">' +
-											'<div class="change-avatar img-upload">' +
-												'<div class="profile-img">' +
-													'<i class="fa-solid fa-file-image"></i>' +
-												'</div>' +
-												'<div class="upload-img">' +
-													'<h5>Hospital Logo</h5>' +
-													'<div class="imgs-load d-flex align-items-center">' +
-														'<div class="change-photo">' +
-															'Upload New' + 
-															'<input type="file" class="upload">' +
-														'</div>' +
-														'<a href="#" class="upload-remove">Remove</a>' +
+        var index = parseInt($(this).attr('data-next-index'), 10) || 0;
+        var accordionId = 'experience-new-' + index;
+
+        var experienceContent = '<div class="user-accordion-item experience-content">' +
+			'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#' + accordionId + '">Experience</a>' +
+			'<div class="accordion-collapse collapse show" id="' + accordionId + '" data-bs-parent="#list-accord">' +
+				'<div class="content-collapse">' +
+					'<div class="add-service-info">' +
+						'<div class="add-info">' +
+							'<div class="row align-items-center">' +
+								'<div class="col-md-12">' +
+									'<div class="form-wrap mb-2">' +
+										'<div class="change-avatar img-upload">' +
+											'<div class="profile-img">' +
+												'<i class="fa-solid fa-file-image"></i>' +
+											'</div>' +
+											'<div class="upload-img">' +
+												'<h5>Hospital Logo</h5>' +
+												'<div class="imgs-load d-flex align-items-center">' +
+													'<div class="change-photo">' +
+														'Upload New' +
+														'<input type="file" name="experiences[' + index + '][hospital_logo]" class="upload" accept="image/*">' +
 													'</div>' +
-													'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>' +
+													'<a href="#" class="upload-remove logo-remove-local">Remove</a>' +
 												'</div>' +
+												'<p class="form-text">Your Image should Below 4 MB, Accepted format jpg, png, gif, webp.</p>' +
 											'</div>' +
-										'</div>' +	
+										'</div>' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Title</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Title</label>' +
+										'<input type="text" name="experiences[' + index + '][title]" class="form-control">' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Hospital <span class="text-danger">*</span></label>' +
-											'<input type="text" class="form-control">' +
-										'</div>	' +												
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Hospital <span class="text-danger">*</span></label>' +
+										'<input type="text" name="experiences[' + index + '][hospital]" class="form-control">' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Year of Experience <span class="text-danger">*</span></label>' +
-											'<input type="text" class="form-control">' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Year of Experience <span class="text-danger">*</span></label>' +
+										'<input type="text" inputmode="numeric" name="experiences[' + index + '][years_of_experience]" class="form-control years-mask">' +
 									'</div>' +
-									'<div class="col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Location <span class="text-danger">*</span></label>' +
-											'<input type="text" class="form-control">' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Location <span class="text-danger">*</span></label>' +
+										'<input type="text" name="experiences[' + index + '][location]" class="form-control">' +
 									'</div>' +
-									'<div class="col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Employement </label>' +
-											'<select class="select">' +
-												'<option>Full Time</option>' +
-												'<option>Part Time</option>' +
-											'</select>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Employement </label>' +
+										'<select class="select" name="experiences[' + index + '][employment_type]">' +
+											'<option value="">Select</option>' +
+											'<option value="full_time">Full Time</option>' +
+											'<option value="part_time">Part Time</option>' +
+										'</select>' +
 									'</div>' +
-									'<div class="col-lg-12">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Job Description <span class="text-danger">*</span></label>' +
-											'<textarea class="form-control" rows="3"></textarea>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-12">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Job Description <span class="text-danger">*</span></label>' +
+										'<textarea class="form-control" rows="3" name="experiences[' + index + '][job_description]"></textarea>' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">Start Date <span class="text-danger">*</span></label>' +
-											'<div class="form-icon">' +
-												'<input type="text" class="form-control datetimepicker">' +
-												'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
-											'</div>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">Start Date <span class="text-danger">*</span></label>' +
+										'<div class="form-icon">' +
+											'<input type="text" name="experiences[' + index + '][start_date]" class="form-control datetimepicker" autocomplete="off">' +
+											'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
+										'</div>' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">End Date <span class="text-danger">*</span></label>' +
-											'<div class="form-icon">' +
-												'<input type="text" class="form-control datetimepicker">' +
-												'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
-											'</div>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">End Date <span class="text-danger">*</span></label>' +
+										'<div class="form-icon">' +
+											'<input type="text" name="experiences[' + index + '][end_date]" class="form-control datetimepicker end-date" autocomplete="off">' +
+											'<span class="icon"><i class="fa-regular fa-calendar-days"></i></span>' +
+										'</div>' +
 									'</div>' +
-									'<div class="col-lg-4 col-md-6">' +
-										'<div class="form-wrap">' +
-											'<label class="col-form-label">&nbsp;</label>' +
-											'<div class="form-check">' +
-		   										'<label class="form-check-label">' +
-		   											'<input class="form-check-input" type="checkbox"> I Currently Working Here' +
-		   										'</label>' +
-		   									'</div>' +
-										'</div>' +													
+								'</div>' +
+								'<div class="col-lg-4 col-md-6">' +
+									'<div class="form-wrap">' +
+										'<label class="col-form-label">&nbsp;</label>' +
+										'<div class="form-check">' +
+	   										'<label class="form-check-label">' +
+	   											'<input class="form-check-input currently-working" type="checkbox" name="experiences[' + index + '][currently_working]" value="1"> I Currently Working Here' +
+	   										'</label>' +
+	   									'</div>' +
 									'</div>' +
 								'</div>' +
 							'</div>' +
-							'<div class="text-end">' +
-								'<a href="#" class="reset more-item">Reset</a>' +
-							'</div>' +
+						'</div>' +
+						'<div class="text-end">' +
+							'<a href="#" class="reset more-item">Reset</a>' +
 						'</div>' +
 					'</div>' +
 				'</div>' +
-			'</div>';
-		
-        $(".experience-infos").append(membershipcontent);
-         if ($('.select').length > 0) {
+			'</div>' +
+		'</div>';
+
+        $(".experience-infos").append(experienceContent);
+        $(this).attr('data-next-index', index + 1);
+        applyYearsMask();
+
+        if ($('.select').length > 0) {
 			$('.select').select2({
 				minimumResultsForSearch: -1,
 				width: '100%'
