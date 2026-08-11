@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SpecialitiesController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\Doctor\DoctorBusinessHourController;
 use App\Http\Controllers\Doctor\DoctorClinicController;
 use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Doctor\DoctorEducationController;
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::delete('/doctor/clinics/{clinic}/logo', [DoctorClinicController::class, 'destroyLogo'])->name('doctor.clinics.logo.destroy');
     Route::delete('/doctor/clinics/images/{image}', [DoctorClinicController::class, 'destroyImage'])->name('doctor.clinics.images.destroy');
     Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');
+    Route::put('/doctor/business', [DoctorBusinessHourController::class, 'update'])->name('doctor.business.update');
 
 });
 

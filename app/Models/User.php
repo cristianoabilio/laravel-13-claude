@@ -74,6 +74,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<BusinessHour, $this>
+     */
+    public function businessHours(): HasMany
+    {
+        return $this->hasMany(BusinessHour::class, 'doctor_id');
+    }
+
+    /**
      * The publicly resolvable URL for the profile photo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */

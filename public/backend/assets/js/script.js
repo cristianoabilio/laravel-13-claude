@@ -100,7 +100,7 @@ Version      : 1.3
 
 	if($('.timepicker1').length > 0 ){
         $('.timepicker1').datetimepicker({
-            format: 'HH:mm A',
+            format: 'hh:mm A',
             icons: {
                 up: "fas fa-angle-up",
                 down: "fas fa-angle-down",

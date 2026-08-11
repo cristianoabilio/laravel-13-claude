@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Enums\DayOfWeek;
+use App\Models\BusinessHour;
 use App\Models\Clinic;
 use App\Models\ClinicImage;
 use App\Models\Education;
@@ -41,6 +43,16 @@ class DatabaseSeeder extends Seeder
 
         $clinic = Clinic::factory()->create(['doctor_id' => $doctor->id]);
         ClinicImage::factory()->count(2)->create(['clinic_id' => $clinic->id]);
+
+        foreach (DayOfWeek::cases() as $day) {
+            BusinessHour::factory()->create([
+                'doctor_id' => $doctor->id,
+                'day' => $day,
+                'is_open' => ! $day->isWeekend(),
+                'from_time' => $day->isWeekend() ? null : '09:00:00',
+                'to_time' => $day->isWeekend() ? null : '18:00:00',
+            ]);
+        }
 
         $this->call([
             AdminSeeder::class,

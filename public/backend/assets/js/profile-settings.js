@@ -668,6 +668,29 @@ Version      : 1.0
         }
     });
 
+    // Business Hours: "Open on <day>" enables/disables that day's From/To fields.
+    $(document).on('change', '.day-open-toggle', function () {
+        var $times = $(this).closest('.content-collapse').find('.timepicker1');
+
+        if ($(this).is(':checked')) {
+            $times.prop('disabled', false);
+        } else {
+            $times.val('').prop('disabled', true);
+        }
+    });
+
+    // Business Hours: unselecting a day's nav pill also unchecks that day's
+    // "Open" toggle and disables its From/To fields (script.js already toggled
+    // the pill's/day panel's "active" class by the time this delegated handler
+    // runs, since direct listeners on the element fire before bubbling reaches
+    // document); selecting the pill back on re-enables them the same way.
+    $(document).on('click', '.business-nav .tab-link', function () {
+        var $day = $('#' + $(this).data('tab'));
+        var isActive = $(this).hasClass('active');
+
+        $day.find('.day-open-toggle').prop('checked', isActive).trigger('change');
+    });
+
     $(".add-experiences").on('click', function () {
 
         var index = parseInt($(this).attr('data-next-index'), 10) || 0;

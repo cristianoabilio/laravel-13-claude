@@ -7,254 +7,79 @@
 
 @include('doctor.dashboard.profile.menu_settings', ['activeTab' => 'business'])
 
-<div class="dashboard-header border-0 mb-0">
-    <h3>Business Hours</h3>
-</div>
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
-<form action="doctor-business-settings.html">
+<form action="{{ route('doctor.business.update') }}" method="POST">
+    @csrf
+    @method('PUT')
+
     <div class="business-wrap">
         <h4>Select Business days</h4>
         <ul class="business-nav">
-            <li>
-                <a class="tab-link active" data-tab="day-monday">Monday</a>
-            </li>
-            <li>
-                <a class="tab-link active" data-tab="day-tuesday">Tuesday</a>
-            </li>
-            <li>
-                <a class="tab-link active" data-tab="day-wednesday">Wednesday</a>
-            </li>
-            <li>
-                <a class="tab-link active" data-tab="day-thursday">Thursday</a>
-            </li>
-            <li>
-                <a class="tab-link active" data-tab="day-friday">Friday</a>
-            </li>
-            <li>
-                <a class="tab-link" data-tab="day-saturday">Saturday</a>
-            </li>
-            <li>
-                <a class="tab-link" data-tab="day-sunday">Sunday</a>
-            </li>
+            @foreach ($businessHours as $businessHour)
+                <li>
+                    <a class="tab-link @if(old('business_hours.'.$businessHour->day->value.'.is_open', $businessHour->is_open)) active @endif" data-tab="day-{{ $businessHour->day->value }}">{{ $businessHour->day->label() }}</a>
+                </li>
+            @endforeach
         </ul>
     </div>
 
     <div class="accordions business-info" id="list-accord">
 
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items active" id="day-monday">
-            <a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#monday">Monday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse show" id="monday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
+        @foreach ($businessHours as $businessHour)
+            @php $isOpen = old('business_hours.'.$businessHour->day->value.'.is_open', $businessHour->is_open); @endphp
+            <!-- Business Hours -->
+            <div class="user-accordion-item tab-items @if($isOpen) active @endif" id="day-{{ $businessHour->day->value }}">
+                <a href="#" class="accordion-wrap @if($businessHour->day !== \App\Enums\DayOfWeek::Monday) collapsed @endif" data-bs-toggle="collapse" data-bs-target="#{{ $businessHour->day->value }}">{{ $businessHour->day->label() }}<span class="edit">Edit</span></a>
+                <div class="accordion-collapse collapse @if($businessHour->day === \App\Enums\DayOfWeek::Monday) show @endif" id="{{ $businessHour->day->value }}" data-bs-parent="#list-accord">
+                    <div class="content-collapse pb-0">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="form-wrap">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input day-open-toggle" type="checkbox" name="business_hours[{{ $businessHour->day->value }}][is_open]" value="1" @checked($isOpen)> Open on {{ $businessHour->day->label() }}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="col-form-label">From <span class="text-danger">*</span></label>
+                                    <div class="form-icon">
+                                        <input type="text" name="business_hours[{{ $businessHour->day->value }}][from]" class="form-control timepicker1" autocomplete="off" value="{{ old('business_hours.'.$businessHour->day->value.'.from', $businessHour->from_time?->format('h:i A')) }}" @disabled(! $isOpen)>
+                                        <span class="icon"><i class="fa-solid fa-clock"></i></span>
+                                    </div>
+                                    @error('business_hours.'.$businessHour->day->value.'.from')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Business Hours -->
-
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items active" id="day-tuesday">
-            <a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#tuesday">Tuesday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse" id="tuesday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="col-form-label">To <span class="text-danger">*</span></label>
+                                    <div class="form-icon">
+                                        <input type="text" name="business_hours[{{ $businessHour->day->value }}][to]" class="form-control timepicker1" autocomplete="off" value="{{ old('business_hours.'.$businessHour->day->value.'.to', $businessHour->to_time?->format('h:i A')) }}" @disabled(! $isOpen)>
+                                        <span class="icon"><i class="fa-solid fa-clock"></i></span>
+                                    </div>
+                                    @error('business_hours.'.$businessHour->day->value.'.to')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- /Business Hours -->
-
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items active" id="day-wednesday">
-            <a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#wednesday">Wednesday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse" id="wednesday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Business Hours -->
-
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items active" id="day-thursday">
-            <a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#thursday">Thursday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse" id="thursday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Business Hours -->
-
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items active" id="day-friday">
-            <a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#friday">Friday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse" id="friday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Business Hours -->
-
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items" id="day-saturday">
-            <a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#saturday">Saturday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse" id="saturday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Business Hours -->
-
-        <!-- Business Hours -->
-        <div class="user-accordion-item tab-items" id="day-sunday">
-            <a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#sunday">Sunday<span class="edit">Edit</span></a>
-            <div class="accordion-collapse collapse" id="sunday" data-bs-parent="#list-accord">
-                <div class="content-collapse pb-0">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-wrap">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
-                                <div class="form-icon">
-                                    <input type="text" class="form-control timepicker1">
-                                    <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Business Hours -->
+            <!-- /Business Hours -->
+        @endforeach
 
     </div>
 
     <div class="modal-btn text-end">
-        <a href="#" class="btn btn-gray">Cancel</a>
+        <a href="{{ route('doctor.business') }}" class="btn btn-gray">Cancel</a>
         <button type="submit" class="btn btn-primary prime-btn">Save Changes</button>
     </div>
 
