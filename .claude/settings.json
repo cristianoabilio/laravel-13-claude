@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./vendor/bin/sail exec *)",
+      "Bash(./vendor/bin/sail mysql *)",
+      "Bash(curl -s -b cookies.txt -c cookies.txt -o response.json -w 'status: %{http_code}\\\\n' -X PATCH http://localhost/api/doctor/profile/languages -H 'X-CSRF-TOKEN: __TRACKED_VAR__' -H 'Accept: application/json' --data-urlencode known_languages=English,French,Spanish)"
+    ]
+  }
+}
