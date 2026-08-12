@@ -1,15 +1,17 @@
 <div class="profile-sidebar doctor-sidebar profile-sidebar-new">
     <div class="widget-profile pro-widget-content">
         <div class="profile-info-widget">
-            <a href="doctor-profile.html" class="booking-doc-img">
-                <img src="{{ asset('backend/assets/img/doctors-dashboard/doctor-profile-img.jpg') }}" alt="User Image">
+            <a href="{{ route('doctor.profile') }}" class="booking-doc-img">
+                <img src="{{ auth()->user()->profile_photo_url ?: asset('backend/assets/img/doctors-dashboard/doctor-profile-img.jpg') }}" alt="User Image">
             </a>
             <div class="profile-det-info">
-                <h3><a href="doctor-profile.html">Dr Edalin Hendry</a></h3>
-                <div class="patient-details">
-                    <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
-                </div>
-                <span class="badge doctor-role-badge"><i class="fa-solid fa-circle"></i>Dentist</span>
+                <h3><a href="{{ route('doctor.profile') }}">{{ auth()->user()->display_name ?: trim(auth()->user()->first_name.' '.auth()->user()->last_name) }}</a></h3>
+                @if (auth()->user()->designation)
+                    <div class="patient-details">
+                        <h5 class="mb-0">{{ auth()->user()->designation }}</h5>
+                    </div>
+                @endif
+                <span class="badge doctor-role-badge"><i class="fa-solid fa-circle"></i>{{ ucfirst(auth()->user()->role) }}</span>
             </div>
         </div>
     </div>
@@ -17,8 +19,8 @@
         <div class="input-block input-block-new">
             <label class="form-label">Availability <span class="text-danger">*</span></label>
             <select class="select form-control">
-                <option>I am Available Now</option>
-                <option>Not Available</option>
+                <option value="available" @selected(auth()->user()->availability_status === 'available')>I am Available Now</option>
+                <option value="not_available" @selected(auth()->user()->availability_status === 'not_available')>Not Available</option>
             </select>
         </div>
     </div>
@@ -26,7 +28,7 @@
         <nav class="dashboard-menu">
             <ul>
                 <li class="active">
-                    <a href="doctor-dashboard.html">
+                    <a href="{{ route('doctor.dashboard') }}">
                         <i class="isax isax-category-2"></i>
                         <span>Dashboard</span>
                     </a>
@@ -112,10 +114,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="login.html">
+                    <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();">
                         <i class="isax isax-logout"></i>
                         <span>Logout</span>
                     </a>
+                    <form id="sidebar-logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </nav>

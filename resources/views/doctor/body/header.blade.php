@@ -503,21 +503,21 @@
                     <li class="nav-item dropdown has-arrow logged-item">
                         <a href="#" class="nav-link ps-0" data-bs-toggle="dropdown">
                             <span class="user-img">
-                                <img class="rounded-circle" src="{{ asset('backend') }}assets/img/doctors-dashboard/doctor-profile-img.jpg" width="31" alt="Darren Elder">
+                                <img class="rounded-circle" src="{{ auth()->user()->profile_photo_url ?: asset('backend/assets/img/doctors-dashboard/doctor-profile-img.jpg') }}" width="31" alt="{{ auth()->user()->display_name }}">
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <div class="user-header">
                                 <div class="avatar avatar-sm">
-                                    <img src="{{ asset('backend') }}assets/img/doctors-dashboard/doctor-profile-img.jpg" alt="User Image" class="avatar-img rounded-circle">
+                                    <img src="{{ auth()->user()->profile_photo_url ?: asset('backend/assets/img/doctors-dashboard/doctor-profile-img.jpg') }}" alt="{{ auth()->user()->display_name }}" class="avatar-img rounded-circle">
                                 </div>
                                 <div class="user-text">
-                                    <h6>Dr Edalin Hendry</h6>
-                                    <p class="text-muted mb-0">Doctor</p>
+                                    <h6>{{ auth()->user()->display_name ?: trim(auth()->user()->first_name.' '.auth()->user()->last_name) }}</h6>
+                                    <p class="text-muted mb-0">{{ ucfirst(auth()->user()->role) }}</p>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="{{ route('doctor.dashboard') }}">Dashboard</a>
-                            <a class="dropdown-item" href="doctor-profile-settings.html">Profile Settings</a>
+                            <a class="dropdown-item" href="{{ route('doctor.profile') }}">Profile Settings</a>
                             <a class="dropdown-item" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('doctor-logout-form').submit();">Logout</a>
                             <form id="doctor-logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
                                 @csrf
