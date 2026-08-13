@@ -59,7 +59,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="doctor-specialities.html">
+                    <a href="{{ route('doctor.specialities') }}">
                         <i class="isax isax-clock"></i>
                         <span>Specialties & Services</span>
                     </a>

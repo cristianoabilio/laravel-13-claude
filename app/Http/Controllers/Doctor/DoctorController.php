@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Doctor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Doctor\UpdateDoctorLanguagesRequest;
 use App\Http\Requests\Doctor\UpdateDoctorProfileRequest;
+use App\Models\Service;
+use App\Models\Speciality;
 use App\Services\Doctor\DoctorBusinessHourService;
 use App\Services\Doctor\DoctorProfileService;
+use App\Services\Doctor\DoctorServiceManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,6 +21,7 @@ class DoctorController extends Controller
     public function __construct(
         protected DoctorProfileService $doctorProfile,
         protected DoctorBusinessHourService $businessHours,
+        protected DoctorServiceManager $services,
     ) {}
 
     public function index()
@@ -96,6 +100,15 @@ class DoctorController extends Controller
     {
         return view('doctor.dashboard.profile.doctor_business_hours', [
             'businessHours' => $this->businessHours->forDoctor(Auth::user()->load('businessHours')),
+        ]);
+    }
+
+    public function specialities(): View
+    {
+        return view('doctor.dashboard.services.specialities_services', [
+            'groups' => $this->services->forDoctor(Auth::user()),
+            'specialities' => Speciality::orderBy('name')->get(),
+            'servicesBySpeciality' => Service::orderBy('name')->get()->groupBy('speciality_id'),
         ]);
     }
 }

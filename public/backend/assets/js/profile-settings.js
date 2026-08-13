@@ -17,6 +17,27 @@ Version      : 1.0
 
 	applyYearsMask();
 
+	// Price Mask (digits only, at most 6 before the decimal point and 2 after,
+	// matching the decimal(8,2) column) - delegated, so it also covers rows
+	// added dynamically after page load without needing to be re-applied.
+
+	$(document).on('input', '.price-mask', function () {
+		var value = $(this).val().replace(/[^0-9.]/g, '');
+
+		var firstDot = value.indexOf('.');
+		if (firstDot !== -1) {
+			value = value.slice(0, firstDot + 1) + value.slice(firstDot + 1).replace(/\./g, '');
+		}
+
+		var parts = value.split('.');
+		parts[0] = parts[0].slice(0, 6);
+		if (parts[1] !== undefined) {
+			parts[1] = parts[1].slice(0, 2);
+		}
+
+		$(this).val(parts.join('.'));
+	});
+
 	// Profile Photo Preview
 
 	$(document).on('change', '.change-avatar .upload', function (e) {
@@ -444,125 +465,123 @@ Version      : 1.0
         return false;
     });
 
-    // Add Speciality
-	
-    $(".add-service-info").on('click','.trash', function () {
-		$(this).closest('.service-cont').remove();
-		return false;
-    });
-
-    $(".add-speciality").on('click', function () {
-
-        var servcontent = '<div class="user-accordion-item">' +
-			'<a href="#" class="accordion-wrap collapsed" data-bs-toggle="collapse" data-bs-target="#special">Speciality<span>Delete</span></a>' +
-			'<div class="accordion-collapse" id="special" data-bs-parent="#list-accord">' +
-				'<div class="content-collapse">' +
-					'<div class="add-service-info">' +
-						'<div class="add-info">' +
-							'<div class="row">' +
-								'<div class="col-md-4">' +
-									'<div class="form-wrap">' +
-										'<label class="col-form-label">Speciality <span class="text-danger">*</span></label>' +
-										'<select class="select">' +
-											'<option>Select</option>' +
-											'<option>Neurology</option>' +
-											'<option>Urology</option>' +
-										'</select>' +
-									'</div>	' +												
-								'</div>' +
-							'</div>' +
-							'<div class="row service-cont">' +
-								'<div class="col-md-3">' +
-									'<div class="form-wrap">' +
-										'<label class="col-form-label">Service <span class="text-danger">*</span></label>' +
-										'<select class="select">' +
-											'<option>Select Service</option>' +
-											'<option>Surgery</option>' +
-											'<option>General Checkup</option>' +
-										'</select>' +
-									'</div>	' +												
-								'</div>' +
-								'<div class="col-md-2">' +
-									'<div class="form-wrap">' +
-										'<label class="col-form-label">Price ($) <span class="text-danger">*</span></label>' +
-										'<input type="text" class="form-control" placeholder="454">' +
-									'</div>' +													
-								'</div>' +
-								'<div class="col-md-7">' +
-									'<div class="d-flex align-items-center">' +
-										'<div class="form-wrap w-100">' +
-											'<label class="col-form-label">About Service</label>' +
-											'<input type="text" class="form-control">' +
-										'</div>' +
-										'<div class="form-wrap ms-2">' +
-											'<label class="col-form-label d-block">&nbsp;</label>' +
-											'<a href="#" class="trash-icon trash">Delete</a>' +
-										'</div>' +												
-									'</div>' +													
-								'</div>' +
-							'</div>' +
-						'</div>' +
-						'<div class="text-end">' +
-							'<a href="#" class="add-serv more-item mb-0">Add New Service</a>' +
-						'</div>' +
-					'</div>' +
-				'</div>' +
-			'</div>' +
-		'</div>';
-		
-        $('.accordions').append(servcontent);
-
-        if ($('.select').length > 0) {
-			$('.select').select2({
-				minimumResultsForSearch: -1,
-				width: '100%'
-			});
-		}
-
+    // Speciality & Services: local removal for unsaved service rows.
+    $(document).on('click', '.service-cont .trash', function (e) {
+        e.preventDefault();
+        $(this).closest('.service-cont').remove();
         return false;
     });
 
-    // Service Add More
-	
-    $(".add-service-info").on('click','.trash', function () {
-		$(this).closest('.service-cont').remove();
-		return false;
-    });
+    // Speciality & Services: index counter shared across every row added on
+    // this page, continuing on from the rows already rendered server-side.
+    window.NEXT_SERVICE_INDEX = window.NEXT_SERVICE_INDEX || 0;
 
-    $(".add-serv").on('click', function () {
+    function buildServiceOptions(specialityId) {
+        var services = (window.SERVICES_BY_SPECIALITY && window.SERVICES_BY_SPECIALITY[specialityId]) || [];
+        var options = '<option value="">Select Service</option>';
 
-        var servcontent = '<div class="row service-cont">' +
+        services.forEach(function (service) {
+            options += '<option value="' + service.id + '">' + service.name + '</option>';
+        });
+
+        return options;
+    }
+
+    function appendServiceRow($addServiceInfo, specialityId) {
+        var index = window.NEXT_SERVICE_INDEX++;
+
+        var row = '<div class="row service-cont">' +
 				'<div class="col-md-3">' +
 					'<div class="form-wrap">' +
-						'<label class="col-form-label">Service <span class="text-danger">*</span></label>' +
-						'<select class="select">' +
-							'<option>Select Service</option>' +
-							'<option>Surgery</option>' +
-							'<option>General Checkup</option>' +
+						'<label class="form-label">Service <span class="text-danger">*</span></label>' +
+						'<select class="select" name="services[' + index + '][service_id]">' +
+							buildServiceOptions(specialityId) +
 						'</select>' +
-					'</div>' +													
+					'</div>' +
 				'</div>' +
 				'<div class="col-md-2">' +
 					'<div class="form-wrap">' +
-						'<label class="col-form-label">Price ($) <span class="text-danger">*</span></label>' +
-						'<input type="text" class="form-control" placeholder="454">' +
-					'</div>' +													
+						'<label class="form-label">Price ($) <span class="text-danger">*</span></label>' +
+						'<input type="text" inputmode="decimal" class="form-control price-mask" name="services[' + index + '][price]" placeholder="454">' +
+					'</div>' +
 				'</div>' +
 				'<div class="col-md-7">' +
 					'<div class="d-flex align-items-center">' +
 						'<div class="form-wrap w-100">' +
-							'<label class="col-form-label">About Service</label>' +
-							'<input type="text" class="form-control">' +
+							'<label class="form-label">About Service</label>' +
+							'<input type="text" class="form-control" name="services[' + index + '][description]">' +
 						'</div>' +
 						'<div class="form-wrap ms-2">' +
 							'<label class="col-form-label d-block">&nbsp;</label>' +
 							'<a href="#" class="trash-icon trash">Delete</a>' +
-						'</div>' +										
-					'</div>' +													
-				'</div>' +	
+						'</div>' +
+					'</div>' +
+				'</div>' +
 			'</div>';
-		
-        $(this).closest(".add-service-info").find('.add-info').append(servcontent);
+
+        $addServiceInfo.find('.add-info').append(row);
+
+        if ($('.select').length > 0) {
+            $('.select').select2({
+                minimumResultsForSearch: -1,
+                width: '100%'
+            });
+        }
+    }
+
+    $(document).on('click', '.add-serv', function (e) {
+        e.preventDefault();
+
+        var $addServiceInfo = $(this).closest('.add-service-info');
+        var specialityId = $(this).data('speciality-id') || $addServiceInfo.find('.speciality-select').val();
+
+        appendServiceRow($addServiceInfo, specialityId);
+
+        return false;
+    });
+
+    // When a new (unsaved) speciality group's own Speciality select changes,
+    // point its "Add New Service" link at the new speciality and drop any
+    // service rows already added under the previous selection.
+    $(document).on('change', '.speciality-select', function () {
+        var $group = $(this).closest('.add-service-info');
+        var specialityId = $(this).val();
+
+        $group.find('.add-serv').attr('data-speciality-id', specialityId);
+        $group.find('.service-cont').remove();
+    });
+
+    $(".add-speciality").on('click', function () {
+
+        var groupContent = '<div class="user-accordion-item">' +
+				'<a href="#" class="accordion-wrap" data-bs-toggle="collapse" data-bs-target="#speciality-new-' + window.NEXT_SERVICE_INDEX + '">Speciality</a>' +
+				'<div class="accordion-collapse collapse show" id="speciality-new-' + window.NEXT_SERVICE_INDEX + '" data-bs-parent="#list-accord">' +
+					'<div class="content-collapse">' +
+						'<div class="add-service-info">' +
+							'<div class="add-info">' +
+								'<div class="row">' +
+									'<div class="col-md-4">' +
+										'<div class="form-wrap">' +
+											'<label class="form-label">Speciality <span class="text-danger">*</span></label>' +
+											'<select class="select speciality-select">' +
+												'<option value="">Select</option>' +
+												(window.SPECIALITIES || []).map(function (speciality) {
+													return '<option value="' + speciality.id + '">' + speciality.name + '</option>';
+												}).join('') +
+											'</select>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+							'<div class="text-end">' +
+								'<a href="#" class="add-serv more-item mb-0" data-speciality-id="">Add New Service</a>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>';
+
+        $('#list-accord').append(groupContent);
 
         if ($('.select').length > 0) {
 			$('.select').select2({

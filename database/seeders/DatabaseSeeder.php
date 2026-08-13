@@ -6,9 +6,11 @@ use App\Enums\DayOfWeek;
 use App\Models\BusinessHour;
 use App\Models\Clinic;
 use App\Models\ClinicImage;
+use App\Models\DoctorService;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Membership;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -57,6 +59,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             SpecialitySeeder::class,
+            ServiceSeeder::class,
         ]);
+
+        Service::whereHas('speciality', fn ($query) => $query->where('name', 'Dentist'))
+            ->get()
+            ->each(fn (Service $service) => DoctorService::factory()->create([
+                'doctor_id' => $doctor->id,
+                'service_id' => $service->id,
+            ]));
     }
 }

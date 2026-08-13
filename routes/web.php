@@ -8,6 +8,7 @@ use App\Http\Controllers\Doctor\DoctorClinicController;
 use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Doctor\DoctorEducationController;
 use App\Http\Controllers\Doctor\DoctorExperienceController;
+use App\Http\Controllers\Doctor\DoctorServiceController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,11 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::delete('/doctor/clinics/images/{image}', [DoctorClinicController::class, 'destroyImage'])->name('doctor.clinics.images.destroy');
     Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');
     Route::put('/doctor/business', [DoctorBusinessHourController::class, 'update'])->name('doctor.business.update');
+
+    Route::get('/doctor/specialities', [DoctorController::class, 'specialities'])->name('doctor.specialities');
+    Route::put('/doctor/services', [DoctorServiceController::class, 'update'])->name('doctor.services.update');
+    Route::delete('/doctor/services/speciality/{speciality}', [DoctorServiceController::class, 'destroySpeciality'])->name('doctor.services.speciality.destroy');
+    Route::delete('/doctor/services/{doctorService}', [DoctorServiceController::class, 'destroy'])->name('doctor.services.destroy');
 
 });
 

@@ -82,6 +82,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<DoctorService, $this>
+     */
+    public function doctorServices(): HasMany
+    {
+        return $this->hasMany(DoctorService::class, 'doctor_id');
+    }
+
+    /**
      * The publicly resolvable URL for the profile photo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */
