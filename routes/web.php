@@ -61,6 +61,9 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::delete('/doctor/services/speciality/{speciality}', [DoctorServiceController::class, 'destroySpeciality'])->name('doctor.services.speciality.destroy');
     Route::delete('/doctor/services/{doctorService}', [DoctorServiceController::class, 'destroy'])->name('doctor.services.destroy');
 
+    Route::get('/doctor/change-password', [DoctorController::class, 'changePassword'])->name('doctor.change_password');
+    Route::put('/doctor/change-password', [DoctorController::class, 'updatePassword'])->name('doctor.change_password.update');
+
 });
 
 Route::middleware('guest:admin')->group(function () {

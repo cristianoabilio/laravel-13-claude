@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Doctor\UpdateDoctorLanguagesRequest;
+use App\Http\Requests\Doctor\UpdateDoctorPasswordRequest;
 use App\Http\Requests\Doctor\UpdateDoctorProfileRequest;
 use App\Models\Service;
 use App\Models\Speciality;
@@ -110,5 +111,22 @@ class DoctorController extends Controller
             'specialities' => Speciality::orderBy('name')->get(),
             'servicesBySpeciality' => Service::orderBy('name')->get()->groupBy('speciality_id'),
         ]);
+    }
+
+    public function changePassword(): View
+    {
+        return view('doctor.dashboard.profile.change_password');
+    }
+
+    public function updatePassword(UpdateDoctorPasswordRequest $request): RedirectResponse
+    {
+        $this->doctorProfile->updatePassword(Auth::user(), $request->validated('password'));
+
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->with('status', 'Your password has been updated. Please log in again.');
     }
 }

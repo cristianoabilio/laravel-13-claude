@@ -62,6 +62,15 @@ class DoctorProfileService
     }
 
     /**
+     * Update the doctor's password. The plain value is passed straight through -
+     * the User model's "hashed" cast takes care of hashing it on save.
+     */
+    public function updatePassword(User $doctor, string $password): void
+    {
+        $doctor->update(['password' => $password]);
+    }
+
+    /**
      * Replace the doctor's memberships with the submitted list, dropping blank rows.
      *
      * @param  array<int, array{title?: string|null, description?: string|null}>  $memberships
