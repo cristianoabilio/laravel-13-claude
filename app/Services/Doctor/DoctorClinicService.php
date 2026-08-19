@@ -6,7 +6,7 @@ use App\Jobs\ProcessClinicGalleryImage;
 use App\Models\Clinic;
 use App\Models\ClinicImage;
 use App\Models\User;
-use App\Services\Doctor\Concerns\StoresSquareImages;
+use App\Services\Concerns\StoresSquareImages;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;

@@ -47,10 +47,14 @@ Version      : 1.0
 			return;
 		}
 
+		// Scoped to the specific .change-avatar block the changed input belongs to -
+		// a page can have more than one (e.g. a hidden "Add Dependant" modal reuses
+		// the same markup), so a page-wide selector would update the wrong preview.
+		var $wrap = $(this).closest('.change-avatar').find('.profile-img').first();
+
 		var reader = new FileReader();
 
 		reader.onload = function (event) {
-			var $wrap = $('.change-avatar .profile-img');
 			var $img = $wrap.find('img');
 
 			if ($img.length === 0) {

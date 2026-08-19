@@ -4,7 +4,7 @@ namespace App\Services\Doctor;
 
 use App\Models\Education;
 use App\Models\User;
-use App\Services\Doctor\Concerns\StoresSquareImages;
+use App\Services\Concerns\StoresSquareImages;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;

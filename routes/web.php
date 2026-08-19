@@ -21,13 +21,18 @@ Route::get('/dashboard', function () {
     return view('patient.index');
 })->middleware(['auth', 'verified', 'role:patient'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
     Route::get('/patient.logout', [PatientController::class, 'logout'])->name('patient.logout');
+    Route::get('/patient/settings', [PatientController::class, 'settings'])->name('patient.settings');
+    Route::put('/patient/settings', [PatientController::class, 'updateSettings'])->name('patient.settings.update');
+    Route::delete('/patient/settings/photo', [PatientController::class, 'removeProfilePhoto'])->name('patient.settings.photo.destroy');
+    Route::get('/patient/change-password', [PatientController::class, 'changePassword'])->name('patient.change_password');
+    Route::put('/patient/change-password', [PatientController::class, 'updatePassword'])->name('patient.change_password.update');
 });
 
 Route::middleware(['auth', 'role:doctor'])->group(function () {

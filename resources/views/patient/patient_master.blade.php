@@ -728,6 +728,9 @@
 		<script src="{{ asset('backend/assets/js/moment.min.js') }}"></script>
 		<script src="{{ asset('backend/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
+		<!-- Profile Settings JS -->
+		<script src="{{ asset('backend/assets/js/profile-settings.js') }}"></script>
+
 		<!-- Circle Progress JS -->
 		<script src="{{ asset('backend/assets/js/circle-progress.min.js') }}"></script>
 

@@ -3,7 +3,7 @@
 namespace App\Services\Doctor;
 
 use App\Models\User;
-use App\Services\Doctor\Concerns\StoresSquareImages;
+use App\Services\Concerns\StoresSquareImages;
 use Illuminate\Http\UploadedFile;
 
 class DoctorProfileService

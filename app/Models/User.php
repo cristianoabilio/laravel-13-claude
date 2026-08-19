@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 #[Fillable([
     'role', 'first_name', 'last_name', 'email', 'phone', 'password', 'profile_photo',
@@ -97,6 +98,39 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn () => $this->resolveStorageUrl($this->profile_photo),
+        );
+    }
+
+    /**
+     * "X Years Y Months" computed from the date of birth, or null when it isn't set.
+     */
+    protected function age(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if (! $this->date_of_birth) {
+                    return null;
+                }
+
+                $diff = $this->date_of_birth->diff(now());
+
+                return trim(sprintf(
+                    '%d %s %d %s',
+                    $diff->y, Str::plural('Year', $diff->y),
+                    $diff->m, Str::plural('Month', $diff->m),
+                ));
+            },
+        );
+    }
+
+    /**
+     * A display-friendly patient identifier derived from the primary key,
+     * e.g. "PT000042". There's no separate patient ID column.
+     */
+    protected function patientId(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => 'PT'.str_pad((string) $this->id, 6, '0', STR_PAD_LEFT),
         );
     }
 }

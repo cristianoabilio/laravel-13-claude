@@ -4,15 +4,23 @@
     <div class="profile-sidebar patient-sidebar profile-sidebar-new">
         <div class="widget-profile pro-widget-content">
             <div class="profile-info-widget">
-                <a href="profile-settings.html" class="booking-doc-img">
-                    <img src="{{ asset('backend/assets/img/doctors-dashboard/profile-06.jpg') }}" alt="User Image">
+                <a href="{{ route('patient.settings') }}" class="booking-doc-img">
+                    <img src="{{ auth()->user()->profile_photo_url ?: asset('backend/assets/img/doctors-dashboard/profile-06.jpg') }}" alt="User Image">
                 </a>
                 <div class="profile-det-info">
-                    <h3><a href="profile-settings.html">Hendrita Hayes</a></h3>
+                    <h3><a href="{{ route('patient.settings') }}">{{ trim(auth()->user()->first_name.' '.auth()->user()->last_name) }}</a></h3>
                     <div class="patient-details">
-                        <h5 class="mb-0">Patient ID : PT254654</h5>
+                        <h5 class="mb-0">Patient ID : {{ auth()->user()->patient_id }}</h5>
                     </div>
-                    <span>Female <i class="fa-solid fa-circle"></i> 32 years 03 Months</span>
+                    @if (auth()->user()->gender || auth()->user()->age)
+                        <span>
+                            {{ ucfirst(auth()->user()->gender ?? '') }}
+                            @if (auth()->user()->gender && auth()->user()->age)
+                                <i class="fa-solid fa-circle"></i>
+                            @endif
+                            {{ auth()->user()->age }}
+                        </span>
+                    @endif
                 </div>
             </div>
         </div>
@@ -75,7 +83,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="profile-settings.html">
+                        <a href="{{ route('patient.settings') }}">
                             <i class="isax isax-setting-2"></i>
                             <span>Settings</span>
                         </a>

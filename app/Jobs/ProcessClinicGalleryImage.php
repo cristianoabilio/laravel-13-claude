@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Models\Clinic;
 use App\Models\ClinicImage;
 use App\Notifications\ClinicGalleryImageProcessed;
-use App\Services\Doctor\Concerns\StoresSquareImages;
+use App\Services\Concerns\StoresSquareImages;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
