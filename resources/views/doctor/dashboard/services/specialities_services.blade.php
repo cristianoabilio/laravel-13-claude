@@ -59,7 +59,16 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-2">
+                                            <div class="form-wrap">
+                                                <label class="form-label">Duration (mins) <span class="text-danger">*</span></label>
+                                                <input type="number" min="5" max="480" step="5" class="form-control" name="services[{{ $rowIndex }}][duration_minutes]" value="{{ old('services.'.$rowIndex.'.duration_minutes', $doctorService->duration_minutes) }}">
+                                                @error('services.'.$rowIndex.'.duration_minutes')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
                                             <div class="d-flex align-items-center">
                                                 <div class="form-wrap w-100">
                                                     <label class="form-label">About Service</label>

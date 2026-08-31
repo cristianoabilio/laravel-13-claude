@@ -102,7 +102,21 @@ test('doctor profile requires the core fields', function () {
 
     $this->actingAs($doctor)
         ->put(route('doctor.profile.update'), [])
-        ->assertSessionHasErrors(['first_name', 'last_name', 'display_name', 'designation', 'phone', 'email']);
+        ->assertSessionHasErrors(['first_name', 'last_name', 'phone', 'email']);
+});
+
+test('a doctor can save their profile without a display name or designation set yet', function () {
+    $doctor = User::factory()->doctor()->create(['display_name' => null, 'designation' => null]);
+
+    $this->actingAs($doctor)
+        ->put(route('doctor.profile.update'), baseProfilePayload([
+            'display_name' => null,
+            'designation' => null,
+        ]))
+        ->assertSessionHasNoErrors();
+
+    expect($doctor->refresh()->display_name)->toBeNull();
+    expect($doctor->designation)->toBeNull();
 });
 
 test('doctor profile email must stay unique but can keep its own value', function () {
@@ -168,6 +182,38 @@ test('known languages can be cleared independently', function () {
         ->assertOk();
 
     expect($doctor->refresh()->known_languages)->toBe([]);
+});
+
+test('guests cannot update availability', function () {
+    $this->patchJson(route('doctor.profile.availability.update'), ['availability_status' => 'available'])
+        ->assertUnauthorized();
+});
+
+test('doctor can update their availability independently of the rest of the profile', function () {
+    $doctor = User::factory()->doctor()->create([
+        'first_name' => 'Edalin',
+        'availability_status' => 'not_available',
+    ]);
+
+    $response = $this->actingAs($doctor)
+        ->patchJson(route('doctor.profile.availability.update'), ['availability_status' => 'available']);
+
+    $response->assertOk();
+    $response->assertJson(['availability_status' => 'available']);
+
+    $doctor->refresh();
+    expect($doctor->availability_status)->toBe('available');
+    expect($doctor->first_name)->toBe('Edalin');
+});
+
+test('availability must be a known status', function () {
+    $doctor = User::factory()->doctor()->create(['availability_status' => 'available']);
+
+    $this->actingAs($doctor)
+        ->patchJson(route('doctor.profile.availability.update'), ['availability_status' => 'on_vacation'])
+        ->assertUnprocessable();
+
+    expect($doctor->refresh()->availability_status)->toBe('available');
 });
 
 function baseProfilePayload(array $overrides = []): array

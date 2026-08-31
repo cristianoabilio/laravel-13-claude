@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Patient;
 
+use App\Enums\AppointmentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Patient\UpdatePatientPasswordRequest;
 use App\Http\Requests\Patient\UpdatePatientProfileRequest;
@@ -68,5 +69,20 @@ class PatientController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login')->with('status', 'Your password has been updated. Please log in again.');
+    }
+
+    public function appointments(): View
+    {
+        $appointments = Auth::user()
+            ->patientAppointments()
+            ->with(['doctor', 'clinic'])
+            ->orderByDesc('appointment_date')
+            ->orderByDesc('start_time')
+            ->get();
+
+        return view('patient.dashboard.appointments.appointments', [
+            'upcomingAppointments' => $appointments->where('status', '!=', AppointmentStatus::Cancelled)->values(),
+            'cancelledAppointments' => $appointments->where('status', AppointmentStatus::Cancelled)->values(),
+        ]);
     }
 }

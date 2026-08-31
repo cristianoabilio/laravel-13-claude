@@ -3741,18 +3741,13 @@ Version      : 1.3
 	// Checkbox Active
 
 	if ($('.service-item').length > 0) {
-		$('.service-item').on('click', function (e) {
-			e.stopPropagation();
-			$(this).toggleClass('active');
-			var checkbox = $(this).find('input[type="checkbox"]');
-			checkbox.prop('checked', !checkbox.prop('checked'));
-		});
-
-		// Click event specifically for the checkbox input
-		$('.service-item input[type="checkbox"]').on('click', function (e) {
-			$(this).closest('.service-item').toggleClass('active');
-			var checkbox = $(this).find('input[type="checkbox"]');
-			checkbox.prop('checked', !checkbox.prop('checked'));
+		// Clicking the checkbox (or its <label for="">) already toggles the
+		// checkbox natively - this only needs to keep the "active" styling
+		// in sync with the real checked state, not flip it a second time
+		// (flipping it here on top of the native toggle used to cancel the
+		// click out entirely).
+		$(document).on('change', '.service-item input[type="checkbox"], .service-item input[type="radio"]', function () {
+			$(this).closest('.service-item').toggleClass('active', this.checked);
 		});
 	}
 

@@ -91,6 +91,22 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Appointment, $this>
+     */
+    public function patientAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'patient_id');
+    }
+
+    /**
+     * @return HasMany<Appointment, $this>
+     */
+    public function doctorAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
+    }
+
+    /**
      * The publicly resolvable URL for the profile photo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */

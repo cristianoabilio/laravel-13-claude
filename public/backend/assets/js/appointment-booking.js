@@ -70,11 +70,20 @@ on every page that doesn't render the booking wizard.
 
 	// Step 2: Appointment type toggles clinic list / home visit address
 
-	$(document).on('change', 'input[name="appointment_type"]', function () {
-		var type = $(this).val();
+	function toggleAppointmentTypeSections(type) {
 		$('#clinics-path').toggle(type === 'clinic');
 		$('#home-visit-address-wrap').toggle(type === 'home_visit');
+	}
+
+	$(document).on('change', 'input[name="appointment_type"]', function () {
+		toggleAppointmentTypeSections($(this).val());
 	});
+
+	// Sync the initial state with whichever type is pre-checked on page load
+	// ("Clinic" by default) - a "checked" attribute in the HTML doesn't fire
+	// a change event on its own, so without this the clinic list stayed
+	// hidden until the patient manually reselected an appointment type.
+	toggleAppointmentTypeSections($('input[name="appointment_type"]:checked').val());
 
 	// Step 3: Inline calendar + AJAX slot loading
 

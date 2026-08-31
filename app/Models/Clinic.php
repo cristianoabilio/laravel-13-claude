@@ -30,6 +30,14 @@ class Clinic extends Model
     }
 
     /**
+     * @return HasMany<Appointment, $this>
+     */
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    /**
      * The publicly resolvable URL for the clinic logo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */

@@ -39,6 +39,10 @@ class UpdateDoctorServicesRequest extends FormRequest
             'services' => ['array'],
             'services.*.service_id' => ['required', 'integer', 'exists:services,id'],
             'services.*.price' => ['required', 'numeric', 'min:0', 'max:999999.99'],
+            // Nullable: falls back to the existing value (or a 30-minute
+            // default for a brand-new offering) in DoctorServiceManager, so
+            // older clients/tests that don't send it keep working.
+            'services.*.duration_minutes' => ['nullable', 'integer', 'min:5', 'max:480'],
             'services.*.description' => ['nullable', 'string', 'max:255'],
         ];
     }

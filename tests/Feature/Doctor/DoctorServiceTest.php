@@ -65,7 +65,7 @@ test('doctor can add a new service offering', function () {
 
     $response = $this->actingAs($doctor)->put(route('doctor.services.update'), [
         'services' => [
-            ['service_id' => $service->id, 'price' => '150.00', 'description' => 'Full checkup'],
+            ['service_id' => $service->id, 'price' => '150.00', 'duration_minutes' => '45', 'description' => 'Full checkup'],
         ],
     ]);
 
@@ -75,7 +75,48 @@ test('doctor can add a new service offering', function () {
     $doctorService = DoctorService::where('doctor_id', $doctor->id)->where('service_id', $service->id)->first();
     expect($doctorService)->not->toBeNull();
     expect((float) $doctorService->price)->toBe(150.0);
+    expect($doctorService->duration_minutes)->toBe(45);
     expect($doctorService->description)->toBe('Full checkup');
+});
+
+test('a new service offering defaults to a 30 minute duration when none is provided', function () {
+    $doctor = User::factory()->doctor()->create();
+    $service = Service::factory()->create();
+
+    $this->actingAs($doctor)->put(route('doctor.services.update'), [
+        'services' => [
+            ['service_id' => $service->id, 'price' => '80.00'],
+        ],
+    ])->assertSessionHasNoErrors();
+
+    expect(DoctorService::where('doctor_id', $doctor->id)->first()->duration_minutes)->toBe(30);
+});
+
+test('updating an offering without resending its duration keeps the existing duration', function () {
+    $doctor = User::factory()->doctor()->create();
+    $service = Service::factory()->create();
+    DoctorService::factory()->create(['doctor_id' => $doctor->id, 'service_id' => $service->id, 'duration_minutes' => 60]);
+
+    $this->actingAs($doctor)->put(route('doctor.services.update'), [
+        'services' => [
+            ['service_id' => $service->id, 'price' => '200.00'],
+        ],
+    ])->assertSessionHasNoErrors();
+
+    expect(DoctorService::where('doctor_id', $doctor->id)->first()->duration_minutes)->toBe(60);
+});
+
+test('duration must be within a sane range', function () {
+    $doctor = User::factory()->doctor()->create();
+    $service = Service::factory()->create();
+
+    $this->actingAs($doctor)
+        ->put(route('doctor.services.update'), [
+            'services' => [
+                ['service_id' => $service->id, 'price' => '80.00', 'duration_minutes' => '1'],
+            ],
+        ])
+        ->assertSessionHasErrors('services.0.duration_minutes');
 });
 
 test('saving again updates the same offering instead of creating a duplicate', function () {

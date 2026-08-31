@@ -110,6 +110,10 @@
 		<!-- Animation JS -->
 		<script src="{{ asset('backend/assets/js/aos.js') }}"></script>
 
+		<!-- Appointment Booking JS (must load before script.js so its step
+		validation runs before the generic fade-transition handler) -->
+		<script src="{{ asset('backend/assets/js/appointment-booking.js') }}"></script>
+
 		<!-- Custom JS -->
 		<script src="{{ asset('backend/assets/js/script.js') }}"></script>
 
