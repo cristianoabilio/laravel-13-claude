@@ -85,4 +85,29 @@ class PatientController extends Controller
             'cancelledAppointments' => $appointments->where('status', AppointmentStatus::Cancelled)->values(),
         ]);
     }
+
+    public function invoices(): View
+    {
+        $invoices = Auth::user()
+            ->patientInvoices()
+            ->with(['doctor', 'appointment'])
+            ->orderByDesc('generated_at')
+            ->get();
+
+        return view('patient.dashboard.invoice.invoices', [
+            'invoices' => $invoices,
+        ]);
+    }
+
+    public function favorites(): View
+    {
+        $favorites = Auth::user()
+            ->favoriteDoctors()
+            ->with(['doctor', 'doctor.user'])
+            ->get();
+
+        return view('patient.dashboard.favorites.favorites', [
+            'favorites' => $favorites,
+        ]);
+    }
 }

@@ -107,6 +107,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Invoice, $this>
+     */
+    public function patientInvoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'patient_id');
+    }
+
+    /**
      * The publicly resolvable URL for the profile photo, whether it's a
      * bundled template asset (public/backend/...) or an upload on the S3/MinIO disk.
      */

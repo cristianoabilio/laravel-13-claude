@@ -9,14 +9,14 @@
                         <span></span>
                     </span>
                 </a>
-                <a href="index.html" class="navbar-brand logo">
+                <a href="{{ url('/') }}" class="navbar-brand logo">
                     <img src="{{ asset('backend/assets/img/logo.svg') }}" class="img-fluid" alt="Logo">
                 </a>
             </div>
             <div class="header-menu">
                 <div class="main-menu-wrapper">
                     <div class="menu-header">
-                        <a href="index.html" class="menu-logo">
+                        <a href="{{ url('/') }}" class="menu-logo">
                             <img src="{{ asset('backend/assets/img/logo.svg') }}" class="img-fluid" alt="Logo">
                         </a>
                         <a id="menu_close" class="menu-close" href="javascript:void(0);">
@@ -309,7 +309,7 @@
             <div class="col-md-12 col-12 text-center">
                 <nav aria-label="breadcrumb" class="page-breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html"><i class="isax isax-home-15"></i></a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="isax isax-home-15"></i></a></li>
                         <li class="breadcrumb-item" aria-current="page">Patient</li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
