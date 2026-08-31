@@ -18,10 +18,11 @@
     <div class="doctor-available-head">
         <div class="input-block input-block-new">
             <label class="form-label">Availability <span class="text-danger">*</span></label>
-            <select class="select form-control">
+            <select class="select form-control availability-select" data-url="{{ route('doctor.profile.availability.update') }}">
                 <option value="available" @selected(auth()->user()->availability_status === 'available')>I am Available Now</option>
                 <option value="not_available" @selected(auth()->user()->availability_status === 'not_available')>Not Available</option>
             </select>
+            <div class="availability-feedback form-text"></div>
         </div>
     </div>
     <div class="dashboard-widget">

@@ -518,10 +518,7 @@
                             </div>
                             <a class="dropdown-item" href="{{ route('doctor.dashboard') }}">Dashboard</a>
                             <a class="dropdown-item" href="{{ route('doctor.profile') }}">Profile Settings</a>
-                            <a class="dropdown-item" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('doctor-logout-form').submit();">Logout</a>
-                            <form id="doctor-logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
-                                @csrf
-                            </form>
+                            <a class="dropdown-item" href="{{ route('doctor.logout') }}">Logout</a>
                         </div>
                     </li>
                     <!-- /User Menu -->

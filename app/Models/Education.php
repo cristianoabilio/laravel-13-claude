@@ -51,4 +51,14 @@ class Education extends Model
             get: fn () => $this->resolveStorageUrl($this->logo),
         );
     }
+
+    /**
+     * "Jan 2010 - Jan 2014".
+     */
+    protected function dateRangeLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->start_date->format('M Y').' - '.($this->end_date?->format('M Y') ?? 'Present'),
+        );
+    }
 }

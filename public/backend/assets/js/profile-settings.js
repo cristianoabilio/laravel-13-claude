@@ -100,6 +100,35 @@ Version      : 1.0
 		});
 	});
 
+	// Availability Status Save (sidebar select, present on every doctor page)
+
+	$(document).on('change', '.availability-select', function () {
+		var $select = $(this);
+		var $feedback = $select.closest('.input-block').find('.availability-feedback');
+		var token = $('meta[name="csrf-token"]').attr('content');
+
+		$feedback.removeClass('text-danger text-success').text('Saving...');
+
+		$.ajax({
+			url: $select.data('url'),
+			method: 'PATCH',
+			headers: {
+				'X-CSRF-TOKEN': token,
+				'Accept': 'application/json'
+			},
+			data: {
+				availability_status: $select.val()
+			},
+			success: function (response) {
+				$feedback.addClass('text-success').text(response.message);
+			},
+			error: function (xhr) {
+				var message = (xhr.responseJSON && xhr.responseJSON.message) || 'Unable to update availability.';
+				$feedback.addClass('text-danger').text(message);
+			}
+		});
+	});
+
 	// Pricing Options Show
 	
 	$('#pricing_select input[name="rating_option"]').on('click', function() {

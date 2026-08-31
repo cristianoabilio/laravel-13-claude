@@ -17,22 +17,22 @@
                 <li class="d-inline-flex align-items-center drop-header">
                     <div class="dropdown dropdown-country me-3">
                         <a href="javascript:void(0);" class="d-inline-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="assets/img/flags/us-flag.svg" class="me-2" alt="flag">
+                            <img src="{{ asset('backend/assets/img/flags/us-flag.svg') }}" class="me-2" alt="flag">
                         </a>
                         <ul class="dropdown-menu p-2 mt-2">
                             <li>
                                 <a class="dropdown-item rounded d-flex align-items-center" href="javascript:void(0);">
-                                    <img src="assets/img/flags/us-flag.svg" class="me-2" alt="flag">ENG
+                                    <img src="{{ asset('backend/assets/img/flags/us-flag.svg') }}" class="me-2" alt="flag">ENG
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item rounded d-flex align-items-center" href="javascript:void(0);">
-                                    <img src="assets/img/flags/arab-flag.svg" class="me-2" alt="flag">ARA
+                                    <img src="{{ asset('backend/assets/img/flags/arab-flag.svg') }}" class="me-2" alt="flag">ARA
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item rounded d-flex align-items-center" href="javascript:void(0);">
-                                    <img src="assets/img/flags/france-flag.svg" class="me-2" alt="flag">FRA
+                                    <img src="{{ asset('backend/assets/img/flags/france-flag.svg') }}" class="me-2" alt="flag">FRA
                                 </a>
                             </li>
                         </ul>
@@ -72,15 +72,15 @@
             <span></span>
         </span>
     </a>
-    <a href="index.html" class="navbar-brand logo">
-        <img src="assets/img/logo.svg" class="img-fluid" alt="Logo">
+    <a href="{{ url('/') }}" class="navbar-brand logo">
+        <img src="{{ asset('backend/assets/img/logo.svg') }}" class="img-fluid" alt="Logo">
     </a>
 </div>
 <div class="header-menu">
     <div class="main-menu-wrapper">
         <div class="menu-header">
-            <a href="index.html" class="menu-logo">
-                <img src="assets/img/logo.svg" class="img-fluid" alt="Logo">
+            <a href="{{ url('/') }}" class="menu-logo">
+                <img src="{{ asset('backend/assets/img/logo.svg') }}" class="img-fluid" alt="Logo">
             </a>
             <a id="menu_close" class="menu-close" href="javascript:void(0);">
                 <i class="fas fa-times"></i>
@@ -88,7 +88,7 @@
         </div>
         <ul class="main-nav">
             <li class="has-submenu megamenu active">
-                <a href="javascript:void(0);">Home  </a>
+                <a href="{{ url('/') }}">Home  </a>
 
             </li>
             <li class="has-submenu">

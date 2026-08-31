@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Doctor\UpdateDoctorAvailabilityRequest;
 use App\Http\Requests\Doctor\UpdateDoctorLanguagesRequest;
 use App\Http\Requests\Doctor\UpdateDoctorPasswordRequest;
 use App\Http\Requests\Doctor\UpdateDoctorProfileRequest;
@@ -73,6 +74,16 @@ class DoctorController extends Controller
         return response()->json([
             'message' => 'Known languages updated successfully.',
             'known_languages' => $doctor->known_languages,
+        ]);
+    }
+
+    public function updateAvailability(UpdateDoctorAvailabilityRequest $request): JsonResponse
+    {
+        $doctor = $this->doctorProfile->updateAvailability(Auth::user(), $request->validated('availability_status'));
+
+        return response()->json([
+            'message' => 'Availability updated successfully.',
+            'availability_status' => $doctor->availability_status,
         ]);
     }
 

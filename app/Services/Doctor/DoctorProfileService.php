@@ -62,6 +62,16 @@ class DoctorProfileService
     }
 
     /**
+     * Update the doctor's availability status independently of the rest of the profile.
+     */
+    public function updateAvailability(User $doctor, string $status): User
+    {
+        $doctor->update(['availability_status' => $status]);
+
+        return $doctor->refresh();
+    }
+
+    /**
      * Update the doctor's password. The plain value is passed straight through -
      * the User model's "hashed" cast takes care of hashing it on save.
      */

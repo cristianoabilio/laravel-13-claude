@@ -23,6 +23,7 @@ class DoctorServiceFactory extends Factory
             'doctor_id' => User::factory()->doctor(),
             'service_id' => Service::factory(),
             'price' => fake()->randomFloat(2, 20, 500),
+            'duration_minutes' => fake()->randomElement([15, 30, 45, 60]),
             'description' => fake()->optional()->sentence(),
         ];
     }

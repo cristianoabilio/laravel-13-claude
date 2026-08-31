@@ -9,12 +9,15 @@ use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Doctor\DoctorEducationController;
 use App\Http\Controllers\Doctor\DoctorExperienceController;
 use App\Http\Controllers\Doctor\DoctorServiceController;
+use App\Http\Controllers\Frontend\AppointmentController;
+use App\Http\Controllers\Frontend\DoctorController as FrontendDoctorController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/doctor/{doctorId}', [FrontendDoctorController::class, 'details'])->whereNumber('doctorId')->name('doctor.details');
 
 Route::get('/dashboard', function () {
     return view('patient.index');
@@ -32,6 +35,17 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::delete('/patient/settings/photo', [PatientController::class, 'removeProfilePhoto'])->name('patient.settings.photo.destroy');
     Route::get('/patient/change-password', [PatientController::class, 'changePassword'])->name('patient.change_password');
     Route::put('/patient/change-password', [PatientController::class, 'updatePassword'])->name('patient.change_password.update');
+    Route::get('/patient/appointments', [PatientController::class, 'appointments'])->name('patient.appointments');
+
+
+
+    // Booking wizard - only logged-in patients may book. Guests get redirected
+    // to login and doctors/admins are blocked by the role:patient middleware.
+    Route::get('/doctor/booking/{doctorId}', [FrontendDoctorController::class, 'booking'])->whereNumber('doctorId')->name('doctor.booking');
+    Route::post('/doctor/booking/{doctorId}', [AppointmentController::class, 'store'])->whereNumber('doctorId')->name('booking.store');
+    Route::get('/doctor/booking/{doctorId}/slots', [AppointmentController::class, 'loadSlots'])->whereNumber('doctorId')->name('booking.slots');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'confirmation'])->name('appointments.confirmation');
+    Route::get('/appointments/{appointment}/invoice', [AppointmentController::class, 'downloadInvoice'])->name('appointments.invoice.download');
 });
 
 Route::middleware(['auth', 'role:doctor'])->group(function () {
@@ -44,6 +58,7 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     // bootstrap/app.php (shouldRenderJsonWhen is scoped to "api/*"), even though
     // this is a session-authenticated web route, not the stateless API.
     Route::patch('/api/doctor/profile/languages', [DoctorController::class, 'updateLanguages'])->name('doctor.profile.languages.update');
+    Route::patch('/api/doctor/profile/availability', [DoctorController::class, 'updateAvailability'])->name('doctor.profile.availability.update');
     Route::get('/doctor/experience', [DoctorController::class, 'experience'])->name('doctor.experience');
     Route::put('/doctor/experiences', [DoctorExperienceController::class, 'update'])->name('doctor.experiences.update');
     Route::delete('/doctor/experiences/{experience}', [DoctorExperienceController::class, 'destroy'])->name('doctor.experiences.destroy');
