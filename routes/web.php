@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SpecialitiesController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\Doctor\DoctorAppointmentController;
 use App\Http\Controllers\Doctor\DoctorBusinessHourController;
 use App\Http\Controllers\Doctor\DoctorClinicController;
 use App\Http\Controllers\Doctor\DoctorController;
@@ -77,6 +78,9 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::delete('/doctor/clinics/images/{image}', [DoctorClinicController::class, 'destroyImage'])->name('doctor.clinics.images.destroy');
     Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');
     Route::put('/doctor/business', [DoctorBusinessHourController::class, 'update'])->name('doctor.business.update');
+    Route::get('/doctor/requests', [DoctorAppointmentController::class, 'requests'])->name('doctor.requests');
+    Route::patch('/doctor/requests/{appointment}/accept', [DoctorAppointmentController::class, 'accept'])->name('doctor.requests.accept');
+    Route::patch('/doctor/requests/{appointment}/reject', [DoctorAppointmentController::class, 'reject'])->name('doctor.requests.reject');
 
     Route::get('/doctor/specialities', [DoctorController::class, 'specialities'])->name('doctor.specialities');
     Route::put('/doctor/services', [DoctorServiceController::class, 'update'])->name('doctor.services.update');

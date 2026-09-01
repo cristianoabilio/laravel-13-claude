@@ -4,24 +4,6 @@
 <div class="col-lg-8 col-xl-9">
     <div class="dashboard-header">
         <h3>Appointments</h3>
-        <ul class="header-list-btns">
-            <li>
-                <div class="input-block dash-search-input">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <span class="search-icon"><i class="isax isax-search-normal"></i></span>
-                </div>
-            </li>
-            <li>
-                <div class="view-icons">
-                    <a href="javascript:void(0);" class="active"><i class="isax isax-grid-7"></i></a>
-                </div>
-            </li>
-            <li>
-                <div class="view-icons">
-                    <a href="javascript:void(0);"><i class="fa-solid fa-th"></i></a>
-                </div>
-            </li>
-        </ul>
     </div>
     <div class="appointment-tab-head">
         <div class="appointment-tabs">

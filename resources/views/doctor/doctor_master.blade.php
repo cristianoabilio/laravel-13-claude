@@ -132,6 +132,9 @@
 		<!-- Profile Settings JS -->
 		<script src="{{ asset('backend/assets/js/profile-settings.js') }}"></script>
 
+		<!-- Doctor Requests JS -->
+		<script src="{{ asset('backend/assets/js/doctor-requests.js') }}"></script>
+
 		<!-- Circle Progress JS -->
 		<script src="{{ asset('backend/assets/js/circle-progress.min.js') }}"></script>
 

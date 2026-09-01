@@ -35,10 +35,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="doctor-request.html">
+                    <a href="{{ route('doctor.requests') }}">
                         <i class="isax isax-clipboard-tick"></i>
                         <span>Requests</span>
-                        <small class="unread-msg">2</small>
+                        @php $pendingRequestsCount = auth()->user()->doctorAppointments()->where('status', 'pending')->count(); @endphp
+                        @if ($pendingRequestsCount > 0)
+                            <small class="unread-msg">{{ $pendingRequestsCount }}</small>
+                        @endif
                     </a>
                 </li>
                 <li>
