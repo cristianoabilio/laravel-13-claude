@@ -18313,6 +18313,11 @@ header.inner-header .header-nav .header-navbar-rht li.noti-nav > a i {
 .doctor-widget.doctor-profile-two .doc-info-right .doctors-activities > li .sub-links li a:hover {
   background: #E6E8EE;
 }
+.doctor-widget.doctor-profile-two .doc-info-right .doctors-activities > li .sub-links li a.fav-icon.selected {
+  background: #FFE4E6;
+  border-color: #FF3333;
+  color: #FF3333;
+}
 .doctor-widget.doctor-profile-two .doc-info-right .doctors-activities > li .sub-links li:last-child a {
   margin-right: 0;
 }
@@ -57553,6 +57558,9 @@ ul li {
 }
 .grid-overlay-item .fav-icon i {
   color: #E3E6EC;
+}
+.grid-overlay-item .fav-icon.selected i {
+  color: #FF3333;
 }
 
 .card-img-hover {

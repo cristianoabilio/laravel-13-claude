@@ -101,13 +101,21 @@ class PatientController extends Controller
 
     public function favorites(): View
     {
-        $favorites = Auth::user()
-            ->favoriteDoctors()
-            ->with(['doctor', 'doctor.user'])
+        $patient = Auth::user();
+
+        $favoriteDoctors = $patient->favoriteDoctors()
+            ->with(['clinics' => fn ($query) => $query->latest()->limit(1)])
             ->get();
 
+        $lastBookedDates = $patient->patientAppointments()
+            ->whereIn('doctor_id', $favoriteDoctors->pluck('id'))
+            ->selectRaw('doctor_id, MAX(appointment_date) as last_date')
+            ->groupBy('doctor_id')
+            ->pluck('last_date', 'doctor_id');
+
         return view('patient.dashboard.favorites.favorites', [
-            'favorites' => $favorites,
+            'favoriteDoctors' => $favoriteDoctors,
+            'lastBookedDates' => $lastBookedDates,
         ]);
     }
 }

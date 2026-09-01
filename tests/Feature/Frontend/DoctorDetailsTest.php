@@ -4,6 +4,7 @@ use App\Models\Clinic;
 use App\Models\DoctorService;
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Favorite;
 use App\Models\Membership;
 use App\Models\Service;
 use App\Models\Speciality;
@@ -96,4 +97,30 @@ test('a fully populated doctor shows real data from every related table', functi
     $response->assertSee('120.00');
     $response->assertSee('English, French');
     $response->assertSee('In Practice for 3 Years');
+});
+
+test('the favorite heart shows unselected for a guest and for a patient who has not favorited the doctor', function () {
+    $doctor = User::factory()->doctor()->create();
+    Experience::factory()->create(['doctor_id' => $doctor->id]);
+    $patient = User::factory()->patient()->create();
+
+    $guestResponse = $this->get(route('doctor.details', $doctor->id));
+    $guestResponse->assertOk();
+    $guestResponse->assertDontSee('fav-icon selected', false);
+
+    $patientResponse = $this->actingAs($patient)->get(route('doctor.details', $doctor->id));
+    $patientResponse->assertOk();
+    $patientResponse->assertDontSee('fav-icon selected', false);
+});
+
+test('the favorite heart shows selected when the authenticated patient has favorited the doctor', function () {
+    $doctor = User::factory()->doctor()->create();
+    Experience::factory()->create(['doctor_id' => $doctor->id]);
+    $patient = User::factory()->patient()->create();
+    Favorite::factory()->create(['patient_id' => $patient->id, 'doctor_id' => $doctor->id]);
+
+    $response = $this->actingAs($patient)->get(route('doctor.details', $doctor->id));
+
+    $response->assertOk();
+    $response->assertSee('fav-icon selected', false);
 });

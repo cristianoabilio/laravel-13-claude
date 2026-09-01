@@ -17,11 +17,11 @@
 								@endphp
 								<div class="card">
 									<div class="card-img card-img-hover">
-										<a href="{{ route('doctor.details', $doctor->id) }}"">
+										<a href="{{ route('doctor.details', $doctor->id) }}">
 											<img src="{{ $doctor->profile_photo_url ?: asset('backend/assets/img/doctor-grid/doctor-grid-01.jpg') }}" alt="{{ $doctor->display_name ?: $doctor->first_name }}">
 										</a>
 										<div class="grid-overlay-item d-flex align-items-center justify-content-end">
-											<a href="{{ route('doctor.details', $doctor->id) }}"" class="fav-icon">
+											<a href="javascript:void(0);" class="fav-icon {{ in_array($doctor->id, $favoritedDoctorIds ?? []) ? 'selected' : '' }}" data-doctor-id="{{ $doctor->id }}">
 												<i class="fa fa-heart"></i>
 											</a>
 										</div>
@@ -37,7 +37,7 @@
 										<div class="p-3 pt-0">
 											<div class="doctor-info-detail mb-3 pb-3">
 												<h3 class="mb-1">
-													<a href="{{ route('doctor.details', $doctor->id) }}"">Dr. {{ $doctor->display_name ?: trim($doctor->first_name.' '.$doctor->last_name) }}</a>
+													<a href="{{ route('doctor.details', $doctor->id) }}">Dr. {{ $doctor->display_name ?: trim($doctor->first_name.' '.$doctor->last_name) }}</a>
 												</h3>
 												@if ($clinic?->location)
 													<div class="d-flex align-items-center">

@@ -70,19 +70,21 @@
                     </div>
                     <div class="doc-info-right">
                         <ul class="doctors-activities">
-                            @if ($currentExperience)
+
                                 <li>
+                                    @if ($currentExperience)
                                     <div class="hospital-info">
                                         <span class="list-icon"><img src="{{ asset('backend/assets/img/icons/watch-icon.svg') }}" alt="Img"></span>
                                         <p>{{ $currentExperience->employment_type->label() }}@if ($currentExperience->hospital), {{ $currentExperience->hospital }}@endif</p>
                                     </div>
+                                    @endif
                                     <ul class="sub-links">
-                                        <li><a href="javascript:void(0);"><i class="feather-heart"></i></a></li>
+                                        <li><a href="javascript:void(0);" class="fav-icon {{ $isFavorited ? 'selected' : '' }}" data-doctor-id="{{ $doctor->id }}"><i class="feather-heart"></i></a></li>
                                         <li><a href="javascript:void(0);"><i class="feather-share-2"></i></a></li>
                                         <li><a href="javascript:void(0);"><i class="feather-link"></i></a></li>
                                     </ul>
                                 </li>
-                            @endif
+
                             @if ($primaryClinic)
                                 <li>
                                     <div class="hospital-info">

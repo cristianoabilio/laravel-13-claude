@@ -13,7 +13,7 @@
     <!-- /Speciality Section -->
 
     <!-- Doctor Section -->
-    @include('frontend.layouts.doctor', ['doctors' => $featuredDoctors])
+    @include('frontend.layouts.doctor', ['doctors' => $featuredDoctors, 'favoritedDoctorIds' => $favoritedDoctorIds])
     <!-- /Doctor Section -->
 
     <!-- Services Section -->

@@ -3,6 +3,7 @@
 	<head>
 
 		<meta charset="UTF-8">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1" >
 		<meta name="description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
 		<meta name="keywords" content="practo clone, doccure, doctor appointment, Practo clone html template, doctor booking template">
@@ -113,6 +114,9 @@
 		<!-- Appointment Booking JS (must load before script.js so its step
 		validation runs before the generic fade-transition handler) -->
 		<script src="{{ asset('backend/assets/js/appointment-booking.js') }}"></script>
+
+		<!-- Favorites JS (must load before script.js, same reason as above) -->
+		<script src="{{ asset('backend/assets/js/favorites.js') }}"></script>
 
 		<!-- Custom JS -->
 		<script src="{{ asset('backend/assets/js/script.js') }}"></script>

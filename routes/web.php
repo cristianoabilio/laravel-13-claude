@@ -11,6 +11,7 @@ use App\Http\Controllers\Doctor\DoctorExperienceController;
 use App\Http\Controllers\Doctor\DoctorServiceController;
 use App\Http\Controllers\Frontend\AppointmentController;
 use App\Http\Controllers\Frontend\DoctorController as FrontendDoctorController;
+use App\Http\Controllers\Frontend\FavoriteController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -39,7 +40,7 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::put('/patient/change-password', [PatientController::class, 'updatePassword'])->name('patient.change_password.update');
     Route::get('/patient/appointments', [PatientController::class, 'appointments'])->name('patient.appointments');
 
-
+    Route::post('/doctor/{doctorId}/favorite', [FavoriteController::class, 'toggle'])->whereNumber('doctorId')->name('doctor.favorite.toggle');
 
     // Booking wizard - only logged-in patients may book. Guests get redirected
     // to login and doctors/admins are blocked by the role:patient middleware.

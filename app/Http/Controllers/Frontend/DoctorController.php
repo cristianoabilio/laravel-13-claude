@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\Frontend\DoctorProfileService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class DoctorController extends Controller
@@ -26,9 +27,13 @@ class DoctorController extends Controller
             ])
             ->findOrFail($doctorId);
 
+        $user = Auth::user();
+
         return view('frontend.doctor_details', [
             'doctor' => $doctor,
             ...$this->doctorProfile->present($doctor),
+            'isFavorited' => $user?->role === 'patient'
+                && $user->favoriteDoctors()->where('users.id', $doctor->id)->exists(),
         ]);
     }
 
