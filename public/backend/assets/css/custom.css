@@ -54472,6 +54472,14 @@ ul li {
   padding: 4px 4px;
   border-radius: 20px;
 }
+.patient-info h6 .badge.status-tag {
+  font-size: 10px;
+  color: #FFF;
+  margin-left: 5px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
 
 .form-sorts.dropdown {
   background: #FFF;

@@ -1,8 +1,10 @@
 /*
-Accept / reject an appointment request (AJAX) on the doctor "Requests" page.
-The links previously targeted undefined #accept_appointment / #cancel_appointment
-modals; there is no confirmation step here, just an immediate action with toast
-feedback, matching the pattern already used for favoriting a doctor.
+Accept / reject an appointment request on the doctor "Requests" page. Each
+click opens a shared confirmation modal (#accept_appointment / #cancel_appointment
+- one instance per page, not per card) before the AJAX call actually runs,
+mirroring the shared "removeGalleryImageModal" pattern in profile-settings.js:
+the triggering link's appointment id/card are stashed in module state, the
+modal is shown manually, and its own confirm button fires the request.
 */
 
 (function ($) {
@@ -52,14 +54,12 @@ feedback, matching the pattern already used for favoriting a doctor.
 		toast.show();
 	}
 
-	function handleAction(e, action, variant) {
-		e.preventDefault();
-		e.stopImmediatePropagation();
+	function performAction(appointmentId, $card, action, variant) {
+		if (!appointmentId || !$card || !$card.length) {
+			return;
+		}
 
-		var $link = $(this);
-		var $card = $link.closest('.appointment-wrap');
-
-		updateAppointmentStatus($link.data('appointment-id'), action)
+		updateAppointmentStatus(appointmentId, action)
 			.done(function (response) {
 				showRequestToast(response.message, variant);
 				$card.fadeOut(300, function () {
@@ -72,12 +72,54 @@ feedback, matching the pattern already used for favoriting a doctor.
 			});
 	}
 
+	function hideModal(modalId) {
+		var modalEl = document.getElementById(modalId);
+		if (!modalEl) {
+			return;
+		}
+
+		var modal = bootstrap.Modal.getInstance(modalEl);
+		if (modal) {
+			modal.hide();
+		}
+	}
+
+	function showModal(modalId) {
+		var modalEl = document.getElementById(modalId);
+		if (modalEl) {
+			bootstrap.Modal.getOrCreateInstance(modalEl).show();
+		}
+	}
+
+	var pendingAppointmentId = null;
+	var $pendingCard = null;
+
 	$(document).on('click', '.accept-link[data-appointment-id]', function (e) {
-		handleAction.call(this, e, 'accept', 'success');
+		e.preventDefault();
+
+		pendingAppointmentId = $(this).data('appointment-id');
+		$pendingCard = $(this).closest('.appointment-wrap');
+
+		showModal('accept_appointment');
 	});
 
 	$(document).on('click', '.reject-link[data-appointment-id]', function (e) {
-		handleAction.call(this, e, 'reject', 'secondary');
+		e.preventDefault();
+
+		pendingAppointmentId = $(this).data('appointment-id');
+		$pendingCard = $(this).closest('.appointment-wrap');
+
+		showModal('cancel_appointment');
+	});
+
+	$(document).on('click', '#confirm-accept-btn', function () {
+		hideModal('accept_appointment');
+		performAction(pendingAppointmentId, $pendingCard, 'accept', 'success');
+	});
+
+	$(document).on('click', '#confirm-reject-btn', function () {
+		hideModal('cancel_appointment');
+		performAction(pendingAppointmentId, $pendingCard, 'reject', 'secondary');
 	});
 
 })(jQuery);

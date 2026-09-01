@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="medical-records.html">
+                        <a href="{{ route('patient.medical_appointments') }}">
                             <i class="isax isax-note-21"></i>
                             <span>Medical Records</span>
                         </a>

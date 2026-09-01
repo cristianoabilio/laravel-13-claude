@@ -1,5 +1,11 @@
 @php
     $doctorName = 'Dr '.($appointment->doctor->display_name ?: trim($appointment->doctor->first_name.' '.$appointment->doctor->last_name));
+    $statusMeta = match ($appointment->status) {
+        \App\Enums\AppointmentStatus::Pending => ['label' => 'Upcoming', 'class' => 'badge-warning'],
+        \App\Enums\AppointmentStatus::Confirmed => ['label' => 'Confirmed', 'class' => 'badge-success'],
+        \App\Enums\AppointmentStatus::Cancelled => ['label' => 'Rejected', 'class' => 'badge-danger'],
+        \App\Enums\AppointmentStatus::Completed => ['label' => 'Completed', 'class' => 'badge-success'],
+    };
 @endphp
 <div class="appointment-wrap">
     <ul>
@@ -10,7 +16,7 @@
                 </a>
                 <div class="patient-info">
                     <p>#{{ $appointment->appointment_number }}</p>
-                    <h6><a href="{{ route('appointments.confirmation', $appointment) }}">{{ $doctorName }}</a></h6>
+                    <h6><a href="{{ route('appointments.confirmation', $appointment) }}">{{ $doctorName }}</a><span class="badge status-tag {{ $statusMeta['class'] }}">{{ $statusMeta['label'] }}</span></h6>
                 </div>
             </div>
         </li>
