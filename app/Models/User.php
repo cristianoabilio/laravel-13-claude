@@ -116,6 +116,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<MedicalRecord, $this>
+     */
+    public function medicalRecords(): HasMany
+    {
+        return $this->hasMany(MedicalRecord::class, 'patient_id');
+    }
+
+    /**
      * The doctors this patient has favorited.
      *
      * @return BelongsToMany<User, $this>

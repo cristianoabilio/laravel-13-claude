@@ -712,7 +712,7 @@
 		<script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
 
 		<!-- Sticky Sidebar JS -->
-        <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}x"></script>
+        <script src="{{ asset('backend/assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
         <script src="{{ asset('backend/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
 
 		<!-- select JS -->

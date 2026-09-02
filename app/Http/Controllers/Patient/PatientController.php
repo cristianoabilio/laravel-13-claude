@@ -118,4 +118,13 @@ class PatientController extends Controller
             'lastBookedDates' => $lastBookedDates,
         ]);
     }
+
+    public function medicalAppointments(): View
+    {
+        $medicalRecords = Auth::user()->medicalRecords()->orderByDesc('record_date')->get();
+
+        return view('patient.dashboard.medical_appointments.medical_appointments', [
+            'medicalRecords' => $medicalRecords,
+        ]);
+    }
 }

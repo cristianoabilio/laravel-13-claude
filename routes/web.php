@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\AppointmentController;
 use App\Http\Controllers\Frontend\DoctorController as FrontendDoctorController;
 use App\Http\Controllers\Frontend\FavoriteController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Patient\MedicalRecordController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,10 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/patient/change-password', [PatientController::class, 'changePassword'])->name('patient.change_password');
     Route::put('/patient/change-password', [PatientController::class, 'updatePassword'])->name('patient.change_password.update');
     Route::get('/patient/appointments', [PatientController::class, 'appointments'])->name('patient.appointments');
+    Route::get('/patient/medical-appointments', [PatientController::class, 'medicalAppointments'])->name('patient.medical_appointments');
+    Route::post('/patient/medical-records', [MedicalRecordController::class, 'store'])->name('patient.medical_records.store');
+    Route::put('/patient/medical-records/{medicalRecord}', [MedicalRecordController::class, 'update'])->name('patient.medical_records.update');
+    Route::delete('/patient/medical-records/{medicalRecord}', [MedicalRecordController::class, 'destroy'])->name('patient.medical_records.destroy');
 
     Route::post('/doctor/{doctorId}/favorite', [FavoriteController::class, 'toggle'])->whereNumber('doctorId')->name('doctor.favorite.toggle');
 
