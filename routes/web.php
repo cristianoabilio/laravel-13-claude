@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\AppointmentController;
 use App\Http\Controllers\Frontend\DoctorController as FrontendDoctorController;
 use App\Http\Controllers\Frontend\FavoriteController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Doctor\PrescriptionController;
 use App\Http\Controllers\Patient\MedicalRecordController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -86,9 +87,15 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/requests', [DoctorAppointmentController::class, 'requests'])->name('doctor.requests');
     Route::patch('/doctor/requests/{appointment}/accept', [DoctorAppointmentController::class, 'accept'])->name('doctor.requests.accept');
     Route::patch('/doctor/requests/{appointment}/reject', [DoctorAppointmentController::class, 'reject'])->name('doctor.requests.reject');
+    Route::patch('/doctor/appointments/{appointment}/complete', [DoctorAppointmentController::class, 'complete'])->name('doctor.appointments.complete');
 
     Route::get('/doctor/specialities', [DoctorController::class, 'specialities'])->name('doctor.specialities');
+    Route::get('/doctor/appointments', [DoctorController::class, 'appointments'])->name('doctor.appointments');
+    Route::get('/doctor/patients', [DoctorController::class, 'patients'])->name('doctor.patients');
+    Route::get('/patients/details/{patient}', [DoctorController::class, 'patientDetails'])->name('patient.details');
+    Route::post('/patients/{patient}/prescriptions', [PrescriptionController::class, 'store'])->name('doctor.prescriptions.store');
     Route::put('/doctor/services', [DoctorServiceController::class, 'update'])->name('doctor.services.update');
+
     Route::delete('/doctor/services/speciality/{speciality}', [DoctorServiceController::class, 'destroySpeciality'])->name('doctor.services.speciality.destroy');
     Route::delete('/doctor/services/{doctorService}', [DoctorServiceController::class, 'destroy'])->name('doctor.services.destroy');
 

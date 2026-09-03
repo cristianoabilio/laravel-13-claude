@@ -27,23 +27,30 @@ class DoctorAppointmentController extends Controller
 
     public function accept(Appointment $appointment): JsonResponse
     {
-        return $this->updateStatus($appointment, AppointmentStatus::Confirmed, 'Appointment accepted.');
+        return $this->updateStatus($appointment, AppointmentStatus::Pending, AppointmentStatus::Confirmed, 'Appointment accepted.', notify: true);
     }
 
     public function reject(Appointment $appointment): JsonResponse
     {
-        return $this->updateStatus($appointment, AppointmentStatus::Cancelled, 'Appointment rejected.');
+        return $this->updateStatus($appointment, AppointmentStatus::Pending, AppointmentStatus::Cancelled, 'Appointment rejected.', notify: true);
     }
 
-    protected function updateStatus(Appointment $appointment, AppointmentStatus $status, string $message): JsonResponse
+    public function complete(Appointment $appointment): JsonResponse
+    {
+        return $this->updateStatus($appointment, AppointmentStatus::Confirmed, AppointmentStatus::Completed, 'Appointment marked as completed.', notify: false);
+    }
+
+    protected function updateStatus(Appointment $appointment, AppointmentStatus $requiredStatus, AppointmentStatus $newStatus, string $message, bool $notify): JsonResponse
     {
         abort_if($appointment->doctor_id !== Auth::id(), 403);
-        abort_if($appointment->status !== AppointmentStatus::Pending, 409, 'This request has already been handled.');
+        abort_if($appointment->status !== $requiredStatus, 409, 'This appointment can no longer be updated.');
 
-        $appointment->update(['status' => $status]);
+        $appointment->update(['status' => $newStatus]);
 
-        Mail::to($appointment->email)->queue(new AppointmentStatusMail($appointment));
+        if ($notify) {
+            Mail::to($appointment->email)->queue(new AppointmentStatusMail($appointment));
+        }
 
-        return response()->json(['message' => $message, 'status' => $status->value]);
+        return response()->json(['message' => $message, 'status' => $newStatus->value]);
     }
 }

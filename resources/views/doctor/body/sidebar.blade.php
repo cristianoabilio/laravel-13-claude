@@ -45,7 +45,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="appointments.html">
+                    <a href="{{ route('doctor.appointments') }}">
                         <i class="isax isax-calendar-1"></i>
                         <span>Appointments</span>
                     </a>
@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="my-patients.html">
+                    <a href="{{ route('doctor.patients') }}">
                         <i class="fa-solid fa-user-injured"></i>
                         <span>My Patients</span>
                     </a>

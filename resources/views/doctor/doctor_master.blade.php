@@ -135,6 +135,12 @@
 		<!-- Doctor Requests JS -->
 		<script src="{{ asset('backend/assets/js/doctor-requests.js') }}"></script>
 
+		<!-- Doctor Appointments JS -->
+		<script src="{{ asset('backend/assets/js/doctor-appointments.js') }}"></script>
+
+		<!-- Doctor Prescriptions JS -->
+		<script src="{{ asset('backend/assets/js/doctor-prescriptions.js') }}"></script>
+
 		<!-- Circle Progress JS -->
 		<script src="{{ asset('backend/assets/js/circle-progress.min.js') }}"></script>
 

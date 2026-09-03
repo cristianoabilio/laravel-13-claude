@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Doctor;
 
+use App\Enums\AppointmentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Doctor\UpdateDoctorAvailabilityRequest;
 use App\Http\Requests\Doctor\UpdateDoctorLanguagesRequest;
 use App\Http\Requests\Doctor\UpdateDoctorPasswordRequest;
 use App\Http\Requests\Doctor\UpdateDoctorProfileRequest;
+use App\Models\Appointment;
+use App\Models\Prescription;
 use App\Models\Service;
 use App\Models\Speciality;
+use App\Models\User;
 use App\Services\Doctor\DoctorBusinessHourService;
+use App\Services\Doctor\DoctorPatientService;
 use App\Services\Doctor\DoctorProfileService;
 use App\Services\Doctor\DoctorServiceManager;
 use Illuminate\Http\JsonResponse;
@@ -24,6 +29,7 @@ class DoctorController extends Controller
         protected DoctorProfileService $doctorProfile,
         protected DoctorBusinessHourService $businessHours,
         protected DoctorServiceManager $services,
+        protected DoctorPatientService $doctorPatients,
     ) {}
 
     public function index()
@@ -139,5 +145,57 @@ class DoctorController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login')->with('status', 'Your password has been updated. Please log in again.');
+    }
+
+    public function appointments(): View
+    {
+        $appointments = Appointment::query()
+            ->where('doctor_id', Auth::id())
+            ->whereIn('status', [AppointmentStatus::Confirmed, AppointmentStatus::Cancelled, AppointmentStatus::Completed])
+            ->orderBy('appointment_date')
+            ->orderBy('start_time')
+            ->get();
+
+        return view('doctor.dashboard.appointments.doctor_appointments', [
+            'upcomingAppointments' => $appointments->where('status', AppointmentStatus::Confirmed)->values(),
+            'cancelledAppointments' => $appointments->where('status', AppointmentStatus::Cancelled)->sortByDesc('appointment_date')->values(),
+            'completedAppointments' => $appointments->where('status', AppointmentStatus::Completed)->sortByDesc('appointment_date')->values(),
+        ]);
+    }
+
+    public function patients(): View
+    {
+        return view('doctor.dashboard.appointments.doctor_patients', [
+            'patients' => $this->doctorPatients->forDoctor(Auth::user()),
+        ]);
+    }
+
+    public function patientDetails(User $patient): View
+    {
+        abort_if($patient->role !== 'patient', 404);
+        abort_unless($this->doctorPatients->isTreatingPatient(Auth::user(), $patient), 403);
+
+        $appointments = Appointment::query()
+            ->where('patient_id', $patient->id)
+            ->with('doctor')
+            ->orderByDesc('appointment_date')
+            ->orderByDesc('start_time')
+            ->get();
+
+        $medicalRecords = $patient->medicalRecords()->orderByDesc('record_date')->get();
+
+        $prescriptions = Prescription::query()
+            ->where('patient_id', $patient->id)
+            ->with(['doctor', 'items'])
+            ->orderByDesc('issued_at')
+            ->get();
+
+        return view('doctor.dashboard.appointments.patient_details', [
+            'patient' => $patient,
+            'appointments' => $appointments,
+            'medicalRecords' => $medicalRecords,
+            'prescriptions' => $prescriptions,
+            'lastBooking' => $appointments->max('appointment_date'),
+        ]);
     }
 }

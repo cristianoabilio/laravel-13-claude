@@ -124,6 +124,22 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Prescription, $this>
+     */
+    public function doctorPrescriptions(): HasMany
+    {
+        return $this->hasMany(Prescription::class, 'doctor_id');
+    }
+
+    /**
+     * @return HasMany<Prescription, $this>
+     */
+    public function patientPrescriptions(): HasMany
+    {
+        return $this->hasMany(Prescription::class, 'patient_id');
+    }
+
+    /**
      * The doctors this patient has favorited.
      *
      * @return BelongsToMany<User, $this>

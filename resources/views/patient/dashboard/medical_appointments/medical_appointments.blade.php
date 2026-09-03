@@ -32,76 +32,49 @@
 										</ul>
 									</div>
 
-									<div class="custom-table">
-										<div class="table-responsive">
-											<table class="table table-center mb-0">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Name</th>
-														<th>Created Date</th>
-														<th>Prescriped By</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td><a class="link-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#view_prescription">#P1236</a></td>
-														<td>
-															<a href="javascript:void(0);" class="lab-icon prescription">Prescription</a>
-														</td>
-														<td>24 Mar 2024, 10:30 AM</td>
-														<td>
-															<h2 class="table-avatar">
-																<a href="doctor-profile.html" class="avatar avatar-sm me-2">
-																	<img class="avatar-img rounded-3" src="{{ asset('backend/assets/img/doctors/doctor-thumb-02.jpg') }}" alt="User Image">
-																</a>
-																<a href="doctor-profile.html">Edalin Hendry</a>
-															</h2>
-														</td>
-														<td>
-															<div class="action-item">
-																<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#view_prescription">
-																	<i class="isax isax-link-2"></i>
-																</a>
-																<a href="javascript:void(0);">
-																	<i class="isax isax-import"></i>
-																</a>
-																<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_modal">
-																	<i class="isax isax-trash"></i>
-																</a>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+									@if ($prescriptions->isEmpty())
+										<div class="custom-table">
+											<p class="text-center mb-0 py-4">You don't have any prescriptions yet.</p>
 										</div>
-									</div>
-
-									<!-- Pagination -->
-									<div class="pagination dashboard-pagination">
-										<ul>
-											<li>
-												<a href="#" class="page-link prev">Prev</a>
-											</li>
-											<li>
-												<a href="#" class="page-link">1</a>
-											</li>
-											<li>
-												<a href="#" class="page-link active">2</a>
-											</li>
-											<li>
-												<a href="#" class="page-link">3</a>
-											</li>
-											<li>
-												<a href="#" class="page-link">4</a>
-											</li>
-											<li>
-												<a href="#" class="page-link next">Next</a>
-											</li>
-										</ul>
-									</div>
-									<!-- /Pagination -->
+									@else
+										<div class="custom-table">
+											<div class="table-responsive">
+												<table class="table table-center mb-0">
+													<thead>
+														<tr>
+															<th>ID</th>
+															<th>Created Date</th>
+															<th>Prescriped By</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach ($prescriptions as $prescription)
+															<tr>
+																<td><a class="link-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#view_prescription_{{ $prescription->id }}">#{{ $prescription->prescription_number }}</a></td>
+																<td>{{ $prescription->issued_at->format('d M Y, h:i A') }}</td>
+																<td>
+																	<h2 class="table-avatar">
+																		<span class="avatar avatar-sm me-2">
+																			<img class="avatar-img rounded-3" src="{{ $prescription->doctor->profile_photo_url ?: asset('backend/assets/img/doctors/doctor-thumb-02.jpg') }}" alt="User Image">
+																		</span>
+																		{{ 'Dr '.($prescription->doctor->display_name ?: trim($prescription->doctor->first_name.' '.$prescription->doctor->last_name)) }}
+																	</h2>
+																</td>
+																<td>
+																	<div class="action-item">
+																		<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#view_prescription_{{ $prescription->id }}">
+																			<i class="isax isax-link-2"></i>
+																		</a>
+																	</div>
+																</td>
+															</tr>
+														@endforeach
+													</tbody>
+												</table>
+											</div>
+										</div>
+									@endif
 
 								</div>
 								<!-- /Prescription Tab -->
@@ -418,142 +391,116 @@
 			<!-- /Delete Medical Record -->
 		@endforeach
 
-		<!--View Prescription -->
-		<div class="modal fade custom-modals" id="view_prescription">
-			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title">View Prescription</h3>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-							<i class="fa-solid fa-xmark"></i>
-						</button>
-					</div>
-					<div class="modal-body pb-0">
-						<div class="prescribe-download">
-							<h5>21 Mar  2024</h5>
-							<ul>
-								<li><a href="javascript:void(0);" class="print-link"><i class="isax isax-printer"></i></a></li>
-								<li><a href="#" class="btn btn-primary-gradient rounded-pill">Download</a></li>
-							</ul>
+		@foreach ($prescriptions as $prescription)
+			<!--View Prescription -->
+			<div class="modal fade custom-modals" id="view_prescription_{{ $prescription->id }}">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">View Prescription</h3>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="fa-solid fa-xmark"></i>
+							</button>
 						</div>
-						<div class="view-prescribe invoice-content mb-0">
-							<div class="invoice-item">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="invoice-logo">
-											<img src="assets/img/logo.svg" alt="logo">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<p class="invoice-details">
-											<strong>Prescription ID :</strong> #PR-123 <br>
-											<strong>Issued:</strong> 21 Mar 2024
-										</p>
-									</div>
-								</div>
+						<div class="modal-body pb-0">
+							<div class="prescribe-download">
+								<h5>{{ $prescription->issued_at->format('d M Y') }}</h5>
 							</div>
-
-							<!-- Invoice Item -->
-							<div class="invoice-item">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="invoice-info">
-											<h6 class="customer-text">Doctor Details</h6>
-											<p class="invoice-details invoice-details-two">
-												Edalin Hendry <br>
-												806 Twin Willow Lane, <br>
-												Newyork, USA <br>
-											</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="invoice-info invoice-info2">
-											<h6 class="customer-text">Patient Details</h6>
+							<div class="view-prescribe invoice-content mb-0">
+								<div class="invoice-item">
+									<div class="row">
+										<div class="col-md-6">
 											<p class="invoice-details">
-												Adrian Marshall <br>
-												299 Star Trek Drive,<br>
-												Florida, 32405, USA <br>
+												<strong>Prescription ID :</strong> #{{ $prescription->prescription_number }} <br>
+												<strong>Issued:</strong> {{ $prescription->issued_at->format('d M Y') }}
 											</p>
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- /Invoice Item -->
 
-							<!-- Invoice Item -->
-							<div class="invoice-item invoice-table-wrap">
-								<div class="row">
-									<div class="col-md-12">
-										<h6>Prescription  Details</h6>
-										<div class="table-responsive">
-											<table class="invoice-table table table-bordered">
-												<thead>
-													<tr>
-														<th>Medicine Name</th>
-														<th>Dosage</th>
-														<th>Frequency</th>
-														<th>Duration</th>
-														<th>Timings</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>Ecosprin 75MG [Asprin 75 MG Oral Tab]</td>
-														<td>75 mg <span>Oral Tab</span></td>
-														<td>1-0-0-1</td>
-														<td>1 month</td>
-														<td>Before Meal</td>
-													</tr>
-													<tr>
-														<td>Alexer 90MG Tab</td>
-														<td>90 mg <span>Oral Tab</span></td>
-														<td>1-0-0-1</td>
-														<td>1 month</td>
-														<td>Before Meal</td>
-													</tr>
-													<tr>
-														<td>Ramistar XL2.5</td>
-														<td>60 mg <span>Oral Tab</span></td>
-														<td>1-0-0-0</td>
-														<td>1 month</td>
-														<td>After Meal</td>
-													</tr>
-													<tr>
-														<td>Metscore</td>
-														<td>90 mg <span>Oral Tab</span></td>
-														<td>1-0-0-1</td>
-														<td>1 month</td>
-														<td>After Meal</td>
-													</tr>
-												</tbody>
-											</table>
+								<!-- Invoice Item -->
+								<div class="invoice-item">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="invoice-info">
+												<h6 class="customer-text">Doctor Details</h6>
+												<p class="invoice-details invoice-details-two">
+													{{ 'Dr '.($prescription->doctor->display_name ?: trim($prescription->doctor->first_name.' '.$prescription->doctor->last_name)) }} <br>
+													{{ $prescription->doctor->email }}
+												</p>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="invoice-info invoice-info2">
+												<h6 class="customer-text">Patient Details</h6>
+												<p class="invoice-details">
+													{{ auth()->user()->display_name ?: trim(auth()->user()->first_name.' '.auth()->user()->last_name) }} <br>
+													{{ auth()->user()->email }}
+												</p>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- /Invoice Item -->
+								<!-- /Invoice Item -->
 
-							<!-- Invoice Information -->
-							<div class="other-info">
-								<h4>Other information</h4>
-								<p class="mb-0">An account of the present illness, which includes the circumstances surrounding the onset of recent health changes and the chronology of subsequent events that have led the patient to seek medicine</p>
-							</div>
-							<div class="other-info">
-								<h4>Follow Up</h4>
-								<p class="mb-0">Follow up after 3 months, Have to come on empty stomach</p>
-							</div>
-							<div class="prescriber-info">
-								<h6>Dr. Edalin Hendry</h6>
-								<p>Dept of Cardiology</p>
-							</div>
-							<!-- /Invoice Information -->
+								<!-- Invoice Item -->
+								<div class="invoice-item invoice-table-wrap">
+									<div class="row">
+										<div class="col-md-12">
+											<h6>Prescription  Details</h6>
+											<div class="table-responsive">
+												<table class="invoice-table table table-bordered">
+													<thead>
+														<tr>
+															<th>Medicine Name</th>
+															<th>Dosage</th>
+															<th>Frequency</th>
+															<th>Duration</th>
+															<th>Timings</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach ($prescription->items as $item)
+															<tr>
+																<td>{{ $item->medicine_name }}</td>
+																<td>{{ $item->dosage }}</td>
+																<td>{{ $item->frequency }}</td>
+																<td>{{ $item->duration }}</td>
+																<td>{{ $item->timings }}</td>
+															</tr>
+														@endforeach
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Invoice Item -->
 
+								@if ($prescription->other_information)
+									<div class="other-info">
+										<h4>Other information</h4>
+										<p class="mb-0">{{ $prescription->other_information }}</p>
+									</div>
+								@endif
+								@if ($prescription->follow_up)
+									<div class="other-info">
+										<h4>Follow Up</h4>
+										<p class="mb-0">{{ $prescription->follow_up }}</p>
+									</div>
+								@endif
+								<div class="prescriber-info">
+									<h6>{{ 'Dr '.($prescription->doctor->display_name ?: trim($prescription->doctor->first_name.' '.$prescription->doctor->last_name)) }}</h6>
+									<p>{{ $prescription->doctor->designation }}</p>
+								</div>
+
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- /View Prescription -->
+			<!-- /View Prescription -->
+		@endforeach
 
 		<!-- Delete -->
 		<div class="modal fade custom-modals" id="delete_modal">
