@@ -51,12 +51,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="available-timings.html">
-                        <i class="isax isax-calendar-tick"></i>
-                        <span>Available Timings</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('doctor.patients') }}">
                         <i class="fa-solid fa-user-injured"></i>
                         <span>My Patients</span>
@@ -81,7 +75,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="invoices.html">
+                    <a href="{{ route('doctor.invoices') }}">
                         <i class="isax isax-document-text"></i>
                         <span>Invoices</span>
                     </a>

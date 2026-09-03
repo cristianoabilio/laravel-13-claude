@@ -116,6 +116,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Invoice, $this>
+     */
+    public function doctorInvoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'doctor_id');
+    }
+
+    /**
      * @return HasMany<MedicalRecord, $this>
      */
     public function medicalRecords(): HasMany

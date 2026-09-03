@@ -198,4 +198,18 @@ class DoctorController extends Controller
             'lastBooking' => $appointments->max('appointment_date'),
         ]);
     }
+
+    public function invoices(): View
+    {
+        $invoices = Auth::user()
+            ->doctorInvoices()
+            ->with(['patient', 'appointment.services', 'appointment.payment'])
+            ->orderByDesc('generated_at')
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        return view('doctor.dashboard.invoices.doctor_invoices', [
+            'invoices' => $invoices,
+        ]);
+    }
 }

@@ -55,6 +55,12 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::post('/doctor/booking/{doctorId}', [AppointmentController::class, 'store'])->whereNumber('doctorId')->name('booking.store');
     Route::get('/doctor/booking/{doctorId}/slots', [AppointmentController::class, 'loadSlots'])->whereNumber('doctorId')->name('booking.slots');
     Route::get('/appointments/{appointment}', [AppointmentController::class, 'confirmation'])->name('appointments.confirmation');
+});
+
+// Shared with the role:doctor group below - both the patient and the treating
+// doctor on an appointment may download its invoice, so this sits outside
+// either role-specific group with ownership checked inside the controller.
+Route::middleware('auth')->group(function () {
     Route::get('/appointments/{appointment}/invoice', [AppointmentController::class, 'downloadInvoice'])->name('appointments.invoice.download');
 });
 
@@ -93,6 +99,7 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/appointments', [DoctorController::class, 'appointments'])->name('doctor.appointments');
     Route::get('/doctor/patients', [DoctorController::class, 'patients'])->name('doctor.patients');
     Route::get('/patients/details/{patient}', [DoctorController::class, 'patientDetails'])->name('patient.details');
+    Route::get('/doctor/invoices', [DoctorController::class, 'invoices'])->name('doctor.invoices');
     Route::post('/patients/{patient}/prescriptions', [PrescriptionController::class, 'store'])->name('doctor.prescriptions.store');
     Route::put('/doctor/services', [DoctorServiceController::class, 'update'])->name('doctor.services.update');
 

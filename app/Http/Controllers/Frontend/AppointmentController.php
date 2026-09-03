@@ -107,7 +107,7 @@ class AppointmentController extends Controller
 
     public function downloadInvoice(Appointment $appointment): StreamedResponse
     {
-        abort_unless($appointment->patient_id === Auth::id(), 403);
+        abort_unless(in_array(Auth::id(), [$appointment->patient_id, $appointment->doctor_id], true), 403);
 
         $invoice = $appointment->invoice()->firstOrFail();
 
