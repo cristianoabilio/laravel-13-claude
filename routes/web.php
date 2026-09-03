@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PayoutRequestController as AdminPayoutRequestController;
 use App\Http\Controllers\Admin\SpecialitiesController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\Doctor\BankAccountController;
 use App\Http\Controllers\Doctor\DoctorAppointmentController;
 use App\Http\Controllers\Doctor\DoctorBusinessHourController;
 use App\Http\Controllers\Doctor\DoctorClinicController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Doctor\DoctorEducationController;
 use App\Http\Controllers\Doctor\DoctorExperienceController;
 use App\Http\Controllers\Doctor\DoctorServiceController;
+use App\Http\Controllers\Doctor\PayoutRequestController;
 use App\Http\Controllers\Frontend\AppointmentController;
 use App\Http\Controllers\Frontend\DoctorController as FrontendDoctorController;
 use App\Http\Controllers\Frontend\FavoriteController;
@@ -100,6 +103,9 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/patients', [DoctorController::class, 'patients'])->name('doctor.patients');
     Route::get('/patients/details/{patient}', [DoctorController::class, 'patientDetails'])->name('patient.details');
     Route::get('/doctor/invoices', [DoctorController::class, 'invoices'])->name('doctor.invoices');
+    Route::get('/doctor/accounts', [DoctorController::class, 'accounts'])->name('doctor.accounts');
+    Route::put('/doctor/bank-account', [BankAccountController::class, 'update'])->name('doctor.bank_account.update');
+    Route::post('/doctor/payout-requests', [PayoutRequestController::class, 'store'])->name('doctor.payout_requests.store');
     Route::post('/patients/{patient}/prescriptions', [PrescriptionController::class, 'store'])->name('doctor.prescriptions.store');
     Route::put('/doctor/services', [DoctorServiceController::class, 'update'])->name('doctor.services.update');
 
@@ -123,6 +129,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/specialities', SpecialitiesController::class)
         ->except(['show', 'create', 'edit'])
         ->names('admin.specialities');
+
+    Route::get('/admin/payout-requests', [AdminPayoutRequestController::class, 'index'])->name('admin.payout_requests.index');
+    Route::patch('/admin/payout-requests/{payoutRequest}/approve', [AdminPayoutRequestController::class, 'approve'])->name('admin.payout_requests.approve');
+    Route::patch('/admin/payout-requests/{payoutRequest}/cancel', [AdminPayoutRequestController::class, 'cancel'])->name('admin.payout_requests.cancel');
 });
 
 require __DIR__.'/auth.php';

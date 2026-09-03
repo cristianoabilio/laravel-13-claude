@@ -24,7 +24,7 @@
                     <a href="reviews.html"><i class="fe fe-star-o"></i> <span>Reviews</span></a>
                 </li>
                 <li>
-                    <a href="transactions-list.html"><i class="fe fe-activity"></i> <span>Transactions</span></a>
+                    <a href="{{ route('admin.payout_requests.index') }}"><i class="fe fe-activity"></i> <span>Payout Requests</span></a>
                 </li>
                 <li>
                     <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>

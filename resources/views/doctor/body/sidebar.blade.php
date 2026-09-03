@@ -28,13 +28,13 @@
     <div class="dashboard-widget">
         <nav class="dashboard-menu">
             <ul>
-                <li class="active">
+                <li @class(['active' => request()->routeIs('doctor.dashboard')])>
                     <a href="{{ route('doctor.dashboard') }}">
                         <i class="isax isax-category-2"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.requests*')])>
                     <a href="{{ route('doctor.requests') }}">
                         <i class="isax isax-clipboard-tick"></i>
                         <span>Requests</span>
@@ -44,19 +44,19 @@
                         @endif
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.appointments*')])>
                     <a href="{{ route('doctor.appointments') }}">
                         <i class="isax isax-calendar-1"></i>
                         <span>Appointments</span>
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.patients', 'patient.details')])>
                     <a href="{{ route('doctor.patients') }}">
                         <i class="fa-solid fa-user-injured"></i>
                         <span>My Patients</span>
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.specialities')])>
                     <a href="{{ route('doctor.specialities') }}">
                         <i class="isax isax-clock"></i>
                         <span>Specialties & Services</span>
@@ -68,13 +68,13 @@
                         <span>Reviews</span>
                     </a>
                 </li>
-                <li>
-                    <a href="accounts.html">
+                <li @class(['active' => request()->routeIs('doctor.accounts')])>
+                    <a href="{{ route('doctor.accounts') }}">
                         <i class="isax isax-profile-tick"></i>
                         <span>Accounts</span>
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.invoices')])>
                     <a href="{{ route('doctor.invoices') }}">
                         <i class="isax isax-document-text"></i>
                         <span>Invoices</span>
@@ -93,7 +93,7 @@
                         <small class="unread-msg">7</small>
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.profile', 'doctor.experience', 'doctor.education', 'doctor.clinics', 'doctor.business')])>
                     <a href="{{ route('doctor.profile') }}">
                         <i class="isax isax-setting-2"></i>
                         <span>Profile Settings</span>
@@ -105,7 +105,7 @@
                         <span>Social Media</span>
                     </a>
                 </li>
-                <li>
+                <li @class(['active' => request()->routeIs('doctor.change_password')])>
                     <a href="{{ route('doctor.change_password') }}">
                         <i class="isax isax-key"></i>
                         <span>Change Password</span>

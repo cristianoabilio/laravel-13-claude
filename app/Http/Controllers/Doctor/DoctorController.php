@@ -13,6 +13,7 @@ use App\Models\Prescription;
 use App\Models\Service;
 use App\Models\Speciality;
 use App\Models\User;
+use App\Services\Doctor\DoctorAccountService;
 use App\Services\Doctor\DoctorBusinessHourService;
 use App\Services\Doctor\DoctorPatientService;
 use App\Services\Doctor\DoctorProfileService;
@@ -30,6 +31,7 @@ class DoctorController extends Controller
         protected DoctorBusinessHourService $businessHours,
         protected DoctorServiceManager $services,
         protected DoctorPatientService $doctorPatients,
+        protected DoctorAccountService $doctorAccounts,
     ) {}
 
     public function index()
@@ -210,6 +212,17 @@ class DoctorController extends Controller
 
         return view('doctor.dashboard.invoices.doctor_invoices', [
             'invoices' => $invoices,
+        ]);
+    }
+
+    public function accounts(): View
+    {
+        $doctor = Auth::user();
+
+        return view('doctor.dashboard.accounts.doctor_accounts', [
+            'bankAccount' => $doctor->bankAccount,
+            'balance' => $this->doctorAccounts->balanceFor($doctor),
+            'payoutRequests' => $doctor->payoutRequests()->orderByDesc('created_at')->paginate(10),
         ]);
     }
 }

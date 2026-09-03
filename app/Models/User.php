@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -145,6 +146,22 @@ class User extends Authenticatable
     public function patientPrescriptions(): HasMany
     {
         return $this->hasMany(Prescription::class, 'patient_id');
+    }
+
+    /**
+     * @return HasOne<DoctorBankAccount, $this>
+     */
+    public function bankAccount(): HasOne
+    {
+        return $this->hasOne(DoctorBankAccount::class, 'doctor_id');
+    }
+
+    /**
+     * @return HasMany<PayoutRequest, $this>
+     */
+    public function payoutRequests(): HasMany
+    {
+        return $this->hasMany(PayoutRequest::class, 'doctor_id');
     }
 
     /**
