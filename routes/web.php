@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/doctor/{doctorId}', [FrontendDoctorController::class, 'details'])->whereNumber('doctorId')->name('doctor.details');
+Route::get('/specialities/{speciality}/doctors', [FrontendDoctorController::class, 'speciality'])->name('doctor.all.speciality');
 
 Route::get('/dashboard', function () {
     return view('patient.index');

@@ -2,6 +2,8 @@
 
 use App\Models\Clinic;
 use App\Models\DoctorService;
+use App\Models\Service;
+use App\Models\Speciality;
 use App\Models\User;
 
 test('the homepage loads successfully with no doctors', function () {
@@ -48,4 +50,18 @@ test('patients are not shown in the featured doctors section', function () {
 
     $response->assertOk();
     $response->assertDontSee('ShouldNotAppear');
+});
+
+test('the speciality carousel shows real specialities with a real doctor count', function () {
+    $speciality = Speciality::factory()->create(['name' => 'Cardiology']);
+    $service = Service::factory()->create(['speciality_id' => $speciality->id]);
+    $doctor = User::factory()->doctor()->create();
+    DoctorService::factory()->create(['doctor_id' => $doctor->id, 'service_id' => $service->id]);
+
+    $response = $this->get(route('home'));
+
+    $response->assertOk();
+    $response->assertSee('Cardiology');
+    $response->assertSee('1 Doctor', false);
+    $response->assertSee(route('doctor.all.speciality', $speciality), false);
 });
