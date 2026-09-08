@@ -9,6 +9,7 @@ use App\Models\Speciality;
 use App\Models\User;
 use App\Services\Frontend\DoctorProfileService;
 use App\Services\Frontend\DoctorSpecialityFilterService;
+use App\Services\Frontend\ReviewService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -18,6 +19,7 @@ class DoctorController extends Controller
     public function __construct(
         protected DoctorProfileService $doctorProfile,
         protected DoctorSpecialityFilterService $specialityFilter,
+        protected ReviewService $reviews,
     ) {}
 
     public function details(int $doctorId): View
@@ -34,12 +36,18 @@ class DoctorController extends Controller
             ->findOrFail($doctorId);
 
         $user = Auth::user();
+        $isPatient = $user?->role === 'patient';
 
         return view('frontend.doctor_details', [
             'doctor' => $doctor,
             ...$this->doctorProfile->present($doctor),
-            'isFavorited' => $user?->role === 'patient'
+            'isFavorited' => $isPatient
                 && $user->favoriteDoctors()->where('users.id', $doctor->id)->exists(),
+            'doctorReviews' => $doctor->doctorReviews()->with('patient')->latest()->take(20)->get(),
+            'reviewsCount' => $doctor->doctorReviews()->count(),
+            'averageRating' => round((float) $doctor->doctorReviews()->avg('rating'), 1),
+            'hasCompletedAppointment' => $isPatient && $this->reviews->hasCompletedAppointment($user, $doctor),
+            'hasReviewed' => $isPatient && $this->reviews->hasReviewed($user, $doctor),
         ]);
     }
 

@@ -21,7 +21,7 @@
                     <a href="patient-list.html"><i class="fe fe-user"></i> <span>Patients</span></a>
                 </li>
                 <li>
-                    <a href="reviews.html"><i class="fe fe-star-o"></i> <span>Reviews</span></a>
+                    <a href="{{ route('admin.reviews') }}"><i class="fe fe-star-o"></i> <span>Reviews</span></a>
                 </li>
                 <li>
                     <a href="{{ route('admin.payout_requests.index') }}"><i class="fe fe-activity"></i> <span>Payout Requests</span></a>

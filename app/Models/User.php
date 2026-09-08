@@ -165,6 +165,22 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Review, $this>
+     */
+    public function doctorReviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'doctor_id');
+    }
+
+    /**
+     * @return HasMany<Review, $this>
+     */
+    public function patientReviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'patient_id');
+    }
+
+    /**
      * The doctors this patient has favorited.
      *
      * @return BelongsToMany<User, $this>

@@ -322,10 +322,101 @@
                     </div>
                 </div>
                 <div class="doc-information-details" id="review">
-                    <div class="detail-title">
-                        <h4>Reviews (0)</h4>
+                    <div class="detail-title d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <h4>Reviews ({{ $reviewsCount }})</h4>
+                        @if ($reviewsCount > 0)
+                            <div class="star-rated">
+                                <span>{{ $averageRating }}</span>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa-solid fa-star {{ $i <= round($averageRating) ? 'filled' : '' }}"></i>
+                                @endfor
+                            </div>
+                        @endif
                     </div>
-                    <p>No reviews yet.</p>
+
+                    @if (session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+
+                    @if ($doctorReviews->isEmpty())
+                        <p>No reviews yet.</p>
+                    @else
+                        <div class="widget review-listing">
+                            <ul class="comments-list">
+                                @foreach ($doctorReviews as $review)
+                                    @php
+                                        $reviewerName = $review->patient->display_name ?: trim($review->patient->first_name.' '.$review->patient->last_name);
+                                    @endphp
+                                    <li>
+                                        <div class="comment">
+                                            <img class="avatar avatar-sm rounded-circle" alt="{{ $reviewerName }}" src="{{ $review->patient->profile_photo_url ?: asset('backend/assets/img/patients/patient.jpg') }}">
+                                            <div class="comment-body">
+                                                <div class="meta-data">
+                                                    <span class="comment-author">{{ $reviewerName }}</span>
+                                                    <span class="comment-date">{{ $review->created_at->diffForHumans() }}</span>
+                                                    <div class="review-count rating">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <i class="fas fa-star {{ $i <= $review->rating ? 'filled' : '' }}"></i>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                                <p class="comment-content">{{ $review->comment }}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @auth
+                        @if (auth()->user()->role === 'patient')
+                            <div class="write-review">
+                                @if ($hasReviewed)
+                                    <p class="mb-0">You have already reviewed this doctor.</p>
+                                @elseif (! $hasCompletedAppointment)
+                                    <p class="mb-0">You didn't meet with this doctor.</p>
+                                @else
+                                    <h4>Write a review for <strong>Dr. {{ $doctor->display_name ?: trim($doctor->first_name.' '.$doctor->last_name) }}</strong></h4>
+                                    <form action="{{ route('doctor.reviews.store', $doctor->id) }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label class="mb-2">Rating</label>
+                                            <div class="star-rating">
+                                                <input id="star-5" type="radio" name="rating" value="5" @checked(old('rating') == 5)>
+                                                <label for="star-5" title="5 stars"><i class="active fa fa-star"></i></label>
+                                                <input id="star-4" type="radio" name="rating" value="4" @checked(old('rating') == 4)>
+                                                <label for="star-4" title="4 stars"><i class="active fa fa-star"></i></label>
+                                                <input id="star-3" type="radio" name="rating" value="3" @checked(old('rating') == 3)>
+                                                <label for="star-3" title="3 stars"><i class="active fa fa-star"></i></label>
+                                                <input id="star-2" type="radio" name="rating" value="2" @checked(old('rating') == 2)>
+                                                <label for="star-2" title="2 stars"><i class="active fa fa-star"></i></label>
+                                                <input id="star-1" type="radio" name="rating" value="1" @checked(old('rating') == 1)>
+                                                <label for="star-1" title="1 star"><i class="active fa fa-star"></i></label>
+                                            </div>
+                                            @error('rating')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Your review</label>
+                                            <textarea name="comment" class="form-control" rows="4">{{ old('comment') }}</textarea>
+                                            @error('comment')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="submit-section">
+                                            <button type="submit" class="btn btn-primary submit-btn">Add Review</button>
+                                        </div>
+                                    </form>
+                                @endif
+                            </div>
+                        @endif
+                    @else
+                        <div class="write-review">
+                            <p class="mb-0"><a href="{{ route('login') }}">Log in</a> as a patient to write a review.</p>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -333,4 +424,15 @@
     </div>
 </div>
 <!-- /Page Content -->
+
+@if ($errors->any() || session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var reviewSection = document.getElementById('review');
+            if (reviewSection) {
+                reviewSection.scrollIntoView({ block: 'start' });
+            }
+        });
+    </script>
+@endif
 @endsection

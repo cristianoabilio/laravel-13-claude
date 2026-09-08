@@ -225,4 +225,15 @@ class DoctorController extends Controller
             'payoutRequests' => $doctor->payoutRequests()->orderByDesc('created_at')->paginate(10),
         ]);
     }
+
+    public function reviews(): View
+    {
+        $doctor = Auth::user();
+
+        return view('doctor.dashboard.reviews.doctor_reviews', [
+            'reviews' => $doctor->doctorReviews()->with('patient')->orderByDesc('created_at')->paginate(10),
+            'averageRating' => round((float) $doctor->doctorReviews()->avg('rating'), 1),
+            'reviewsCount' => $doctor->doctorReviews()->count(),
+        ]);
+    }
 }

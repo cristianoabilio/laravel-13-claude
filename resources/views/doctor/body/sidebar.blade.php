@@ -62,8 +62,8 @@
                         <span>Specialties & Services</span>
                     </a>
                 </li>
-                <li>
-                    <a href="reviews.html">
+                <li @class(['active' => request()->routeIs('doctor.reviews')])>
+                    <a href="{{ route('doctor.reviews') }}">
                         <i class="isax isax-star-1"></i>
                         <span>Reviews</span>
                     </a>

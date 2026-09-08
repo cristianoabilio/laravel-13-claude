@@ -85,28 +85,6 @@
                             <div class="accordion-item border-bottom">
                                 <div class="accordion-header">
                                     <div class="d-flex align-items-center w-100 pt-3 px-3">
-                                        <h5>Gender</h5>
-                                    </div>
-                                </div>
-                                <div class="accordion-body pt-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="gender[]" value="male" id="gender-male" @checked(in_array('male', $selectedGenders))>
-                                            <label class="form-check-label" for="gender-male">Male</label>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="gender[]" value="female" id="gender-female" @checked(in_array('female', $selectedGenders))>
-                                            <label class="form-check-label" for="gender-female">Female</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item border-bottom">
-                                <div class="accordion-header">
-                                    <div class="d-flex align-items-center w-100 pt-3 px-3">
                                         <h5>Availability</h5>
                                     </div>
                                 </div>

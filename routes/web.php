@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PayoutRequestController as AdminPayoutRequestController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\SpecialitiesController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 use App\Http\Controllers\Doctor\BankAccountController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Frontend\AppointmentController;
 use App\Http\Controllers\Frontend\DoctorController as FrontendDoctorController;
 use App\Http\Controllers\Frontend\FavoriteController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Doctor\PrescriptionController;
 use App\Http\Controllers\Patient\MedicalRecordController;
 use App\Http\Controllers\Patient\PatientController;
@@ -52,6 +54,7 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::delete('/patient/medical-records/{medicalRecord}', [MedicalRecordController::class, 'destroy'])->name('patient.medical_records.destroy');
 
     Route::post('/doctor/{doctorId}/favorite', [FavoriteController::class, 'toggle'])->whereNumber('doctorId')->name('doctor.favorite.toggle');
+    Route::post('/doctor/{doctorId}/reviews', [ReviewController::class, 'store'])->whereNumber('doctorId')->name('doctor.reviews.store');
 
     // Booking wizard - only logged-in patients may book. Guests get redirected
     // to login and doctors/admins are blocked by the role:patient middleware.
@@ -95,6 +98,7 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/doctor/business', [DoctorController::class, 'business'])->name('doctor.business');
     Route::put('/doctor/business', [DoctorBusinessHourController::class, 'update'])->name('doctor.business.update');
     Route::get('/doctor/requests', [DoctorAppointmentController::class, 'requests'])->name('doctor.requests');
+    Route::get('/doctor/reviews', [DoctorController::class, 'reviews'])->name('doctor.reviews');
     Route::patch('/doctor/requests/{appointment}/accept', [DoctorAppointmentController::class, 'accept'])->name('doctor.requests.accept');
     Route::patch('/doctor/requests/{appointment}/reject', [DoctorAppointmentController::class, 'reject'])->name('doctor.requests.reject');
     Route::patch('/doctor/appointments/{appointment}/complete', [DoctorAppointmentController::class, 'complete'])->name('doctor.appointments.complete');
@@ -125,6 +129,8 @@ Route::middleware('guest:admin')->group(function () {
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/reviews', [AdminReviewController::class, 'index'])->name('admin.reviews');
+    Route::delete('/admin/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('admin.reviews.destroy');
     Route::post('/admin/logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
 
     Route::resource('admin/specialities', SpecialitiesController::class)
