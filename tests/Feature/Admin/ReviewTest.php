@@ -17,12 +17,11 @@ test('regular users cannot access the admin reviews page', function () {
         ->assertRedirect(route('admin.login'));
 });
 
-test('admin can view reviews with pagination showing patient and doctor names', function () {
+test('admin sees real patient and doctor names on a review', function () {
     $admin = Admin::factory()->create();
     $doctor = User::factory()->doctor()->create(['first_name' => 'Gregory', 'last_name' => 'House', 'display_name' => null]);
     $patient = User::factory()->patient()->create(['first_name' => 'James', 'last_name' => 'Wilson']);
     Review::factory()->create(['doctor_id' => $doctor->id, 'patient_id' => $patient->id, 'comment' => 'Fantastic bedside manner']);
-    Review::factory()->count(16)->create();
 
     $response = $this->actingAs($admin, 'admin')->get(route('admin.reviews'));
 
@@ -30,6 +29,15 @@ test('admin can view reviews with pagination showing patient and doctor names', 
     $response->assertSee('Gregory House');
     $response->assertSee('James Wilson');
     $response->assertSee('Fantastic bedside manner');
+});
+
+test('admin reviews are paginated fifteen per page', function () {
+    $admin = Admin::factory()->create();
+    Review::factory()->count(17)->create();
+
+    $response = $this->actingAs($admin, 'admin')->get(route('admin.reviews'));
+
+    $response->assertOk();
     $response->assertViewHas('reviews', fn ($reviews) => $reviews->count() === 15 && $reviews->total() === 17);
 });
 

@@ -24,7 +24,7 @@
                             <i class="fe fe-users"></i>
                         </span>
                         <div class="dash-count">
-                            <h3>168</h3>
+                            <h3>{{ $doctorsCount }}</h3>
                         </div>
                     </div>
                     <div class="dash-widget-info">
@@ -44,7 +44,7 @@
                             <i class="fe fe-credit-card"></i>
                         </span>
                         <div class="dash-count">
-                            <h3>487</h3>
+                            <h3>{{ $patientsCount }}</h3>
                         </div>
                     </div>
                     <div class="dash-widget-info">
@@ -65,7 +65,7 @@
                             <i class="fe fe-money"></i>
                         </span>
                         <div class="dash-count">
-                            <h3>485</h3>
+                            <h3>{{ $appointmentsCount }}</h3>
                         </div>
                     </div>
                     <div class="dash-widget-info">
@@ -86,7 +86,7 @@
                             <i class="fe fe-folder"></i>
                         </span>
                         <div class="dash-count">
-                            <h3>$62523</h3>
+                            <h3>${{ number_format($totalRevenue, 2) }}</h3>
                         </div>
                     </div>
                     <div class="dash-widget-info">
@@ -109,7 +109,11 @@
                     <h4 class="card-title">Revenue</h4>
                 </div>
                 <div class="card-body">
-                    <div id="morrisArea"></div>
+                    @if ($revenueChartData->isEmpty())
+                        <p class="text-center mb-0 py-4">No paid revenue recorded yet.</p>
+                    @else
+                        <div id="morrisArea"></div>
+                    @endif
                 </div>
             </div>
             <!-- /Sales Chart -->
@@ -123,7 +127,11 @@
                     <h4 class="card-title">Status</h4>
                 </div>
                 <div class="card-body">
-                    <div id="morrisLine"></div>
+                    @if ($statusChartData->isEmpty())
+                        <p class="text-center mb-0 py-4">No doctor or patient sign-ups recorded yet.</p>
+                    @else
+                        <div id="morrisLine"></div>
+                    @endif
                 </div>
             </div>
             <!-- /Invoice Chart -->
@@ -133,357 +141,232 @@
     <div class="row">
         <div class="col-md-6 d-flex">
 
-            <!-- Recent Orders -->
+            <!-- Recent Doctors -->
             <div class="card card-table flex-fill">
                 <div class="card-header">
                     <h4 class="card-title">Doctors List</h4>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Doctor Name</th>
-                                    <th>Speciality</th>
-                                    <th>Earned</th>
-                                    <th>Reviews</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Ruby Perrin</a>
-                                        </h2>
-                                    </td>
-                                    <td>Dental</td>
-                                    <td>$3200.00</td>
-                                    <td>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star-o text-secondary"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Darren Elder</a>
-                                        </h2>
-                                    </td>
-                                    <td>Dental</td>
-                                    <td>$3100.00</td>
-                                    <td>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star-o text-secondary"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-03.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Deborah Angel</a>
-                                        </h2>
-                                    </td>
-                                    <td>Cardiology</td>
-                                    <td>$4000.00</td>
-                                    <td>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star-o text-secondary"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-04.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Sofia Brient</a>
-                                        </h2>
-                                    </td>
-                                    <td>Urology</td>
-                                    <td>$3200.00</td>
-                                    <td>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star-o text-secondary"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-05.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Marvin Campbell</a>
-                                        </h2>
-                                    </td>
-                                    <td>Orthopaedics</td>
-                                    <td>$3500.00</td>
-                                    <td>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star text-warning"></i>
-                                        <i class="fe fe-star-o text-secondary"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    @if ($doctors->isEmpty())
+                        <p class="text-center mb-0 py-4">No doctors have registered yet.</p>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Doctor Name</th>
+                                        <th>Speciality</th>
+                                        <th>Earned</th>
+                                        <th>Reviews</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($doctors as $doctor)
+                                        @php
+                                            $doctorName = $doctor->display_name ?: trim($doctor->first_name.' '.$doctor->last_name);
+                                            $specialities = $doctor->doctorServices
+                                                ->pluck('service.speciality.name')
+                                                ->filter()
+                                                ->unique()
+                                                ->implode(', ');
+                                            $averageRating = round((float) ($doctor->average_rating ?? 0));
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ $doctor->profile_photo_url ?: asset('backend/assets/img/doctors/doctor-thumb-01.jpg') }}" alt="{{ $doctorName }}"></span>
+                                                    Dr {{ $doctorName }}
+                                                </h2>
+                                            </td>
+                                            <td>{{ $specialities ?: '-' }}</td>
+                                            <td>${{ number_format((float) ($doctor->earned ?? 0), 2) }}</td>
+                                            <td>
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="fe {{ $i <= $averageRating ? 'fe-star text-warning' : 'fe-star-o text-secondary' }}"></i>
+                                                @endfor
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
-            <!-- /Recent Orders -->
+            <!-- /Recent Doctors -->
 
         </div>
         <div class="col-md-6 d-flex">
 
-            <!-- Feed Activity -->
+            <!-- Recent Patients -->
             <div class="card  card-table flex-fill">
                 <div class="card-header">
                     <h4 class="card-title">Patients List</h4>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Patient Name</th>
-                                    <th>Phone</th>
-                                    <th>Last Visit</th>
-                                    <th>Paid</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient1.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Charlene Reed </a>
-                                        </h2>
-                                    </td>
-                                    <td>8286329170</td>
-                                    <td>20 Oct 2023</td>
-                                    <td>$100.00</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient2.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Travis Trimble </a>
-                                        </h2>
-                                    </td>
-                                    <td>2077299974</td>
-                                    <td>22 Oct 2023</td>
-                                    <td>$200.00</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient3.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Carl Kelly</a>
-                                        </h2>
-                                    </td>
-                                    <td>2607247769</td>
-                                    <td>21 Oct 2023</td>
-                                    <td>$250.00</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient4.jpg" alt="User Image"></a>
-                                            <a href="profile.html"> Michelle Fairfax</a>
-                                        </h2>
-                                    </td>
-                                    <td>5043686874</td>
-                                    <td>21 Sep 2023</td>
-                                    <td>$150.00</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient5.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Gina Moore</a>
-                                        </h2>
-                                    </td>
-                                    <td>9548207887</td>
-                                    <td>18 Sep 2023</td>
-                                    <td>$350.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    @if ($patients->isEmpty())
+                        <p class="text-center mb-0 py-4">No patients have registered yet.</p>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Patient Name</th>
+                                        <th>Phone</th>
+                                        <th>Last Visit</th>
+                                        <th>Paid</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($patients as $patient)
+                                        @php
+                                            $patientName = $patient->display_name ?: trim($patient->first_name.' '.$patient->last_name);
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ $patient->profile_photo_url ?: asset('backend/assets/img/patients/patient1.jpg') }}" alt="{{ $patientName }}"></span>
+                                                    {{ $patientName }}
+                                                </h2>
+                                            </td>
+                                            <td>{{ $patient->phone ?: '-' }}</td>
+                                            <td>{{ $patient->patient_appointments_max_appointment_date ? \Illuminate\Support\Carbon::parse($patient->patient_appointments_max_appointment_date)->format('d M Y') : '-' }}</td>
+                                            <td>${{ number_format((float) ($patient->paid ?? 0), 2) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
-            <!-- /Feed Activity -->
+            <!-- /Recent Patients -->
 
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
 
-            <!-- Recent Orders -->
+            <!-- Recent Appointments -->
             <div class="card card-table">
                 <div class="card-header">
                     <h4 class="card-title">Appointment List</h4>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Doctor Name</th>
-                                    <th>Speciality</th>
-                                    <th>Patient Name</th>
-                                    <th>Apointment Time</th>
-                                    <th>Status</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Ruby Perrin</a>
-                                        </h2>
-                                    </td>
-                                    <td>Dental</td>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient1.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Charlene Reed </a>
-                                        </h2>
-                                    </td>
-                                    <td>9 Nov 2023 <span class="text-primary d-block">11.00 AM - 11.15 AM</span></td>
-                                    <td>
-                                        <div class="status-toggle">
-                                            <input type="checkbox" id="status_1" class="check" checked>
-                                            <label for="status_1" class="checktoggle">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        $200.00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Darren Elder</a>
-                                        </h2>
-                                    </td>
-                                    <td>Dental</td>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient2.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Travis Trimble </a>
-                                        </h2>
-                                    </td>
-
-                                    <td>5 Nov 2023 <span class="text-primary d-block">11.00 AM - 11.35 AM</span></td>
-                                    <td>
-                                        <div class="status-toggle">
-                                            <input type="checkbox" id="status_2" class="check" checked>
-                                            <label for="status_2" class="checktoggle">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        $300.00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-03.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Deborah Angel</a>
-                                        </h2>
-                                    </td>
-                                    <td>Cardiology</td>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient3.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Carl Kelly</a>
-                                        </h2>
-                                    </td>
-                                    <td>11 Nov 2023 <span class="text-primary d-block">12.00 PM - 12.15 PM</span></td>
-                                    <td>
-                                        <div class="status-toggle">
-                                            <input type="checkbox" id="status_3" class="check" checked>
-                                            <label for="status_3" class="checktoggle">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        $150.00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-04.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Sofia Brient</a>
-                                        </h2>
-                                    </td>
-                                    <td>Urology</td>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient4.jpg" alt="User Image"></a>
-                                            <a href="profile.html"> Michelle Fairfax</a>
-                                        </h2>
-                                    </td>
-                                    <td>7 Nov 2023<span class="text-primary d-block">1.00 PM - 1.20 PM</span></td>
-                                    <td>
-                                        <div class="status-toggle">
-                                            <input type="checkbox" id="status_4" class="check" checked>
-                                            <label for="status_4" class="checktoggle">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        $150.00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/doctors/doctor-thumb-05.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Dr. Marvin Campbell</a>
-                                        </h2>
-                                    </td>
-                                    <td>Orthopaedics</td>
-                                    <td>
-                                        <h2 class="table-avatar">
-                                            <a href="profile.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ asset('admin') }}/assets/img/patients/patient5.jpg" alt="User Image"></a>
-                                            <a href="profile.html">Gina Moore</a>
-                                        </h2>
-                                    </td>
-
-                                    <td>15 Nov 2023 <span class="text-primary d-block">1.00 PM - 1.15 PM</span></td>
-                                    <td>
-                                        <div class="status-toggle">
-                                            <input type="checkbox" id="status_5" class="check" checked>
-                                            <label for="status_5" class="checktoggle">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        $200.00
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    @if ($appointments->isEmpty())
+                        <p class="text-center mb-0 py-4">No appointments have been booked yet.</p>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Doctor Name</th>
+                                        <th>Speciality</th>
+                                        <th>Patient Name</th>
+                                        <th>Apointment Time</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $statusBadges = [
+                                            'pending' => 'bg-warning text-dark',
+                                            'confirmed' => 'bg-info',
+                                            'completed' => 'bg-success',
+                                            'cancelled' => 'bg-danger',
+                                        ];
+                                    @endphp
+                                    @foreach ($appointments as $appointment)
+                                        @php
+                                            $doctorName = $appointment->doctor->display_name ?: trim($appointment->doctor->first_name.' '.$appointment->doctor->last_name);
+                                            $patientName = trim($appointment->first_name.' '.$appointment->last_name);
+                                            $speciality = $appointment->doctorService?->service?->speciality?->name;
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ $appointment->doctor->profile_photo_url ?: asset('backend/assets/img/doctors/doctor-thumb-01.jpg') }}" alt="{{ $doctorName }}"></span>
+                                                    Dr {{ $doctorName }}
+                                                </h2>
+                                            </td>
+                                            <td>{{ $speciality ?: '-' }}</td>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{ $appointment->patient->profile_photo_url ?: asset('backend/assets/img/patients/patient1.jpg') }}" alt="{{ $patientName }}"></span>
+                                                    {{ $patientName }}
+                                                </h2>
+                                            </td>
+                                            <td>
+                                                {{ $appointment->appointment_date->format('j M Y') }}
+                                                <span class="text-primary d-block">{{ $appointment->start_time->format('h.i A') }} - {{ $appointment->end_time->format('h.i A') }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge {{ $statusBadges[$appointment->status->value] }}">{{ $appointment->status->label() }}</span>
+                                            </td>
+                                            <td>
+                                                ${{ number_format((float) $appointment->total_amount, 2) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
-            <!-- /Recent Orders -->
+            <!-- /Recent Appointments -->
 
         </div>
     </div>
 
 </div>
+
+@if ($revenueChartData->isNotEmpty() || $statusChartData->isNotEmpty())
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof Morris === 'undefined') {
+                return;
+            }
+
+            @if ($revenueChartData->isNotEmpty())
+                window.mA = Morris.Area({
+                    element: 'morrisArea',
+                    data: @json($revenueChartData),
+                    xkey: 'year',
+                    ykeys: ['revenue'],
+                    labels: ['Revenue'],
+                    lineColors: ['#1b5a90'],
+                    lineWidth: 2,
+                    fillOpacity: 0.5,
+                    gridTextSize: 10,
+                    hideHover: 'auto',
+                    resize: true,
+                    redraw: true,
+                });
+            @endif
+
+            @if ($statusChartData->isNotEmpty())
+                window.mL = Morris.Line({
+                    element: 'morrisLine',
+                    data: @json($statusChartData),
+                    xkey: 'year',
+                    ykeys: ['doctors', 'patients'],
+                    labels: ['Doctors', 'Patients'],
+                    lineColors: ['#1b5a90', '#ff9d00'],
+                    lineWidth: 1,
+                    gridTextSize: 10,
+                    hideHover: 'auto',
+                    resize: true,
+                    redraw: true,
+                });
+            @endif
+
+            window.addEventListener('resize', function () {
+                if (window.mA) { window.mA.redraw(); }
+                if (window.mL) { window.mL.redraw(); }
+            });
+        });
+    </script>
+@endif
 @endsection
