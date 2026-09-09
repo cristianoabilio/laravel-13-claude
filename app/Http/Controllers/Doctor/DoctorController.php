@@ -222,7 +222,7 @@ class DoctorController extends Controller
         return view('doctor.dashboard.accounts.doctor_accounts', [
             'bankAccount' => $doctor->bankAccount,
             'balance' => $this->doctorAccounts->balanceFor($doctor),
-            'payoutRequests' => $doctor->payoutRequests()->orderByDesc('created_at')->paginate(10),
+            'payoutRequests' => $doctor->payoutRequests()->orderByDesc('created_at')->orderByDesc('id')->paginate(10),
         ]);
     }
 
@@ -231,7 +231,7 @@ class DoctorController extends Controller
         $doctor = Auth::user();
 
         return view('doctor.dashboard.reviews.doctor_reviews', [
-            'reviews' => $doctor->doctorReviews()->with('patient')->orderByDesc('created_at')->paginate(10),
+            'reviews' => $doctor->doctorReviews()->with('patient')->orderByDesc('created_at')->orderByDesc('id')->paginate(10),
             'averageRating' => round((float) $doctor->doctorReviews()->avg('rating'), 1),
             'reviewsCount' => $doctor->doctorReviews()->count(),
         ]);

@@ -14,6 +14,7 @@ class ReviewController extends Controller
         $reviews = Review::query()
             ->with(['doctor', 'patient'])
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->paginate(15);
 
         return view('admin.reviews.all_reviews', [

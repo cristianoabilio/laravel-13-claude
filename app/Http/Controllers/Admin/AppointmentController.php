@@ -14,6 +14,7 @@ class AppointmentController extends Controller
             ->with(['doctor', 'patient', 'doctorService.service.speciality'])
             ->orderByDesc('appointment_date')
             ->orderByDesc('start_time')
+            ->orderByDesc('id')
             ->paginate(15);
 
         return view('admin.appointments.index', [

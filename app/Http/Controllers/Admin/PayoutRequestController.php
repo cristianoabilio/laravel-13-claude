@@ -18,6 +18,7 @@ class PayoutRequestController extends Controller
         $payoutRequests = PayoutRequest::query()
             ->with(['doctor', 'processedBy'])
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->paginate(15);
 
         return view('admin.payout_requests.index', [

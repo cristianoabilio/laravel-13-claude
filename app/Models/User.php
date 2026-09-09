@@ -125,6 +125,22 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<Payment, $this>
+     */
+    public function patientPayments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'patient_id');
+    }
+
+    /**
+     * @return HasMany<Payment, $this>
+     */
+    public function doctorPayments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'doctor_id');
+    }
+
+    /**
      * @return HasMany<MedicalRecord, $this>
      */
     public function medicalRecords(): HasMany
