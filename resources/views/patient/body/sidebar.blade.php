@@ -70,7 +70,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chat.html">
+                        <a href="{{ route('patient.messages') }}">
                             <i class="isax isax-messages-1"></i>
                             <span>Message</span>
                             <small class="unread-msg">7</small>

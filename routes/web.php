@@ -52,6 +52,7 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/patient/settings', [PatientController::class, 'settings'])->name('patient.settings');
     Route::get('/patient/invoices', [PatientController::class, 'invoices'])->name('patient.invoices');
     Route::get('/patient/favorites', [PatientController::class, 'favorites'])->name('patient.favorites');
+    Route::get('/patient/messages', [PatientController::class, 'messages'])->name('patient.messages');
     Route::put('/patient/settings', [PatientController::class, 'updateSettings'])->name('patient.settings.update');
     Route::delete('/patient/settings/photo', [PatientController::class, 'removeProfilePhoto'])->name('patient.settings.photo.destroy');
     Route::get('/patient/change-password', [PatientController::class, 'changePassword'])->name('patient.change_password');
