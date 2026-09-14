@@ -118,6 +118,7 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
     Route::get('/patients/details/{patient}', [DoctorController::class, 'patientDetails'])->name('patient.details');
     Route::get('/doctor/invoices', [DoctorController::class, 'invoices'])->name('doctor.invoices');
     Route::get('/doctor/accounts', [DoctorController::class, 'accounts'])->name('doctor.accounts');
+    Route::get('/doctor/messages', [DoctorController::class, 'messages'])->name('doctor.messages');
     Route::put('/doctor/bank-account', [BankAccountController::class, 'update'])->name('doctor.bank_account.update');
     Route::post('/doctor/payout-requests', [PayoutRequestController::class, 'store'])->name('doctor.payout_requests.store');
     Route::post('/patients/{patient}/prescriptions', [PrescriptionController::class, 'store'])->name('doctor.prescriptions.store');

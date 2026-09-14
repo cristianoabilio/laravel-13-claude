@@ -86,8 +86,8 @@
                         <span>Payout Settings</span>
                     </a>
                 </li>
-                <li>
-                    <a href="chat-doctor.html">
+                <li @class(['active' => request()->routeIs('doctor.messages')])>
+                    <a href="{{ route('doctor.messages') }}">
                         <i class="isax isax-messages-1"></i>
                         <span>Message</span>
                         <small class="unread-msg">7</small>
