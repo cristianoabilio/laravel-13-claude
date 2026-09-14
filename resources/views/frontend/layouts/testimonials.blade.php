@@ -6,116 +6,37 @@
 					</div>
 
 					<!-- Testimonial Slider -->
-					<div class="owl-carousel testimonials-slider aos" data-aos="fade-up">
-						<div class="card shadow-none mb-0">
-							<div class="card-body">
-								<div class="d-flex align-items-center mb-4">
-									<div class="rating d-flex">
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled"></i>
+					@if ($testimonials->isNotEmpty())
+						<div class="owl-carousel testimonials-slider aos" data-aos="fade-up">
+							@foreach ($testimonials as $testimonial)
+								<div class="card shadow-none mb-0">
+									<div class="card-body">
+										<div class="d-flex align-items-center mb-4">
+											<div class="rating d-flex">
+												@for ($i = 1; $i <= 5; $i++)
+													<i class="fa-solid fa-star @if ($i <= $testimonial->rating) filled @endif @if ($i < 5) me-1 @endif"></i>
+												@endfor
+											</div>
+											<span>
+												<img src="{{ asset('backend/assets/img/icons/quote-icon.svg') }}" alt="img">
+											</span>
+										</div>
+										<h6 class="fs-16 fw-medium mb-2">{{ $testimonial->title }}</h6>
+										<p>{{ $testimonial->quote }}</p>
+										<div class="d-flex align-items-center">
+											<a href="javascript:void(0);" class="avatar avatar-lg">
+												<img src="{{ $testimonial->image_url ?: asset('backend/assets/img/patients/patient.jpg') }}" class="rounded-circle" alt="img" width="300" height="300">
+											</a>
+											<div class="ms-2">
+												<h6 class="mb-1"><a href="javascript:void(0);">{{ $testimonial->patient_name }}</a></h6>
+												<p class="fs-14 mb-0">{{ $testimonial->patient_country }}</p>
+											</div>
+										</div>
 									</div>
-									<span>
-										<img src="{{ asset('backend/assets/img/icons/quote-icon.svg') }}" alt="img">
-									</span>
 								</div>
-								<h6 class="fs-16 fw-medium mb-2">Nice Treatment</h6>
-								<p>I had a wonderful experience the staff was friendly and attentive, and Dr. Smith took the time to explain everything clearly.</p>
-								<div class="d-flex align-items-center">
-									<a href="javascript:void(0);" class="avatar avatar-lg">
-										<img src="{{ asset('backend/assets/img/patients/patient22.jpg') }}" class="rounded-circle" alt="img">
-									</a>
-									<div class="ms-2">
-										<h6 class="mb-1"><a href="javascript:void(0);">Deny Hendrawan</a></h6>
-										<p class="fs-14 mb-0">United States</p>
-									</div>
-								</div>
-							</div>
+							@endforeach
 						</div>
-						<div class="card shadow-none mb-0">
-							<div class="card-body">
-								<div class="d-flex align-items-center mb-4">
-									<div class="rating d-flex">
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled"></i>
-									</div>
-									<span>
-										<img src="{{ asset('backend/assets/img/icons/quote-icon.svg') }}" alt="img">
-									</span>
-								</div>
-								<h6 class="fs-16 fw-medium mb-2">Good Hospitability</h6>
-								<p>Genuinely cares about his patients. He helped me understand my condition and worked with me to create a plan.</p>
-								<div class="d-flex align-items-center">
-									<a href="javascript:void(0);" class="avatar avatar-lg">
-										<img src="{{ asset('backend/assets/img/patients/patient21.jpg') }}" class="rounded-circle" alt="img">
-									</a>
-									<div class="ms-2">
-										<h6 class="mb-1"><a href="javascript:void(0);">Johnson DWayne</a></h6>
-										<p class="fs-14 mb-0">United States</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="card shadow-none mb-0">
-							<div class="card-body">
-								<div class="d-flex align-items-center mb-4">
-									<div class="rating d-flex">
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled"></i>
-									</div>
-									<span>
-										<img src="{{ asset('backend/assets/img/icons/quote-icon.svg') }}" alt="img">
-									</span>
-								</div>
-								<h6 class="fs-16 fw-medium mb-2">Nice Treatment</h6>
-								<p>I had a great experience with Dr. Chen. She was not only professional but also made me feel comfortable discussing.</p>
-								<div class="d-flex align-items-center">
-									<a href="javascript:void(0);" class="avatar avatar-lg">
-										<img src="{{ asset('backend/assets/img/patients/patient.jpg') }}" class="rounded-circle" alt="img">
-									</a>
-									<div class="ms-2">
-										<h6 class="mb-1"><a href="javascript:void(0);">Rayan Smith</a></h6>
-										<p class="fs-14 mb-0">United States</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="card shadow-none mb-0">
-							<div class="card-body">
-								<div class="d-flex align-items-center mb-4">
-									<div class="rating d-flex">
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled me-1"></i>
-										<i class="fa-solid fa-star filled"></i>
-									</div>
-									<span>
-										<img src="{{ asset('backend/assets/img/icons/quote-icon.svg') }}" alt="img">
-									</span>
-								</div>
-								<h6 class="fs-16 fw-medium mb-2">Excellent Service</h6>
-								<p>I had a wonderful experience the staff was friendly and attentive, and Dr. Smith took the time to explain everything clearly.</p>
-								<div class="d-flex align-items-center">
-									<a href="javascript:void(0);" class="avatar avatar-lg">
-										<img src="{{ asset('backend/assets/img/patients/patient23.jpg') }}" class="rounded-circle" alt="img">
-									</a>
-									<div class="ms-2">
-										<h6 class="mb-1"><a href="javascript:void(0);">Sofia Doe</a></h6>
-										<p class="fs-14 mb-0">United States</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					@endif
 					<!-- /Testimonial Slider -->
 
 					<!-- Counter -->

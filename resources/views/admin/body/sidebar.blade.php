@@ -23,8 +23,16 @@
                 <li @class(['active' => request()->routeIs('admin.payout_requests.*')])>
                     <a href="{{ route('admin.payout_requests.index') }}"><i class="fe fe-activity"></i> <span>Payout Requests</span></a>
                 </li>
-                <li>
-                    <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Manage Home</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li @class(['active' => request()->routeIs('admin.home.banner.edit')])><a href="{{ route('admin.home.banner.edit') }}">Banner</a></li>
+                        <li @class(['active' => request()->routeIs('admin.home.services.*')])><a href="{{ route('admin.home.services.index') }}">Services</a></li>
+                        <li @class(['active' => request()->routeIs('admin.home.reasons.*')])><a href="{{ route('admin.home.reasons.index') }}">Reasons</a></li>
+                        <li @class(['active' => request()->routeIs('admin.home.bookus.*')])><a href="{{ route('admin.home.bookus.index') }}">Book Us</a></li>
+                        <li @class(['active' => request()->routeIs('admin.testimonials.*')])><a href="{{ route('admin.testimonials.index') }}">Testimonials</a></li>
+                        <li @class(['active' => request()->routeIs('admin.faqs.*')])><a href="{{ route('admin.faqs.index') }}">FAQs</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

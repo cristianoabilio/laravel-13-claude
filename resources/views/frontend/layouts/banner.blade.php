@@ -29,7 +29,7 @@
 										</div>
 									</div>
 								</div>
-								<h1 class="display-5">Discover Health: Find Your Trusted <span class="banner-icon"><img src="{{ asset('backend/assets/img/icons/video.svg') }}" alt="img"></span> <span class="text-gradient">Doctors</span> Today</h1>
+								<h1 class="display-5">{{ $homeBanner->heading_prefix }} <span class="banner-icon"><img src="{{ asset('backend/assets/img/icons/video.svg') }}" alt="img"></span> <span class="text-gradient">{{ $homeBanner->heading_highlight }}</span> {{ $homeBanner->heading_suffix }}</h1>
 								<div class="search-box-one aos" data-aos="fade-up">
 									<form action="search-2.html">
 										<div class="search-input search-line">
@@ -59,7 +59,7 @@
 						</div>
 						<div class="col-lg-5">
 							<div class="banner-img aos" data-aos="fade-up">
-								<img src="{{ asset('backend/assets/img/banner/banner-doctor.svg') }}" class="img-fluid" alt="patient-image">
+								<img src="{{ $homeBanner->image_url ?: asset('backend/assets/img/banner/banner-doctor.svg') }}" class="img-fluid" width="464" height="606" alt="patient-image">
 								<div class="banner-appointment">
 									<h6>1K</h6>
 									<p>Appointments <span class="d-block">Completed</span></p>

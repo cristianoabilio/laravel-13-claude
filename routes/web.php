@@ -3,10 +3,16 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\DoctorController as AdminDoctorController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\HomeBannerController;
+use App\Http\Controllers\Admin\HomeBookUsController;
+use App\Http\Controllers\Admin\HomeReasonController;
+use App\Http\Controllers\Admin\HomeServiceController;
 use App\Http\Controllers\Admin\PatientController as AdminPatientController;
 use App\Http\Controllers\Admin\PayoutRequestController as AdminPayoutRequestController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\SpecialitiesController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Auth\AdminAuthenticatedSessionController;
 use App\Http\Controllers\Doctor\BankAccountController;
 use App\Http\Controllers\Doctor\DoctorAppointmentController;
@@ -147,6 +153,35 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/payout-requests', [AdminPayoutRequestController::class, 'index'])->name('admin.payout_requests.index');
     Route::patch('/admin/payout-requests/{payoutRequest}/approve', [AdminPayoutRequestController::class, 'approve'])->name('admin.payout_requests.approve');
     Route::patch('/admin/payout-requests/{payoutRequest}/cancel', [AdminPayoutRequestController::class, 'cancel'])->name('admin.payout_requests.cancel');
+
+    Route::get('/admin/home/banner', [HomeBannerController::class, 'edit'])->name('admin.home.banner.edit');
+    Route::put('/admin/home/banner', [HomeBannerController::class, 'update'])->name('admin.home.banner.update');
+
+    Route::resource('admin/home/services', HomeServiceController::class)
+        ->except(['show', 'create', 'edit'])
+        ->names('admin.home.services');
+
+    Route::get('/admin/home/reasons', [HomeReasonController::class, 'index'])->name('admin.home.reasons.index');
+    // Registered before the {reason} routes below so "section" is never
+    // mistaken for a reason id by route model binding.
+    Route::put('/admin/home/reasons/section', [HomeReasonController::class, 'updateSection'])->name('admin.home.reasons.section.update');
+    Route::post('/admin/home/reasons', [HomeReasonController::class, 'store'])->name('admin.home.reasons.store');
+    Route::put('/admin/home/reasons/{reason}', [HomeReasonController::class, 'update'])->name('admin.home.reasons.update');
+    Route::delete('/admin/home/reasons/{reason}', [HomeReasonController::class, 'destroy'])->name('admin.home.reasons.destroy');
+
+    Route::get('/admin/home/bookus', [HomeBookUsController::class, 'index'])->name('admin.home.bookus.index');
+    Route::put('/admin/home/bookus/section', [HomeBookUsController::class, 'updateSection'])->name('admin.home.bookus.section.update');
+    Route::post('/admin/home/bookus/faqs', [HomeBookUsController::class, 'storeFaq'])->name('admin.home.bookus.faqs.store');
+    Route::put('/admin/home/bookus/faqs/{faq}', [HomeBookUsController::class, 'updateFaq'])->name('admin.home.bookus.faqs.update');
+    Route::delete('/admin/home/bookus/faqs/{faq}', [HomeBookUsController::class, 'destroyFaq'])->name('admin.home.bookus.faqs.destroy');
+
+    Route::resource('admin/testimonials', TestimonialController::class)
+        ->except(['show', 'create', 'edit'])
+        ->names('admin.testimonials');
+
+    Route::resource('admin/faqs', FaqController::class)
+        ->except(['show', 'create', 'edit'])
+        ->names('admin.faqs');
 });
 
 require __DIR__.'/auth.php';

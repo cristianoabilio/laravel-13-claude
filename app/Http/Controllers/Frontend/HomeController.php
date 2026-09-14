@@ -3,14 +3,28 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\HomeService;
 use App\Models\Speciality;
 use App\Models\User;
+use App\Services\FaqService;
+use App\Services\HomeBannerService;
+use App\Services\HomeBookUsService;
+use App\Services\HomeReasonService;
+use App\Services\TestimonialService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    public function __construct(
+        protected HomeBannerService $homeBanner,
+        protected HomeReasonService $homeReasons,
+        protected HomeBookUsService $homeBookUs,
+        protected TestimonialService $testimonials,
+        protected FaqService $faqs,
+    ) {}
+
     public function index(): View
     {
         $user = Auth::user();
@@ -22,6 +36,14 @@ class HomeController extends Controller
             ->pluck('doctors_count', 'services.speciality_id');
 
         return view('frontend.index', [
+            'homeBanner' => $this->homeBanner->current(),
+            'homeServices' => HomeService::orderBy('sort_order')->orderBy('id')->get(),
+            'homeReasonSection' => $this->homeReasons->section(),
+            'homeReasons' => $this->homeReasons->list(),
+            'homeBookUsSection' => $this->homeBookUs->section(),
+            'homeBookUsFaqs' => $this->homeBookUs->faqs(),
+            'testimonials' => $this->testimonials->list(),
+            'faqs' => $this->faqs->list(),
             'specialities' => Speciality::query()
                 ->orderBy('name')
                 ->get()

@@ -5,61 +5,49 @@
 							<div class="bookus-img">
 								<div class="row g-3">
 									<div class="col-md-12 aos" data-aos="fade-up">
-										<img src="{{ asset('backend/assets/img/book-01.jpg') }}" alt="img" class="img-fluid">
+										<img src="{{ $homeBookUsSection->image_one_url ?: asset('backend/assets/img/book-01.jpg') }}" alt="img" class="img-fluid" width="1060" height="516">
 									</div>
 									<div class="col-sm-6 aos" data-aos="fade-up">
-										<img src="{{ asset('backend/assets/img/book-02.jpg') }}" alt="img" class="img-fluid">
+										<img src="{{ $homeBookUsSection->image_two_url ?: asset('backend/assets/img/book-02.jpg') }}" alt="img" class="img-fluid" width="512" height="516">
 									</div>
 									<div class="col-sm-6 aos" data-aos="fade-up">
-										<img src="{{ asset('backend/assets/img/book-03.jpg') }}" alt="img" class="img-fluid">
+										<img src="{{ $homeBookUsSection->image_three_url ?: asset('backend/assets/img/book-03.jpg') }}" alt="img" class="img-fluid" width="512" height="516">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="section-header sec-header-one mb-2 aos" data-aos="fade-up">
-								<span class="badge badge-primary">Why Book With Us</span>
-								<h2 class="text-white mb-3">We are committed to understanding your <span class="text-primary-gradient">unique needs and delivering care.</span></h2>
+								@if ($homeBookUsSection->badge_text)
+									<span class="badge badge-primary">{{ $homeBookUsSection->badge_text }}</span>
+								@endif
+								<h2 class="text-white mb-3">{{ $homeBookUsSection->heading_prefix }} <span class="text-primary-gradient">{{ $homeBookUsSection->heading_highlight }}</span></h2>
 							</div>
-							<p class="text-light mb-4">As a trusted healthAs a trusted healthcare provider in our community, we are passionate about promoting health and wellness beyond the clinic. We actively engage in community outreach programs, health fairs, and educational workshop.</p>
-							<div class="faq-info aos" data-aos="fade-up">
-								<div class="accordion" id="faq-details">
-
-									<!-- FAQ Item -->
-									<div class="accordion-item">
-										<h2 class="accordion-header" id="headingOne">
-											<a href="javascript:void(0);" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-												01 . Our Vision
-											</a>
-										</h2>
-										<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faq-details">
-											<div class="accordion-body">
-												<div class="accordion-content">
-													<p>We envision a community where everyone has access to high-quality healthcare and the resources they need to lead healthy, fulfilling lives.</p>
+							<p class="text-light mb-4">{{ $homeBookUsSection->description }}</p>
+							@if ($homeBookUsFaqs->isNotEmpty())
+								<div class="faq-info aos" data-aos="fade-up">
+									<div class="accordion" id="faq-details">
+										@foreach ($homeBookUsFaqs as $faq)
+											<!-- FAQ Item -->
+											<div class="accordion-item">
+												<h2 class="accordion-header" id="heading{{ $faq->id }}">
+													<a href="javascript:void(0);" class="accordion-button @if (! $loop->first) collapsed @endif" data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse{{ $faq->id }}">
+														{{ sprintf('%02d', $loop->iteration) }} . {{ $faq->title }}
+													</a>
+												</h2>
+												<div id="collapse{{ $faq->id }}" class="accordion-collapse collapse @if ($loop->first) show @endif" aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#faq-details">
+													<div class="accordion-body">
+														<div class="accordion-content">
+															<p>{{ $faq->description }}</p>
+														</div>
+													</div>
 												</div>
 											</div>
-										</div>
+											<!-- /FAQ Item -->
+										@endforeach
 									</div>
-									<!-- /FAQ Item -->
-
-									<!-- FAQ Item -->
-									<div class="accordion-item">
-										<h2 class="accordion-header" id="headingTwo">
-											<a href="javascript:void(0);" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-controls="collapseTwo">
-												02 . Our Mission
-											</a>
-										</h2>
-										<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faq-details">
-											<div class="accordion-body">
-												<div class="accordion-content">
-													<p>We envision a community where everyone has access to high-quality healthcare and the resources they need to lead healthy, fulfilling lives.</p>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- /FAQ Item -->
 								</div>
-							</div>
+							@endif
 						</div>
 					</div>
 					<div class="bookus-sec">
