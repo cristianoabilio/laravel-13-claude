@@ -41,6 +41,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'date_of_birth' => 'date',
             'known_languages' => 'array',
+            'last_seen_at' => 'datetime',
         ];
     }
 

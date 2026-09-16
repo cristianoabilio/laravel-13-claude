@@ -236,9 +236,4 @@ class DoctorController extends Controller
             'reviewsCount' => $doctor->doctorReviews()->count(),
         ]);
     }
-
-    public function messages(): View
-    {
-        return view('doctor.dashboard.messages.doctor_messages');
-    }
 }

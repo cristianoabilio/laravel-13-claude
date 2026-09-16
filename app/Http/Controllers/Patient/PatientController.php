@@ -129,9 +129,4 @@ class PatientController extends Controller
             'prescriptions' => $prescriptions,
         ]);
     }
-
-    public function messages(): View
-    {
-        return view('patient.dashboard.messages.patient_messages');
-    }
 }

@@ -205,7 +205,7 @@
 
                     <!-- Messages -->
                     <li class="nav-item noti-nav me-3 pe-0">
-                        <a href="chat.html" class="dropdown-toggle nav-link active-dot active-dot-success p-0">
+                        <a href="{{ route('patient.messages') }}" class="dropdown-toggle nav-link active-dot active-dot-success p-0">
                             <i class="isax isax-message-2"></i>
                         </a>
                     </li>
