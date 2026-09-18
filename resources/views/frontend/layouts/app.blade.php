@@ -5,8 +5,8 @@
 							<div class="col-lg-6 col-md-12 d-flex">
 								<div class="app-content d-flex flex-column justify-content-center">
 									<div class="app-header aos" data-aos="fade-up">
-										<h3 class="display-6 text-white">Download the Doccure App today!</h3>
-										<p class="text-light">To download an app related to a doctor or medical services, you can typically visit the app store on your device.</p>
+										<h3 class="display-6 text-white">{{ __('Download the Doccure App today!') }}</h3>
+										<p class="text-light">{{ __('To download an app related to a doctor or medical services, you can typically visit the app store on your device.') }}</p>
 									</div>
 									<div class="google-imgs aos" data-aos="fade-up">
 										<a href="javascript:void(0);"><img src="{{ asset('backend/assets/img/icons/app-store-01.svg') }}" alt="img"></a>

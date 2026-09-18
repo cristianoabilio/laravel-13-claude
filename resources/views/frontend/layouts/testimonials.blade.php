@@ -1,8 +1,8 @@
 <section class="testimonial-section-one">
 				<div class="container">
 					<div class="section-header sec-header-one text-center aos" data-aos="fade-up">
-						<span class="badge badge-primary">Testimonials</span>
-						<h2>15k Users Trust Doccure Worldwide</h2>
+						<span class="badge badge-primary">{{ __('Testimonials') }}</span>
+						<h2>{{ __('15k Users Trust Doccure Worldwide') }}</h2>
 					</div>
 
 					<!-- Testimonial Slider -->
@@ -44,23 +44,23 @@
 						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-gap-4">
 							<div class="counter-item text-center aos" data-aos="fade-up">
 								<h6 class="display-6"><span class="count-digit">500</span>+</h6>
-								<p>Doctors Available</p>
+								<p>{{ __('Doctors Available') }}</p>
 							</div>
 							<div class="counter-item text-center aos" data-aos="fade-up"">
 								<h6 class="display-6 secondary-count"><span class="count-digit">18</span>+</h6>
-								<p>Specialities</p>
+								<p>{{ __('Specialities') }}</p>
 							</div>
 							<div class="counter-item text-center aos" data-aos="fade-up">
 								<h6 class="display-6 purple-count"><span class="count-digit">30</span>K</h6>
-								<p>Bookings Done</p>
+								<p>{{ __('Bookings Done') }}</p>
 							</div>
 							<div class="counter-item text-center aos" data-aos="fade-up">
 								<h6 class="display-6 pink-count"><span class="count-digit">97</span>+</h6>
-								<p>Hospitals & Clinic</p>
+								<p>{{ __('Hospitals & Clinic') }}</p>
 							</div>
 							<div class="counter-item text-center  aos" data-aos="fade-up">
 								<h6 class="display-6 warning-count"><span class="count-digit">317</span>+</h6>
-								<p>Lab Tests Available</p>
+								<p>{{ __('Lab Tests Available') }}</p>
 							</div>
 						</div>
 					</div>

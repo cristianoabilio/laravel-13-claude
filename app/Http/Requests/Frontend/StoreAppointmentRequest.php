@@ -81,7 +81,7 @@ class StoreAppointmentRequest extends FormRequest
             $expiresAt = Carbon::createFromDate(2000 + (int) $matches[2], (int) $matches[1], 1)->endOfMonth();
 
             if ($expiresAt->isPast()) {
-                $validator->errors()->add('card_expiry', 'This card has expired.');
+                $validator->errors()->add('card_expiry', __('This card has expired.'));
             }
         });
     }

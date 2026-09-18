@@ -1,8 +1,8 @@
 <section class="faq-section-one">
 				<div class="container">
 					<div class="section-header sec-header-one text-center aos" data-aos="fade-up">
-						<span class="badge badge-primary">FAQ'S</span>
-						<h2>Your Questions are Answered</h2>
+						<span class="badge badge-primary">{{ __("FAQ'S") }}</span>
+						<h2>{{ __('Your Questions are Answered') }}</h2>
 					</div>
 					<div class="row">
 						<div class="col-md-10 mx-auto">

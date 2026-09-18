@@ -17,27 +17,19 @@
                 <li class="d-inline-flex align-items-center drop-header">
                     <div class="dropdown dropdown-country me-3">
                         <a href="javascript:void(0);" class="d-inline-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('backend/assets/img/flags/us-flag.svg') }}" class="me-2" alt="flag">
+                            <img src="{{ asset('backend/assets/img/flags/'.config('locales.supported.'.app()->getLocale().'.flag')) }}" class="me-2 rounded-circle" width="20" height="20" style="object-fit: cover;" alt="{{ config('locales.supported.'.app()->getLocale().'.label') }}">
                         </a>
                         <ul class="dropdown-menu p-2 mt-2">
-                            <li>
-                                <a class="dropdown-item rounded d-flex align-items-center" href="javascript:void(0);">
-                                    <img src="{{ asset('backend/assets/img/flags/us-flag.svg') }}" class="me-2" alt="flag">ENG
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item rounded d-flex align-items-center" href="javascript:void(0);">
-                                    <img src="{{ asset('backend/assets/img/flags/arab-flag.svg') }}" class="me-2" alt="flag">ARA
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item rounded d-flex align-items-center" href="javascript:void(0);">
-                                    <img src="{{ asset('backend/assets/img/flags/france-flag.svg') }}" class="me-2" alt="flag">FRA
-                                </a>
-                            </li>
+                            @foreach (config('locales.supported') as $localeCode => $localeMeta)
+                                <li>
+                                    <a class="dropdown-item rounded d-flex align-items-center {{ app()->getLocale() === $localeCode ? 'active' : '' }}" href="{{ route('locale.switch', $localeCode) }}">
+                                        <img src="{{ asset('backend/assets/img/flags/'.$localeMeta['flag']) }}" class="me-2 rounded-circle" width="20" height="20" style="object-fit: cover;" alt="{{ $localeMeta['label'] }}">{{ $localeMeta['label'] }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
-                    <div class="dropdown dropdown-amt">
+                    {{-- <div class="dropdown dropdown-amt">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             USD
                         </a>
@@ -46,7 +38,7 @@
                             <li><a class="dropdown-item rounded" href="javascript:void(0);">YEN</a></li>
                             <li><a class="dropdown-item rounded" href="javascript:void(0);">EURO</a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </li>
                 <li class="social-header">
                     <div class="social-icon">
@@ -88,7 +80,7 @@
         </div>
         <ul class="main-nav">
             <li class="has-submenu megamenu active">
-                <a href="{{ url('/') }}">Home  </a>
+                <a href="{{ url('/') }}">{{ __('Home') }}</a>
 
             </li>
             <li class="has-submenu">
@@ -249,20 +241,20 @@
         <li class="searchbar">
             <a href="javascript:void(0);"><i class="feather-search"></i></a>
             <div class="togglesearch">
-                <form action="search.html">
+                <form action="{{ url('/') }}">
                     <div class="input-group">
-                        <input type="text" class="form-control">
-                        <button type="submit" class="btn">Search</button>
+                        <input type="text" class="form-control" placeholder="{{ __('Search') }}">
+                        <button type="submit" class="btn">{{ __('Search') }}</button>
                     </div>
                 </form>
             </div>
         </li>
         <li>
-            <a href="login.html" class="btn btn-md btn-primary-gradient d-inline-flex align-items-center rounded-pill"><i class="isax isax-lock-1 me-1"></i>Sign Up</a>
+            <a href="{{ route('login') }}" class="btn btn-md btn-primary-gradient d-inline-flex align-items-center rounded-pill"><i class="isax isax-lock-1 me-1"></i>{{ __('Sign Up') }}</a>
         </li>
         <li>
-            <a href="register.html" class="btn btn-md btn-dark d-inline-flex align-items-center rounded-pill">
-                <i class="isax isax-user-tick me-1"></i>Register
+            <a href="{{ route('register') }}" class="btn btn-md btn-dark d-inline-flex align-items-center rounded-pill">
+                <i class="isax isax-user-tick me-1"></i>{{ __('Register') }}
             </a>
         </li>
     </ul>

@@ -6,49 +6,49 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3">
                             <div class="footer-widget footer-menu">
-                                <h6 class="footer-title">Company</h6>
+                                <h6 class="footer-title">{{ __('Company') }}</h6>
                                 <ul>
-                                    <li><a href="about-us.html">About</a></li>
-                                    <li><a href="search.html">Features</a></li>
-                                    <li><a href="javascript:void(0);">Works</a></li>
-                                    <li><a href="javascript:void(0);">Careers</a></li>
-                                    <li><a href="javascript:void(0);">Locations</a></li>
+                                    <li><a href="about-us.html">{{ __('About') }}</a></li>
+                                    <li><a href="search.html">{{ __('Features') }}</a></li>
+                                    <li><a href="javascript:void(0);">{{ __('Works') }}</a></li>
+                                    <li><a href="javascript:void(0);">{{ __('Careers') }}</a></li>
+                                    <li><a href="javascript:void(0);">{{ __('Locations') }}</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3">
                             <div class="footer-widget footer-menu">
-                                <h6 class="footer-title">Treatments</h6>
+                                <h6 class="footer-title">{{ __('Treatments') }}</h6>
                                 <ul>
-                                    <li><a href="search.html">Dental</a></li>
-                                    <li><a href="search.html">Cardiac</a></li>
-                                    <li><a href="search.html">Spinal Cord</a></li>
-                                    <li><a href="search.html">Hair Growth</a></li>
-                                    <li><a href="search.html">Anemia & Disorder</a></li>
+                                    <li><a href="search.html">{{ __('Dental') }}</a></li>
+                                    <li><a href="search.html">{{ __('Cardiac') }}</a></li>
+                                    <li><a href="search.html">{{ __('Spinal Cord') }}</a></li>
+                                    <li><a href="search.html">{{ __('Hair Growth') }}</a></li>
+                                    <li><a href="search.html">{{ __('Anemia & Disorder') }}</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3">
                             <div class="footer-widget footer-menu">
-                                <h6 class="footer-title">Specialities</h6>
+                                <h6 class="footer-title">{{ __('Specialities') }}</h6>
                                 <ul>
-                                    <li><a href="search.html">Transplant</a></li>
-                                    <li><a href="search.html">Cardiologist</a></li>
-                                    <li><a href="search.html">Oncology</a></li>
-                                    <li><a href="search.html">Pediatrics</a></li>
-                                    <li><a href="search.html">Gynacology</a></li>
+                                    <li><a href="search.html">{{ __('Transplant') }}</a></li>
+                                    <li><a href="search.html">{{ __('Cardiologist') }}</a></li>
+                                    <li><a href="search.html">{{ __('Oncology') }}</a></li>
+                                    <li><a href="search.html">{{ __('Pediatrics') }}</a></li>
+                                    <li><a href="search.html">{{ __('Gynacology') }}</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3">
                             <div class="footer-widget footer-menu">
-                                <h6 class="footer-title">Utilites</h6>
+                                <h6 class="footer-title">{{ __('Utilites') }}</h6>
                                 <ul>
-                                    <li><a href="pricing.html">Pricing</a></li>
-                                    <li><a href="contact-us.html">Contact</a></li>
-                                    <li><a href="contact-us.html">Request A Quote</a></li>
-                                    <li><a href="javascript:void(0);">Premium Membership</a></li>
-                                    <li><a href="javascript:void(0);">Integrations</a></li>
+                                    <li><a href="pricing.html">{{ __('Pricing') }}</a></li>
+                                    <li><a href="contact-us.html">{{ __('Contact') }}</a></li>
+                                    <li><a href="contact-us.html">{{ __('Request A Quote') }}</a></li>
+                                    <li><a href="javascript:void(0);">{{ __('Premium Membership') }}</a></li>
+                                    <li><a href="javascript:void(0);">{{ __('Integrations') }}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -56,16 +56,16 @@
                 </div>
                 <div class="col-lg-4 col-md-7">
                     <div class="footer-widget">
-                        <h6 class="footer-title">Newsletter</h6>
-                        <p class="mb-2">Subscribe & Stay Updated from the Doccure</p>
+                        <h6 class="footer-title">{{ __('Newsletter') }}</h6>
+                        <p class="mb-2">{{ __('Subscribe & Stay Updated from the Doccure') }}</p>
                         <div class="subscribe-input">
                             <form action="#">
-                                <input type="email" class="form-control" placeholder="Enter Email Address">
-                                <button type="submit" class="btn btn-md btn-primary-gradient d-inline-flex align-items-center"><i class="isax isax-send-25 me-1"></i>Send</button>
+                                <input type="email" class="form-control" placeholder="{{ __('Enter Email Address') }}">
+                                <button type="submit" class="btn btn-md btn-primary-gradient d-inline-flex align-items-center"><i class="isax isax-send-25 me-1"></i>{{ __('Send') }}</button>
                             </form>
                         </div>
                         <div class="social-icon">
-                            <h6 class="mb-3">Connect With Us</h6>
+                            <h6 class="mb-3">{{ __('Connect With Us') }}</h6>
                             <ul>
                                 <li>
                                     <a href="javascript:void(0);"><i class="fa-brands fa-facebook"></i></a>
@@ -101,14 +101,14 @@
             <!-- Copyright -->
             <div class="copyright">
                 <div class="copyright-text">
-                    <p class="mb-0">Copyright © 2025 Doccure. All Rights Reserved</p>
+                    <p class="mb-0">{{ __('Copyright © :year Doccure. All Rights Reserved', ['year' => date('Y')]) }}</p>
                 </div>
                 <!-- Copyright Menu -->
                 <div class="copyright-menu">
                     <ul class="policy-menu">
-                        <li><a href="javascript:void(0);">Legal Notice</a></li>
-                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="javascript:void(0);">Refund Policy</a></li>
+                        <li><a href="javascript:void(0);">{{ __('Legal Notice') }}</a></li>
+                        <li><a href="privacy-policy.html">{{ __('Privacy Policy') }}</a></li>
+                        <li><a href="javascript:void(0);">{{ __('Refund Policy') }}</a></li>
                     </ul>
                 </div>
                 <!-- /Copyright Menu -->

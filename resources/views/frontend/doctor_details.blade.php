@@ -12,10 +12,10 @@
                 <nav aria-label="breadcrumb" class="page-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="isax isax-home-15"></i></a></li>
-                        <li class="breadcrumb-item" aria-current="page">Doctors</li>
+                        <li class="breadcrumb-item" aria-current="page">{{ __('Doctors') }}</li>
                         <li class="breadcrumb-item active">{{ $doctorName }}</li>
                     </ol>
-                    <h2 class="breadcrumb-title">Doctor Profile</h2>
+                    <h2 class="breadcrumb-title">{{ __('Doctor Profile') }}</h2>
                 </nav>
             </div>
         </div>
@@ -42,7 +42,7 @@
                             <img src="{{ $doctor->profile_photo_url ?: asset('backend/assets/img/doctors/doc-profile-02.jpg') }}" class="img-fluid" alt="{{ $doctorName }}">
                         </div>
                         <div class="doc-info-cont">
-                            <span class="badge {{ $isAvailable ? 'doc-avail-badge' : 'bg-danger-light' }}"><i class="fa-solid fa-circle"></i>{{ $isAvailable ? 'Available' : 'Not Available' }} </span>
+                            <span class="badge {{ $isAvailable ? 'doc-avail-badge' : 'bg-danger-light' }}"><i class="fa-solid fa-circle"></i>{{ $isAvailable ? __('Available') : __('Not Available') }} </span>
                             <h4 class="doc-name">
                                 {{ $doctorName }}
                                 @if ($doctor->email_verified_at)
@@ -58,12 +58,12 @@
                                 <p>{{ $credentialsLine }}</p>
                             @endif
                             @if (! empty($doctor->known_languages))
-                                <p>Speaks : {{ implode(', ', $doctor->known_languages) }}</p>
+                                <p>{{ __('Speaks :languages', ['languages' => implode(', ', $doctor->known_languages)]) }}</p>
                             @endif
                             @if ($primaryClinic?->address)
                                 <p class="address-detail">
                                     <span class="loc-icon"><i class="feather-map-pin"></i></span>{{ $primaryClinic->address }}
-                                    <a href="https://www.google.com/maps?q={{ urlencode($primaryClinic->address) }}" target="_blank" rel="noopener" class="view-text">( View Location )</a>
+                                    <a href="https://www.google.com/maps?q={{ urlencode($primaryClinic->address) }}" target="_blank" rel="noopener" class="view-text">( {{ __('View Location') }} )</a>
                                 </p>
                             @endif
                         </div>
@@ -89,18 +89,18 @@
                                 <li>
                                     <div class="hospital-info">
                                         <span class="list-icon"><img src="{{ asset('backend/assets/img/icons/building-icon.svg') }}" alt="Img"></span>
-                                        <p>{{ $primaryClinic->name ?: 'Clinic' }}</p>
+                                        <p>{{ $primaryClinic->name ?: __('Clinic') }}</p>
                                     </div>
                                     @if ($isAvailable)
-                                        <h5 class="accept-text"><span><i class="feather-check"></i></span>Accepting New Patients</h5>
+                                        <h5 class="accept-text"><span><i class="feather-check"></i></span>{{ __('Accepting New Patients') }}</h5>
                                     @endif
                                 </li>
                             @endif
                             <li>
                                 <ul class="contact-doctors">
-                                    <li><a href="javascript:void(0);"><span><img src="{{ asset('backend/assets/img/icons/device-message2.svg') }}" alt="Img"></span>Chat</a></li>
-                                    <li><a href="javascript:void(0);"><span class="bg-violet"><i class="feather-phone-forwarded"></i></span>Audio Call</a></li>
-                                    <li><a href="javascript:void(0);"><span class="bg-indigo"><i class="fa-solid fa-video"></i></span>Video Call</a></li>
+                                    <li><a href="javascript:void(0);"><span><img src="{{ asset('backend/assets/img/icons/device-message2.svg') }}" alt="Img"></span>{{ __('Chat') }}</a></li>
+                                    <li><a href="javascript:void(0);"><span class="bg-violet"><i class="feather-phone-forwarded"></i></span>{{ __('Audio Call') }}</a></li>
+                                    <li><a href="javascript:void(0);"><span class="bg-indigo"><i class="fa-solid fa-video"></i></span>{{ __('Video Call') }}</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -111,14 +111,14 @@
                         <ul>
                             <li>
                                 <span class="bg-dark-blue"><img src="{{ asset('backend/assets/img/icons/bullseye.svg') }}" alt="Img"></span>
-                                In Practice for {{ $yearsInPractice }} Year{{ $yearsInPractice > 1 ? 's' : '' }}
+                                {{ trans_choice('In Practice for :count Year|In Practice for :count Years', $yearsInPractice, ['count' => $yearsInPractice]) }}
                             </li>
                         </ul>
                     @endif
                     <div class="bottom-book-btn">
-                        <p><span>Price : {{ $priceRange ?: 'Contact for pricing' }} </span>@if ($priceRange) for a Session @endif</p>
+                        <p><span>{{ __('Price : :price', ['price' => $priceRange ?: __('Contact for pricing')]) }} </span>@if ($priceRange) {{ __('for a Session') }} @endif</p>
                         <div class="clinic-booking">
-                            <a class="apt-btn" href="{{ route('doctor.booking', $doctor->id) }}">Book Appointment</a>
+                            <a class="apt-btn" href="{{ route('doctor.booking', $doctor->id) }}">{{ __('Book Appointment') }}</a>
                         </div>
                     </div>
                 </div>
@@ -129,43 +129,43 @@
         <div class="doctors-detailed-info">
             <ul class="information-title-list">
                 <li class="active">
-                    <a href="#doc_bio">Doctor Bio</a>
+                    <a href="#doc_bio">{{ __('Doctor Bio') }}</a>
                 </li>
                 <li>
-                    <a href="#experience">Experience</a>
+                    <a href="#experience">{{ __('Experience') }}</a>
                 </li>
                 <li>
-                    <a href="#services">Treatments</a>
+                    <a href="#services">{{ __('Treatments') }}</a>
                 </li>
                 <li>
-                    <a href="#speciality">Speciality</a>
+                    <a href="#speciality">{{ __('Speciality') }}</a>
                 </li>
                 <li>
-                    <a href="#availability">Availability</a>
+                    <a href="#availability">{{ __('Availability') }}</a>
                 </li>
                 <li>
-                    <a href="#clinic">Clinics</a>
+                    <a href="#clinic">{{ __('Clinics') }}</a>
                 </li>
                 <li>
-                    <a href="#membership">Memberships</a>
+                    <a href="#membership">{{ __('Memberships') }}</a>
                 </li>
                 <li>
-                    <a href="#bussiness_hour">Business Hours</a>
+                    <a href="#bussiness_hour">{{ __('Business Hours') }}</a>
                 </li>
                 <li>
-                    <a href="#review">Review</a>
+                    <a href="#review">{{ __('Review') }}</a>
                 </li>
             </ul>
             <div class="doc-information-main">
                 <div class="doc-information-details bio-detail" id="doc_bio">
                     <div class="detail-title">
-                        <h4>Doctor Bio</h4>
+                        <h4>{{ __('Doctor Bio') }}</h4>
                     </div>
                     <p>{{ $bio }}</p>
                 </div>
                 <div class="doc-information-details" id="experience">
                     <div class="detail-title">
-                        <h4>Practice Experience</h4>
+                        <h4>{{ __('Practice Experience') }}</h4>
                     </div>
                     @forelse ($doctor->experiences as $experience)
                         <div class="experience-info {{ $loop->last ? 'mb-0' : '' }}">
@@ -196,12 +196,12 @@
                             </div>
                         </div>
                     @empty
-                        <p>No practice experience added yet.</p>
+                        <p>{{ __('No practice experience added yet.') }}</p>
                     @endforelse
                 </div>
                 <div class="doc-information-details" id="speciality">
                     <div class="detail-title">
-                        <h4>Speciality</h4>
+                        <h4>{{ __('Speciality') }}</h4>
                     </div>
                     @if ($specialities->isNotEmpty())
                         <ul class="special-links">
@@ -210,12 +210,12 @@
                             @endforeach
                         </ul>
                     @else
-                        <p>No specialities added yet.</p>
+                        <p>{{ __('No specialities added yet.') }}</p>
                     @endif
                 </div>
                 <div class="doc-information-details" id="services">
                     <div class="detail-title">
-                        <h4>Services & Pricing</h4>
+                        <h4>{{ __('Services & Pricing') }}</h4>
                     </div>
                     @if ($services->isNotEmpty())
                         <ul class="special-links">
@@ -224,12 +224,12 @@
                             @endforeach
                         </ul>
                     @else
-                        <p>No services added yet.</p>
+                        <p>{{ __('No services added yet.') }}</p>
                     @endif
                 </div>
                 <div class="doc-information-details" id="availability">
                     <div class="detail-title slider-nav d-flex justify-content-between align-items-center">
-                        <h4>Availability</h4>
+                        <h4>{{ __('Availability') }}</h4>
                         @if ($availabilitySlots->isNotEmpty())
                             <div class="nav nav-container slide-2"></div>
                         @endif
@@ -246,12 +246,12 @@
                             @endforeach
                         </div>
                     @else
-                        <p>No availability configured yet.</p>
+                        <p>{{ __('No availability configured yet.') }}</p>
                     @endif
                 </div>
                 <div class="doc-information-details" id="clinic">
                     <div class="detail-title">
-                        <h4>Clinics & Locations</h4>
+                        <h4>{{ __('Clinics & Locations') }}</h4>
                     </div>
                     @forelse ($doctor->clinics as $clinic)
                         <div class="clinic-loc {{ $loop->last ? 'mb-0' : '' }}">
@@ -262,7 +262,7 @@
                                             <img src="{{ $clinic->logo_url ?: asset('backend/assets/img/clinic/clinic-11.jpg') }}" alt="{{ $clinic->name }}">
                                         </div>
                                         <div class="detail-clinic">
-                                            <h5>{{ $clinic->name ?: 'Clinic' }}</h5>
+                                            <h5>{{ $clinic->name ?: __('Clinic') }}</h5>
                                             <p>{{ $clinic->address ?: $clinic->location }}</p>
                                         </div>
                                     </div>
@@ -277,12 +277,12 @@
                             </div>
                         </div>
                     @empty
-                        <p>No clinics added yet.</p>
+                        <p>{{ __('No clinics added yet.') }}</p>
                     @endforelse
                 </div>
                 <div class="doc-information-details" id="membership">
                     <div class="detail-title">
-                        <h4>Membership</h4>
+                        <h4>{{ __('Membership') }}</h4>
                     </div>
                     @forelse ($doctor->memberships as $membership)
                         <div class="member-ship-info {{ $loop->last ? 'mb-0' : '' }}">
@@ -290,12 +290,12 @@
                             <p><strong>{{ $membership->title }}</strong>@if ($membership->description) - {{ $membership->description }}@endif</p>
                         </div>
                     @empty
-                        <p>No memberships added yet.</p>
+                        <p>{{ __('No memberships added yet.') }}</p>
                     @endforelse
                 </div>
                 <div class="doc-information-details" id="bussiness_hour">
                     <div class="detail-title">
-                        <h4>Business Hours</h4>
+                        <h4>{{ __('Business Hours') }}</h4>
                     </div>
                     <div class="hours-business">
                         <ul>
@@ -303,18 +303,18 @@
                                 <li>
                                     @if ($hour->day === $todayBusinessHour?->day)
                                         <div class="today-hours">
-                                            <h6>Today</h6>
+                                            <h6>{{ __('Today') }}</h6>
                                             <span>{{ now()->format('j M Y') }}</span>
                                         </div>
                                         <div class="availed">
-                                            <span class="badge {{ $hour->is_open ? 'doc-avail-badge' : 'bg-danger-light' }}"><i class="fa-solid fa-circle"></i>{{ $hour->is_open ? 'Available' : 'Closed' }} </span>
+                                            <span class="badge {{ $hour->is_open ? 'doc-avail-badge' : 'bg-danger-light' }}"><i class="fa-solid fa-circle"></i>{{ $hour->is_open ? __('Available') : __('Closed') }} </span>
                                             @if ($hour->is_open)
                                                 <p>{{ $hour->from_time->format('h:i A') }} - {{ $hour->to_time->format('h:i A') }}</p>
                                             @endif
                                         </div>
                                     @else
                                         <h6>{{ $hour->day->label() }}</h6>
-                                        <p>{{ $hour->is_open ? $hour->from_time->format('h:i A').' - '.$hour->to_time->format('h:i A') : 'Closed' }}</p>
+                                        <p>{{ $hour->is_open ? $hour->from_time->format('h:i A').' - '.$hour->to_time->format('h:i A') : __('Closed') }}</p>
                                     @endif
                                 </li>
                             @endforeach
@@ -323,7 +323,7 @@
                 </div>
                 <div class="doc-information-details" id="review">
                     <div class="detail-title d-flex align-items-center justify-content-between flex-wrap gap-2">
-                        <h4>Reviews ({{ $reviewsCount }})</h4>
+                        <h4>{{ __('Reviews (:count)', ['count' => $reviewsCount]) }}</h4>
                         @if ($reviewsCount > 0)
                             <div class="star-rated">
                                 <span>{{ $averageRating }}</span>
@@ -339,7 +339,7 @@
                     @endif
 
                     @if ($doctorReviews->isEmpty())
-                        <p>No reviews yet.</p>
+                        <p>{{ __('No reviews yet.') }}</p>
                     @else
                         <div class="widget review-listing">
                             <ul class="comments-list">
@@ -373,15 +373,15 @@
                         @if (auth()->user()->role === 'patient')
                             <div class="write-review">
                                 @if ($hasReviewed)
-                                    <p class="mb-0">You have already reviewed this doctor.</p>
+                                    <p class="mb-0">{{ __('You have already reviewed this doctor.') }}</p>
                                 @elseif (! $hasCompletedAppointment)
-                                    <p class="mb-0">You didn't meet with this doctor.</p>
+                                    <p class="mb-0">{{ __("You didn't meet with this doctor.") }}</p>
                                 @else
-                                    <h4>Write a review for <strong>Dr. {{ $doctor->display_name ?: trim($doctor->first_name.' '.$doctor->last_name) }}</strong></h4>
+                                    <h4>{{ __('Write a review for') }} <strong>Dr. {{ $doctor->display_name ?: trim($doctor->first_name.' '.$doctor->last_name) }}</strong></h4>
                                     <form action="{{ route('doctor.reviews.store', $doctor->id) }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="mb-2">Rating</label>
+                                            <label class="mb-2">{{ __('Rating') }}</label>
                                             <div class="star-rating">
                                                 <input id="star-5" type="radio" name="rating" value="5" @checked(old('rating') == 5)>
                                                 <label for="star-5" title="5 stars"><i class="active fa fa-star"></i></label>
@@ -399,14 +399,14 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="mb-2">Your review</label>
+                                            <label class="mb-2">{{ __('Your review') }}</label>
                                             <textarea name="comment" class="form-control" rows="4">{{ old('comment') }}</textarea>
                                             @error('comment')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="submit-section">
-                                            <button type="submit" class="btn btn-primary submit-btn">Add Review</button>
+                                            <button type="submit" class="btn btn-primary submit-btn">{{ __('Add Review') }}</button>
                                         </div>
                                     </form>
                                 @endif
@@ -414,7 +414,7 @@
                         @endif
                     @else
                         <div class="write-review">
-                            <p class="mb-0"><a href="{{ route('login') }}">Log in</a> as a patient to write a review.</p>
+                            <p class="mb-0"><a href="{{ route('login') }}">{{ __('Log in') }}</a> {{ __('as a patient to write a review.') }}</p>
                         </div>
                     @endauth
                 </div>

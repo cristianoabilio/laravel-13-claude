@@ -132,7 +132,7 @@ test('the doctor details page tells a patient they have not met the doctor', fun
     $response = $this->actingAs($patient)->get(route('doctor.details', $doctor->id));
 
     $response->assertOk();
-    $response->assertSee("You didn't meet with this doctor.", false);
+    $response->assertSee("You didn't meet with this doctor.");
 });
 
 test('the doctor details page lets an eligible patient see the review form', function () {
