@@ -19,29 +19,29 @@
         </div>
 
         @if ($showBookingInfo)
-            <h6 class="mb-2 mt-4">Booking Info</h6>
+            <h6 class="mb-2 mt-4">{{ __('Booking Info') }}</h6>
             <div class="row gx-2 gy-3">
                 <div class="col-lg-3 col-sm-6">
                     <div>
-                        <h6 class="fs-14 fw-medium mb-1">Services</h6>
+                        <h6 class="fs-14 fw-medium mb-1">{{ __('Services') }}</h6>
                         <p class="mb-0 summary-services">-</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div>
-                        <h6 class="fs-14 fw-medium mb-1">Duration</h6>
+                        <h6 class="fs-14 fw-medium mb-1">{{ __('Duration') }}</h6>
                         <p class="mb-0 summary-duration">-</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div>
-                        <h6 class="fs-14 fw-medium mb-1">Date & Time</h6>
+                        <h6 class="fs-14 fw-medium mb-1">{{ __('Date & Time') }}</h6>
                         <p class="mb-0 summary-datetime">-</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div>
-                        <h6 class="fs-14 fw-medium mb-1">Appointment type</h6>
+                        <h6 class="fs-14 fw-medium mb-1">{{ __('Appointment type') }}</h6>
                         <p class="mb-0 summary-type">-</p>
                     </div>
                 </div>

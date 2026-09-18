@@ -58,8 +58,8 @@
 										<i class="isax isax-search-normal5"></i>
 									</div>
 									<div class="book-info">
-										<h6 class="text-white mb-2">Search For Doctors</h6>
-										<p class="fs-14 text-light">Search for a doctor based on specialization, location, or availability for your Treatements</p>
+										<h6 class="text-white mb-2">{{ __('Search For Doctors') }}</h6>
+										<p class="fs-14 text-light">{{ __('Search for a doctor based on specialization, location, or availability for your Treatements') }}</p>
 									</div>
 									<div class="way-icon">
 										<img src="{{ asset('backend/assets/img/icons/way-icon.svg') }}" alt="img">
@@ -72,8 +72,8 @@
 										<i class="isax isax-security-user5"></i>
 									</div>
 									<div class="book-info">
-										<h6 class="text-white mb-2">Check Doctor Profile</h6>
-										<p class="fs-14 text-light">Explore detailed doctor profiles on our platform to make informed healthcare decisions.</p>
+										<h6 class="text-white mb-2">{{ __('Check Doctor Profile') }}</h6>
+										<p class="fs-14 text-light">{{ __('Explore detailed doctor profiles on our platform to make informed healthcare decisions.') }}</p>
 									</div>
 									<div class="way-icon">
 										<img src="{{ asset('backend/assets/img/icons/way-icon.svg') }}" alt="img">
@@ -86,8 +86,8 @@
 										<i class="isax isax-calendar5"></i>
 									</div>
 									<div class="book-info">
-										<h6 class="text-white mb-2">Schedule Appointment</h6>
-										<p class="fs-14 text-light">After choose your preferred doctor, select a convenient time slot, & confirm your appointment.</p>
+										<h6 class="text-white mb-2">{{ __('Schedule Appointment') }}</h6>
+										<p class="fs-14 text-light">{{ __('After choose your preferred doctor, select a convenient time slot, & confirm your appointment.') }}</p>
 									</div>
 									<div class="way-icon">
 										<img src="{{ asset('backend/assets/img/icons/way-icon.svg') }}" alt="img">
@@ -100,8 +100,8 @@
 										<i class="isax isax-blend5"></i>
 									</div>
 									<div class="book-info">
-										<h6 class="text-white mb-2">Get Your Solution</h6>
-										<p class="fs-14 text-light">Discuss your health concerns with the doctor and receive the personalized advice & with solution.</p>
+										<h6 class="text-white mb-2">{{ __('Get Your Solution') }}</h6>
+										<p class="fs-14 text-light">{{ __('Discuss your health concerns with the doctor and receive the personalized advice & with solution.') }}</p>
 									</div>
 								</div>
 							</div>

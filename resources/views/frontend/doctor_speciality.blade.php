@@ -22,10 +22,10 @@
                 <nav aria-label="breadcrumb" class="page-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="isax isax-home-15"></i></a></li>
-                        <li class="breadcrumb-item" aria-current="page">Specialities</li>
+                        <li class="breadcrumb-item" aria-current="page">{{ __('Specialities') }}</li>
                         <li class="breadcrumb-item active">{{ $speciality->name }}</li>
                     </ol>
-                    <h2 class="breadcrumb-title">{{ $speciality->name }} Doctors</h2>
+                    <h2 class="breadcrumb-title">{{ __(':speciality Doctors', ['speciality' => $speciality->name]) }}</h2>
                 </nav>
             </div>
         </div>
@@ -40,9 +40,9 @@
                 <div class="card filter-lists">
                     <div class="card-header">
                         <div class="d-flex align-items-center filter-head justify-content-between">
-                            <h4>Filter</h4>
+                            <h4>{{ __('Filter') }}</h4>
                             @if ($hasActiveFilters)
-                                <a href="{{ route('doctor.all.speciality', $speciality) }}" class="text-secondary text-decoration-underline">Clear All</a>
+                                <a href="{{ route('doctor.all.speciality', $speciality) }}" class="text-secondary text-decoration-underline">{{ __('Clear All') }}</a>
                             @endif
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                                 <div class="accordion-body pt-3">
                                     <div class="filter-input">
                                         <div class="position-relative input-icon">
-                                            <input type="text" name="search" class="form-control" placeholder="Search doctor" value="{{ request()->query('search') }}">
+                                            <input type="text" name="search" class="form-control" placeholder="{{ __('Search doctor') }}" value="{{ request()->query('search') }}">
                                             <span><i class="isax isax-search-normal-1"></i></span>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@
                                 <div class="accordion-item border-bottom">
                                     <div class="accordion-header">
                                         <div class="d-flex align-items-center w-100 pt-3 px-3">
-                                            <h5>Services</h5>
+                                            <h5>{{ __('Services') }}</h5>
                                         </div>
                                     </div>
                                     <div class="accordion-body pt-3">
@@ -85,14 +85,14 @@
                             <div class="accordion-item border-bottom">
                                 <div class="accordion-header">
                                     <div class="d-flex align-items-center w-100 pt-3 px-3">
-                                        <h5>Availability</h5>
+                                        <h5>{{ __('Availability') }}</h5>
                                     </div>
                                 </div>
                                 <div class="accordion-body pt-3">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="available" value="1" id="available-now" @checked($isAvailableOnly)>
-                                            <label class="form-check-label" for="available-now">Available Now</label>
+                                            <label class="form-check-label" for="available-now">{{ __('Available Now') }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -102,19 +102,19 @@
                                 <div class="accordion-item border-bottom">
                                     <div class="accordion-header">
                                         <div class="d-flex align-items-center w-100 pt-3 px-3">
-                                            <h5>Pricing</h5>
+                                            <h5>{{ __('Pricing') }}</h5>
                                         </div>
                                     </div>
                                     <div class="accordion-body pt-3">
                                         <div class="row g-2">
                                             <div class="col-6">
-                                                <input type="number" step="0.01" min="0" name="min_price" class="form-control" placeholder="Min" value="{{ request()->query('min_price') }}">
+                                                <input type="number" step="0.01" min="0" name="min_price" class="form-control" placeholder="{{ __('Min') }}" value="{{ request()->query('min_price') }}">
                                             </div>
                                             <div class="col-6">
-                                                <input type="number" step="0.01" min="0" name="max_price" class="form-control" placeholder="Max" value="{{ request()->query('max_price') }}">
+                                                <input type="number" step="0.01" min="0" name="max_price" class="form-control" placeholder="{{ __('Max') }}" value="{{ request()->query('max_price') }}">
                                             </div>
                                         </div>
-                                        <p class="mb-0 mt-2">Range : ${{ number_format($minPrice, 2) }} - ${{ number_format($maxPrice, 2) }}</p>
+                                        <p class="mb-0 mt-2">{{ __('Range : :min - :max', ['min' => '$'.number_format($minPrice, 2), 'max' => '$'.number_format($maxPrice, 2)]) }}</p>
                                     </div>
                                 </div>
                             @endif
@@ -122,11 +122,11 @@
                             <div class="accordion-item border-bottom">
                                 <div class="accordion-header">
                                     <div class="d-flex align-items-center w-100 pt-3 px-3">
-                                        <h5>Experience</h5>
+                                        <h5>{{ __('Experience') }}</h5>
                                     </div>
                                 </div>
                                 <div class="accordion-body pt-3">
-                                    @foreach ([2 => '2+ Years', 5 => '5+ Years', 10 => '10+ Years'] as $years => $label)
+                                    @foreach ([2 => __(':years+ Years', ['years' => 2]), 5 => __(':years+ Years', ['years' => 5]), 10 => __(':years+ Years', ['years' => 10])] as $years => $label)
                                         <div class="d-flex align-items-center justify-content-between mb-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="experience[]" value="{{ $years }}" id="experience-{{ $years }}" @checked(in_array($years, $selectedExperience))>
@@ -138,7 +138,7 @@
                             </div>
 
                             <div class="p-3">
-                                <button type="submit" class="btn btn-primary w-100 rounded-pill">Apply Filters</button>
+                                <button type="submit" class="btn btn-primary w-100 rounded-pill">{{ __('Apply Filters') }}</button>
                             </div>
                         </div>
                     </form>
@@ -146,11 +146,11 @@
             </div>
             <div class="col-xl-9">
                 <div class="showing-details d-flex align-items-center justify-content-between mb-4">
-                    <p class="mb-0">Showing {{ $doctors->total() }} {{ Str::plural('Doctor', $doctors->total()) }} in {{ $speciality->name }}</p>
+                    <p class="mb-0">{{ trans_choice('Showing :count doctor in :speciality|Showing :count doctors in :speciality', $doctors->total(), ['count' => $doctors->total(), 'speciality' => $speciality->name]) }}</p>
                 </div>
 
                 @if ($doctors->isEmpty())
-                    <p class="text-center py-5">No doctors match these filters yet. Try adjusting or clearing them.</p>
+                    <p class="text-center py-5">{{ __('No doctors match these filters yet. Try adjusting or clearing them.') }}</p>
                 @else
                     <div class="row">
                         @foreach ($doctors as $doctor)

@@ -16,7 +16,7 @@
 										</span>
 									</div>
 									<div class="me-2">
-										<h6 class="mb-1">5K+ Appointments</h6>
+										<h6 class="mb-1">{{ __('5K+ Appointments') }}</h6>
 										<div class="d-flex align-items-center">
 											<div class="d-flex align-items-center">
 												<i class="fa-solid fa-star text-orange me-1"></i>
@@ -25,7 +25,7 @@
 												<i class="fa-solid fa-star text-orange me-1"></i>
 												<i class="fa-solid fa-star text-orange me-1"></i>
 											</div>
-											<p>5.0 Ratings</p>
+											<p>{{ __('5.0 Ratings') }}</p>
 										</div>
 									</div>
 								</div>
@@ -35,23 +35,23 @@
 										<div class="search-input search-line">
 											<i class="isax isax-hospital5 bficon"></i>
 											<div class=" mb-0">
-												<input type="text" class="form-control" placeholder="Search doctors, clinics, hospitals, etc">
+												<input type="text" class="form-control" placeholder="{{ __('Search doctors, clinics, hospitals, etc') }}">
 											</div>
 										</div>
 										<div class="search-input search-map-line">
 											<i class="isax isax-location5"></i>
 											<div class=" mb-0">
-												<input type="text" class="form-control" placeholder="Location">
+												<input type="text" class="form-control" placeholder="{{ __('Location') }}">
 											</div>
 										</div>
 										<div class="search-input search-calendar-line">
 											<i class="isax isax-calendar-tick5"></i>
 											<div class=" mb-0">
-												<input type="text" class="form-control datetimepicker" placeholder="Date">
+												<input type="text" class="form-control datetimepicker" placeholder="{{ __('Date') }}">
 											</div>
 										</div>
 										<div class="form-search-btn">
-											<button class="btn btn-primary" type="submit"><i class="isax isax-search-normal5 me-2"></i>Search</button>
+											<button class="btn btn-primary" type="submit"><i class="isax isax-search-normal5 me-2"></i>{{ __('Search') }}</button>
 										</div>
 									</form>
 								</div>
@@ -62,7 +62,7 @@
 								<img src="{{ $homeBanner->image_url ?: asset('backend/assets/img/banner/banner-doctor.svg') }}" class="img-fluid" width="464" height="606" alt="patient-image">
 								<div class="banner-appointment">
 									<h6>1K</h6>
-									<p>Appointments <span class="d-block">Completed</span></p>
+									<p>{{ __('Appointments') }} <span class="d-block">{{ __('Completed') }}</span></p>
 								</div>
 								<div class="banner-patient">
 									<div class="avatar-list-stacked avatar-group-sm">
@@ -77,7 +77,7 @@
 										</span>
 									</div>
 									<p>15K+</p>
-									<p>Satisfied Patients</p>
+									<p>{{ __('Satisfied Patients') }}</p>
 								</div>
 							</div>
 						</div>

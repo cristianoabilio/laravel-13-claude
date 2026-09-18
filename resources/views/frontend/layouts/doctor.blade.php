@@ -1,12 +1,12 @@
 <section class="doctor-section">
 				<div class="container">
 					<div class="section-header sec-header-one text-center aos" data-aos="fade-up">
-						<span class="badge badge-primary">Featured Doctors</span>
-						<h2>Our Highlighted Doctors</h2>
+						<span class="badge badge-primary">{{ __('Featured Doctors') }}</span>
+						<h2>{{ __('Our Highlighted Doctors') }}</h2>
 					</div>
 
 					@if ($doctors->isEmpty())
-						<p class="text-center">No doctors are available yet. Check back soon.</p>
+						<p class="text-center">{{ __('No doctors are available yet. Check back soon.') }}</p>
 					@else
 						<div class="doctors-slider owl-carousel aos" data-aos="fade-up">
 							@foreach ($doctors as $doctor)
@@ -28,10 +28,10 @@
 									</div>
 									<div class="card-body p-0">
 										<div class="d-flex active-bar align-items-center justify-content-between p-3">
-											<a href="{{ route('doctor.details', $doctor->id) }}" class="text-indigo fw-medium fs-14">{{ $doctor->designation ?: 'Doctor' }}</a>
+											<a href="{{ route('doctor.details', $doctor->id) }}" class="text-indigo fw-medium fs-14">{{ $doctor->designation ?: __('Doctor') }}</a>
 											<span class="badge {{ $isAvailable ? 'bg-success-light' : 'bg-danger-light' }} d-inline-flex align-items-center">
 												<i class="fa-solid fa-circle fs-5 me-1"></i>
-												{{ $isAvailable ? 'Available' : 'Not Available' }}
+												{{ $isAvailable ? __('Available') : __('Not Available') }}
 											</span>
 										</div>
 										<div class="p-3 pt-0">
@@ -47,12 +47,12 @@
 											</div>
 											<div class="d-flex align-items-center justify-content-between">
 												<div>
-													<p class="mb-1">Consultation Fees</p>
-													<h3 class="text-orange">{{ $doctorService ? '$'.number_format((float) $doctorService->price, 2) : 'Contact for pricing' }}</h3>
+													<p class="mb-1">{{ __('Consultation Fees') }}</p>
+													<h3 class="text-orange">{{ $doctorService ? '$'.number_format((float) $doctorService->price, 2) : __('Contact for pricing') }}</h3>
 												</div>
 												<a href="{{ route('doctor.booking', $doctor->id) }}" class="btn btn-md btn-dark d-inline-flex align-items-center rounded-pill">
 													<i class="isax isax-calendar-1 me-2"></i>
-													Book Now
+													{{ __('Book Now') }}
 												</a>
 											</div>
 										</div>

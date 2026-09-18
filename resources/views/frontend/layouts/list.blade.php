@@ -7,43 +7,43 @@
 									<div class="list-icon bg-secondary">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-01.svg') }}" alt="img">
 									</div>
-									<h6>Book Appointment</h6>
+									<h6>{{ __('Book Appointment') }}</h6>
 								</a>
 								<a href="doctor-grid.html" class="list-item aos" data-aos="fade-up">
 									<div class="list-icon bg-primary">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-02.svg') }}" alt="img">
 									</div>
-									<h6>Talk to Doctors</h6>
+									<h6>{{ __('Talk to Doctors') }}</h6>
 								</a>
 								<a href="hospitals.html" class="list-item aos" data-aos="fade-up">
 									<div class="list-icon bg-pink">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-03.svg') }}" alt="img">
 									</div>
-									<h6>Hospitals & Clinics</h6>
+									<h6>{{ __('Hospitals & Clinics') }}</h6>
 								</a>
 								<a href="index-3.html" class="list-item aos" data-aos="fade-up">
 									<div class="list-icon bg-cyan">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-04.svg') }}" alt="img">
 									</div>
-									<h6>Healthcare</h6>
+									<h6>{{ __('Healthcare') }}</h6>
 								</a>
 								<a href="index-13.html" class="list-item aos" data-aos="fade-up">
 									<div class="list-icon bg-purple">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-05.svg') }}" alt="img">
 									</div>
-									<h6>Medicine & Supplies</h6>
+									<h6>{{ __('Medicine & Supplies') }}</h6>
 								</a>
 								<a href="index-12.html" class="list-item aos" data-aos="fade-up">
 									<div class="list-icon bg-orange">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-06.svg') }}" alt="img">
 									</div>
-									<h6>Lab Testing</h6>
+									<h6>{{ __('Lab Testing') }}</h6>
 								</a>
 								<a href="index-13.html" class="list-item aos" data-aos="fade-up">
 									<div class="list-icon bg-teal">
 										<img src="{{ asset('backend/assets/img/icons/list-icon-07.svg') }}" alt="img">
 									</div>
-									<h6>Home Care</h6>
+									<h6>{{ __('Home Care') }}</h6>
 								</a>
 							</div>
 						</div>
